@@ -4,7 +4,7 @@
 # Objective
 In this project, we are writing a web application using the GitHub REST API. The app includes Scrum-style visualisation (burndown chart) and improved issues management.
 
-## Description (by Janice)
+# Description (by Janice)
 ## Purpose of Burndown Chart
 	- Predict completion time -> Avoid missing the deadline 
 	- Visulization of progress to the whole team
