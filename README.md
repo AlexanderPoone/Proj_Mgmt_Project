@@ -49,6 +49,9 @@ In this project, we are writing a web application using the GitHub REST API. The
 # Implementation
 We are using the **Flask** framework, since many functions can be added by directly calling Python, including NLP (for classification of issues) and complex visualisation like class diagrams.
 
+## Flow
+![image](https://user-images.githubusercontent.com/9071916/137674232-e8d37c9e-7ac9-4ae3-b271-1148c59e6c85.png)
+
 ## Schema design
 We keep the following data:
 
