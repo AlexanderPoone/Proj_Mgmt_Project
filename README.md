@@ -41,11 +41,11 @@ Display the remaining work across time
 * Scope creep: Uncontrolled growth in a project’s scope 
  
 ## Reference
-[https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.698.9879&rep=rep1&type=pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.698.9879&rep=rep1&type=pdf) 
-[https://resources.scrumalliance.org/Article/trouble-sprint-burndowns](https://resources.scrumalliance.org/Article/trouble-sprint-burndowns) 
-[https://businessanalyst.techcanvass.com/burn-down-and-burn-up-charts/](https://businessanalyst.techcanvass.com/burn-down-and-burn-up-charts/) 
-[https://www.infoq.com/articles/burndown-analysis/](https://www.infoq.com/articles/burndown-analysis/)
-[https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative](https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative)
+* [https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.698.9879&rep=rep1&type=pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.698.9879&rep=rep1&type=pdf) 
+* [https://resources.scrumalliance.org/Article/trouble-sprint-burndowns](https://resources.scrumalliance.org/Article/trouble-sprint-burndowns) 
+* [https://businessanalyst.techcanvass.com/burn-down-and-burn-up-charts/](https://businessanalyst.techcanvass.com/burn-down-and-burn-up-charts/) 
+* [https://www.infoq.com/articles/burndown-analysis/](https://www.infoq.com/articles/burndown-analysis/)
+* [https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative](https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative)
 
 # Implementation
 We are using the **Flask** framework, since many functions can be added by directly calling Python.
