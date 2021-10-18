@@ -48,6 +48,8 @@ Display the remaining work across time
 [https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative](https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative)
 
 # Implementation
+We are using the **Flask** framework, since many functions can be added by directly calling Python.
+
 ## Schema design
 We keep the following data:
 
