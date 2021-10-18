@@ -47,7 +47,7 @@ In this project, we are writing a web application using the GitHub REST API. The
 * [https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative](https://www.mountaingoatsoftware.com/agile/scrum/scrum-tools/release-burndown/alternative)
 
 # Implementation
-We are using the **Flask** framework, since many functions can be added by directly calling Python.
+We are using the **Flask** framework, since many functions can be added by directly calling Python, including NLP (for classification of issues) and complex visualisation like class diagrams.
 
 ## Schema design
 We keep the following data:
