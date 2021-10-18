@@ -6,10 +6,9 @@ In this project, we are writing a web application using the GitHub REST API. The
 
 # Description (by Janice)
 ## Purpose of Burndown Chart
-	- Predict completion time -> Avoid missing the deadline 
-	- Visulization of progress to the whole team
-  
-Display the remaining work across time
+* Predict completion time -> Avoid missing the deadline 
+* Visulization of progress to the whole team
+* Display the remaining work across time
  
 ## Litmitations
 
