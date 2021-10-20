@@ -1,7 +1,6 @@
 flask
 flask-cors
 numpy
-scipy
-matplotlib
+spacy
 gensim
 wordcloud
