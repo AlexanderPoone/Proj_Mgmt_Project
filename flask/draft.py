@@ -4,9 +4,9 @@
 #   (Automatic Bug Triage and Assignment by Topic Modelling)
 #   Draft only
 #
-#	Author:		  Alex Poon
-#	Date:			Sep 30, 2021
-#	Last update:	 Oct 9, 2021
+#	Author:        Alex Poon
+#	Date:          Sep 30, 2021
+#	Last update:   Oct 19, 2021
 #
 ##############################################
 
@@ -19,53 +19,10 @@ from pygments.formatters import HtmlFormatter
 from pygments.lexers import guess_lexer, find_lexer_class_for_filename
 
 import pygraphviz
+
+import pymongo
+
 from re import findall, DOTALL
-'''
-# for UML (?), download from https://www.lfd.uci.edu/~gohlke/pythonlibs/!
-
-Java Android: how to find imports? (same namespace...)
-Need to parse all class names in a file: new FancyObject(...)
-and see if it is a file in the namespace...
-Same with C++
-
-from pygments.lexers import JavaLexer
-
-lexer = JavaLexer()
-tokens = lexer.get_tokens(src)
-
-# TODO: GitHub API call to get all files in the folder (namespace)
-
-for t in tokens:
-	print(str(t[0]))   # 'Token.Name																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																															   '
-
-https://lornajane.net/posts/2011/uml-diagrams-with-graphviz
-http://www.ffnn.nl/pages/articles/media/uml-diagrams-using-graphviz-dot.php
-
-
-TODO:
-
-Either:
-1. Mark as invalid and close
-2. Classify and assign
-
-Enforce issues template, for example:
-
-# Summary
-put summary here, this will be parsed. please enclose code strings in grave accents (``) so there they will be escaped
-
-# Version
-put version here, e.g. 1.2.0
-
-# Logs / Errors
-```
-paste logs here
-```
-
-# Links to affected files (if possible):
-1. [GitHub](put_link_here)
-2. [GitHub](put_link_here)
-3. [GitHub](put_link_here)
-'''
 
 # HTTP libraries
 from flask import Flask, jsonify, make_response, request, send_from_directory, abort, redirect, render_template, render_template_string
@@ -75,17 +32,13 @@ from urllib.parse import urlencode
 from urllib.request import urlopen, Request
 
 # NLP libraries
+import spacy
+from spacy.lang.en.stop_words import STOP_WORDS
 # from gensim import corpora, models, similarities, downloader
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
 from gensim.parsing.preprocessing import preprocess_documents
 from gensim.test.utils import common_texts
-
-import matplotlib.pyplot as plt	  # Don't know whether this is needed
-
-import spacy
-from spacy.lang.en.stop_words import STOP_WORDS
-
 from wordcloud import WordCloud
 
 # Standard library
@@ -96,6 +49,8 @@ from re import sub
 
 app = Flask(__name__)
 CORS(app)
+
+nlp = spacy.load('basic_triage_small2')
 
 '''
 https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
@@ -648,6 +603,25 @@ def topicModelling(doNlp=False):
 	'''
 
 	return wordcloud.to_svg(embed_font=True)
+
+
+def triage():
+	global nlp
+
+	out=nlp('Feature request 3456')
+	print(out.cats)
+
+	conn_str = "mongodb://localhost"
+
+	# set a 5-second connection timeout
+	client = pymongo.MongoClient(conn_str, serverSelectionTimeoutMS=5000)
+	try:
+	    print(client.server_info())
+	except Exception:
+	    print("Unable to connect to the server.")
+
+	# Not very reactive lol
+
 
 @app.route('/logout', methods = ['GET'])
 def logout():
