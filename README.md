@@ -69,3 +69,9 @@ Collection `backlogs`
 | owner | reponame | githubIssueID | log |
 |-----|-----|-----|-----|
 | str | str | int | str |
+
+
+# DLC: Generation of Class UML Diagram from Codebase
+Language-specific: Java.
+
+Why: Easy to see whether the naming conventions are followed. For instance, there can be a rule where all class members starts with the letter m. See if codebase violates the 'high cohesion, low coupling' principal.
