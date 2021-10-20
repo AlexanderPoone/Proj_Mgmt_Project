@@ -58,7 +58,7 @@ We keep the following data:
 Collection `roles`
 | owner | reponame | collaborator | role |
 |-----|-----|-----|-----|
-| str | str | str | 'developer'\|'documentation'\|'support' |
+| str | str | str | 'developer'\|'tester'\|'documentation'\|'support' |
 
 Collection `issues`
 | owner | reponame | githubIssueID | from | to | assignee | status |
