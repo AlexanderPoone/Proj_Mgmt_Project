@@ -36,8 +36,8 @@ from urllib.parse import quote
 from bs4 import BeautifulSoup
 from markdown import markdown
 
-from sklearn.model_selection import StratifiedShuffleSplit
 from spacy.lang.en.stop_words import STOP_WORDS
+
 # Different GitHub repos define different tag systems
 mapping = {
 'numpy/numpy':
@@ -189,11 +189,3 @@ df2 = pd.DataFrame.from_dict(df2_src, orient='index')
 df2.to_csv('triage2.csv')
 df2.to_json('triage2.json')
 pprint(df2)
-
-# Data splitting
-sss = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=0)
-for train_index, test_index in sss.split(X, ys):
-    X_train, X_test = X[train_index], X[test_index]
-    y_train, y_test = ys[train_index], ys[test_index]
-
-# If you are using the Scikit Learn API, there is a method called predict_proba() for several classification models like Logistic Regression, SVM, Random Forest, etc. If your classifier does not provide one, you can wrap it with the CalibratedClassifierCV which can be found in sklearn.calibration, then use the above method to calculate the distance from the decision boundary
