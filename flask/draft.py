@@ -291,21 +291,22 @@ def issuesView(owner, reponame):
 	except Exception as e:
 		print(str(e))
 
-	issues = loads(res.read().decode('utf-8'))
+	issues = loads(res.read())
 
 	#########################################################
 
 	for issue in issues:
 		issueIsNew = len(issue['labels']) == 0
 		if issueIsNew:
-			cleanedString = f'{issue.title} {issue.body[:30]}'
+			cleanedString = f'{issue["title"]} {issue["body"][:30]}'
 
 			out = nlp(cleanedString)
 			print(out.cats)
 
 			# Add issue listing
-			maxConfidence = max(out.cats)
+			maxConfidence = max(out.cats.values())
 			maxCat = max(out.cats, key=out.cats.get)
+			print(maxCat)
 
 			if maxConfidence > 0.8:
 				########################################
@@ -383,8 +384,8 @@ def issuesView(owner, reponame):
 					collection.insert_many(mylist)
 	return render_template('repo.html', segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
-		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame, codeFileName=codeFileName,
-		parsed = parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
+		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
+		contributors = contributors, contributorRoles = contributorRoles)
 
 
 @app.route('/assign_team/<string:owner>/<string:repo>/<string:collaborator>/<string:role>', methods = ['GET'])
@@ -811,24 +812,6 @@ def topicModelling(doNlp=False):
 	'''
 
 	return wordcloud.to_svg(embed_font=True)
-
-
-def triage():
-	global nlp
-
-	out=nlp('Feature request 3456')
-	print(out.cats)
-
-	conn_str = "mongodb://localhost"
-
-	# set a 5-second connection timeout
-	client = pymongo.MongoClient(conn_str, serverSelectionTimeoutMS=5000)
-	try:
-		print(client.server_info())
-	except Exception:
-		print("Unable to connect to the server.")
-
-	# Not very reactive lol
 
 
 @app.route('/logout', methods = ['GET'])
