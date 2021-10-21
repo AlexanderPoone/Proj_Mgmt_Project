@@ -268,6 +268,8 @@ def issuesView(owner, reponame):
 
 	contributors, contributorRoles = getContributors(owner, reponame)
 	###########################
+	initialiseTagSystem(owner, reponame)
+
 	# list all issues
 	###########################
 
@@ -317,11 +319,11 @@ def issuesView(owner, reponame):
 
 				url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/labels"
 
-				body = {
-					'name': maxCat,			#  may add emoji
-					'color': lblScheme[maxCat][0],
-					'description': lblScheme[maxCat][1]
-				}
+				# body = {
+				# 	'name': maxCat,			#  may add emoji
+				# 	'color': lblScheme[maxCat][0],
+				# 	'description': lblScheme[maxCat][1]
+				# }
 				body = {
 					'labels': [maxCat]
 				}
@@ -465,6 +467,7 @@ def generateClassUml(owner, reponame):
 
 	contributors, contributorRoles = getContributors(owner, reponame)
 	###########################
+
 	url = f'https://api.github.com/repos/SoftFeta/tempusespatium/contents/app/src/main/java/hk/edu/cuhk/cse/tempusespatium/Round1Activity.java'
 	codeFileName = basename(url)
 
@@ -692,12 +695,9 @@ def generateClassUml(owner, reponame):
 
 
 '''
-Set up bug severity scale tags for the repository
+Set up issue classes for the repository
 '''
 def initialiseTagSystem(owner, reponame):
-	palette = [('FFCCCC', 'Trivial'),('F6B5B5', 'Trivial'),('EC9F9F', 'Minor'),('E38888', 'Minor'),('D97171', 'Moderate'),
-	('D05B5B', 'Moderate'),('C64444', 'Major'),('BD2D2D', 'Major'),('B31717', 'Critical'),('AA0000', 'Critical')]
-
 	tok = request.cookies.get('access_token')
 	headers = {
 		'Accept': '*/*',
@@ -705,15 +705,15 @@ def initialiseTagSystem(owner, reponame):
 		'Authorization': f"token {tok}"
 	}
 
-	cnt = 0
+	# cnt = 0
 
-	for lbl in palette:
-		url = f"https://api.github.com/repos/{reponame}/{name}/labels"
+	for lbl in lblScheme:
+		url = f"https://api.github.com/repos/{owner}/{reponame}/labels"
 
 		body = {
-			'name': f'severity:{cnt+1}',
-			'color': lbl[0],
-			'description': lbl[1]
+			'name': lbl,
+			'color': lblScheme[lbl][0],
+			'description': lblScheme[lbl][1]
 		}
 
 		data = dumps(body).encode('utf-8')
@@ -727,8 +727,7 @@ def initialiseTagSystem(owner, reponame):
 			res = urlopen(req)
 		except Exception as e:
 			print(e.read())
-		print(res.read())
-		cnt += 1
+		# cnt += 1
 
 
 @app.route('/issuesToTopic/<string:owner>/<string:reponame>', methods = ['GET'])
