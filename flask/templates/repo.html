@@ -12,7 +12,7 @@
     <div class="container-fluid p-0">
         <div class="row mb-2 mb-xl-3">
             <div class="col-auto d-none d-sm-block">
-                <h3><strong>Code Tools: {{reponame}}</strong></h3>
+                <h3><strong>{% if codeFileName is defined %}Code Tools{% else %}Issue Management Tools{% endif %}: {{reponame}}</strong></h3>
             </div>
 
 
@@ -22,7 +22,7 @@
                     <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
                         <li class="breadcrumb-item"><a href="#">Issue Management + Release Notes Generation</a></li>
                         <li class="breadcrumb-item"><a href="#">{{reponame}}</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Code Tools</li>
+                        <li class="breadcrumb-item active" aria-current="page">{% if codeFileName is defined %}Code Tools{% else %}Issue Management Tools{% endif %}</li>
                     </ol>
                 </nav>
             </div>
