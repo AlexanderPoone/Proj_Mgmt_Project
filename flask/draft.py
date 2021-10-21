@@ -47,10 +47,15 @@ from json import dumps, loads
 from pprint import pprint
 from re import sub
 
+
 app = Flask(__name__)
 CORS(app)
 
 nlp = spacy.load('basic_triage_small2')
+
+myclient = MongoClient("mongodb://localhost:27017/") 
+db = myclient["project"]
+
 
 '''
 https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
@@ -240,6 +245,187 @@ def repoDetail(owner, reponame):
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame, codeFileName=codeFileName,
 		parsed = parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
+
+
+@app.route('/repo/<string:owner>/<string:reponame>', methods = ['GET'])
+def issuesView(owner, reponame):
+	global nlp
+
+	#########################################################
+	# list all issues
+	#########################################################
+
+	url = f"https://api.github.com/repos/{owner}/{reponame}/issues?state=all&per_page=100"
+
+	req = Request(url)
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	try:
+		res = urlopen(req)
+	except Exception as e:
+		print(str(e))
+
+	issues = loads(res.read().decode('utf-8'))
+
+	#########################################################
+
+	for issue in issues:
+		issueIsNew = len(issue['labels']) == 0
+		if issueIsNew:
+			cleanedString = f'{issue.title} {issue.body[:30]}
+
+			out = nlp(cleanedString)
+			print(out.cats)
+
+			# Add issue listing
+			maxConfidence = max(out.cats)
+			maxCat = max(out.cats, key=out.cats.get)
+
+			if maxConfidence > 0.8:
+				########################################
+				#  Request 1: Give issue the tag
+				url = f"https://api.github.com/repos/{reponame}/{name}/labels"
+
+				body = {
+					'name': maxCat,			#  may add emoji
+					'color': lblScheme[maxCat][0],
+					'description': lblScheme[maxCat][1]
+				}
+
+				data = dumps(body).encode('utf-8')
+				print(data)
+
+				req = Request(url, data=data)
+				for h in headers:
+					req.add_header(h, headers[h])
+
+				try:
+					res = urlopen(req)
+				except Exception as e:
+					print(e.read())
+				print(res.read())
+
+				if maxCat not in ('class:support', 'class:invalid'):
+					########################################
+					#  Request 2: Assign the issue
+
+					collection = db['roles']
+
+					teamMembers = collection.find({'role': maxCat.replace('class:', '')}})
+
+					from random import choice
+					assignee = choice(teamMembers)
+
+					url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/assignees'
+
+					body = {'assignees': ['username']}
+					data = dumps(body).encode('utf-8')
+
+					req = Request(url, data=data)
+
+					tok = request.cookies.get('access_token')
+
+					headers = {
+						'Accept': '*/*',
+						'Content-Type': 'application/json',
+						'Authorization': f"token {tok}"
+					}
+					for h in headers:
+						req.add_header(h, headers[h])
+
+					res = urlopen(req)
+
+					return redirect(f'/repo/{owner}/{reponame}')
+
+					########################################
+					#  At last, update the database
+
+					collection = db['issues']
+					mylist = [ 
+						{
+						 'owner': owner,
+						 'reponame': reponame,
+						 'githubIssueID': issue['id'],
+						 'from': '',				# TODO
+						 'to': '',					# TODO
+						 'assignee': assignee['collaborator'],
+						 'status': 'normal'
+						}
+					] 
+					collection.insert_many(mylist)
+
+
+@app.route('/assign_team/<string:owner>/<string:repo>/<string:collaborator>/<string:role>', methods = ['GET'])
+def assignTeam(owner, reponame, collaborator, role)
+	collection = db['roles']
+	mylist = [ 
+		{'owner': owner, 'reponame': reponame, 'collaborator': collaborator, 'role': role}
+	] 
+	collection.insert_many(mylist)
+
+	return redirect(f'/repo/{owner}/{reponame}')
+
+
+
+@app.route('/resolved/<string:owner>/<string:repo>/<string:issue_number>', methods = ['GET'])
+def resolved(owner, repo, issue_number):
+	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments'
+
+	body = {'body': 'The issue has been resolved in # and will be closed. If you have further enquiries, please open a new issue and link to this issue. Thank you!'}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data)
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+	##############################################
+	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}'
+
+	body = {'state': 'closed'}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data, method='PATCH')
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+
+	'''
+	collection = db['backlogs']
+	mylist = [ 
+		{'owner': owner, 'reponame': reponame, 'githubIssueID': issue_number, 'log': 'Delay reason'}
+	] 
+	collection.insert_many(mylist)
+	'''
+
+	return redirect(f'/repo/{owner}/{reponame}')
 
 
 '''
