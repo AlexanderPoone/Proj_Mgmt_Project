@@ -43,7 +43,7 @@
 
                         <select id="userSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                             {% for x in collaborators %}
-                            <option value="{{ x.userName }}"><img src="{{ x.avatarUrl }}" /> <strong>{{ x.userName }}</strong></option>
+                            <option value="{{ x.login }}"><img src="{{ x.avatar_url }}" /> <strong>{{ x.login }}</strong></option>
                             {% endfor %}
                             </select>
 
