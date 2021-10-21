@@ -20,7 +20,7 @@ from pygments.lexers import guess_lexer, find_lexer_class_for_filename
 
 import pygraphviz
 
-import pymongo
+from pymongo import MongoClient
 
 from re import findall, DOTALL
 
@@ -259,9 +259,17 @@ def repoDetail(owner, reponame):
 def issuesView(owner, reponame):
 	global nlp
 
-	#########################################################
+	###########################
+	# Get logged in user's info
+
+	userInfo = getUserInfo()
+	###########################
+	# Get collaborators usernames, names and avatars
+
+	contributors, contributorRoles = getContributors(owner, reponame)
+	###########################
 	# list all issues
-	#########################################################
+	###########################
 
 	url = f"https://api.github.com/repos/{owner}/{reponame}/issues?state=all&per_page=100"
 
@@ -373,6 +381,10 @@ def issuesView(owner, reponame):
 						}
 					] 
 					collection.insert_many(mylist)
+	return render_template('repo.html', segment='index', 
+		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
+		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame, codeFileName=codeFileName,
+		parsed = parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
 
 
 @app.route('/assign_team/<string:owner>/<string:repo>/<string:collaborator>/<string:role>', methods = ['GET'])
