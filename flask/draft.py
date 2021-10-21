@@ -4,8 +4,8 @@
 #   (Automatic Bug Triage and Assignment by Topic Modelling)
 #   Draft only
 #
-#	Author:        Alex Poon
-#	Date:          Sep 30, 2021
+#	Author:		Alex Poon
+#	Date:		  Sep 30, 2021
 #	Last update:   Oct 19, 2021
 #
 ##############################################
@@ -290,7 +290,7 @@ def issuesView(owner, reponame):
 	for issue in issues:
 		issueIsNew = len(issue['labels']) == 0
 		if issueIsNew:
-			cleanedString = f'{issue.title} {issue.body[:30]}
+			cleanedString = f'{issue.title} {issue.body[:30]}'
 
 			out = nlp(cleanedString)
 			print(out.cats)
@@ -302,7 +302,7 @@ def issuesView(owner, reponame):
 			if maxConfidence > 0.8:
 				########################################
 				#  Request 1: Give issue the tag
-                issue['bootstrapClass'] = lblScheme[maxCat][2];
+				issue['bootstrapClass'] = lblScheme[maxCat][2];
 
 				url = f"https://api.github.com/repos/{reponame}/{name}/labels"
 
@@ -331,7 +331,7 @@ def issuesView(owner, reponame):
 
 					collection = db['roles']
 
-					teamMembers = collection.find({'role': maxCat.replace('class:', '')}})
+					teamMembers = collection.find({'role': maxCat.replace('class:', '')})
 
 					from random import choice
 					assignee = choice(teamMembers)
@@ -376,7 +376,7 @@ def issuesView(owner, reponame):
 
 
 @app.route('/assign_team/<string:owner>/<string:repo>/<string:collaborator>/<string:role>', methods = ['GET'])
-def assignTeam(owner, reponame, collaborator, role)
+def assignTeam(owner, reponame, collaborator, role):
 	collection = db['roles']
 	mylist = [ 
 		{'owner': owner, 'reponame': reponame, 'collaborator': collaborator, 'role': role}
@@ -537,9 +537,9 @@ def generateClassUml(owner, reponame):
 		lookarea = code
 
 	# Members
-	mem0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]     # =>   - {memberName}: {memberType}
+	mem0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]	 # =>   - {memberName}: {memberType}
 	mem0 = [f'- {m.split(" ")[1]}: {m.split(" ")[0]}' for m in mem0]
-	mem1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]      # =>   + {memberName}: {memberType}
+	mem1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]	  # =>   + {memberName}: {memberType}
 	mem1 =[f'+ {m.split(" ")[1]}: {m.split(" ")[0]}' for m in mem1]
 	mem2 = [*findall(r'(?<=protected )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=protected )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea),
 	*[lstrip(l) for l in findall(r'^\s*[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea)],*[lstrip(l) for l in findall(r'^\s*[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]]   # =>   # {memberName}: {memberType}
@@ -548,9 +548,9 @@ def generateClassUml(owner, reponame):
 	print(378, mems)
 
 	# Methods
-	met0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code), *findall(r'(?<=private static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)]     # =>   - {methodName}: {methodType}
+	met0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code), *findall(r'(?<=private static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)]	 # =>   - {methodName}: {methodType}
 	met0 =set([f'- {" ".join(m.split(" ")[1:])}: {m.split(" ")[0]}' for m in met0])
-	met1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code), *findall(r'(?<=public static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)]      # =>   + {methodName}: {methodType}
+	met1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code), *findall(r'(?<=public static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)]	  # =>   + {methodName}: {methodType}
 	met1 =set([f'+ {" ".join(m.split(" ")[1:])}: {m.split(" ")[0]}' for m in met1])
 	met2 = [*findall(r'(?<=protected )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code), *findall(r'(?<=protected static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code),
 	*[lstrip(l) for l in findall(r'^\s*[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)], *[lstrip(l.replace('static ', '')) for l in findall(r'^\s*static [A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)]]   # =>   # {methodName}: {methodType}
@@ -610,9 +610,9 @@ def generateClassUml(owner, reponame):
 				lookarea = code
 
 			# Members
-			mem0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]     # =>   - {memberName}: {memberType}
+			mem0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]	 # =>   - {memberName}: {memberType}
 			mem0 = [f'- {m.split(" ")[1]}: {m.split(" ")[0]}' for m in mem0]
-			mem1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]      # =>   + {memberName}: {memberType}
+			mem1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]	  # =>   + {memberName}: {memberType}
 			mem1 =[f'+ {m.split(" ")[1]}: {m.split(" ")[0]}' for m in mem1]
 			mem2 = [*findall(r'(?<=protected )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea),*findall(r'(?<=protected )[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea),
 			*[lstrip(l) for l in findall(r'^\s*[A-Za-z0-9_]+ [A-Za-z0-9_]+(?=;)', lookarea)],*[lstrip(l) for l in findall(r'^\s*[A-Za-z0-9_]+ [A-Za-z0-9_]+(?= \=)', lookarea)]]   # =>   # {memberName}: {memberType}
@@ -621,9 +621,9 @@ def generateClassUml(owner, reponame):
 			#print(mems)
 
 			# Methods
-			met0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code), *findall(r'(?<=private static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code)]     # =>   - {methodName}: {methodType}
+			met0 = [*findall(r'(?<=private )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code), *findall(r'(?<=private static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code)]	 # =>   - {methodName}: {methodType}
 			met0 =set([f'- {" ".join(m.split(" ")[1:])}: {m.split(" ")[0]}' for m in met0])
-			met1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code), *findall(r'(?<=public static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code)]      # =>   + {methodName}: {methodType}
+			met1 = [*findall(r'(?<=public )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code), *findall(r'(?<=public static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_, \t\r\n]+?\)', code)]	  # =>   + {methodName}: {methodType}
 			met1 =set([f'+ {" ".join(m.split(" ")[1:])}: {m.split(" ")[0]}' for m in met1])
 			met2 = [*findall(r'(?<=protected )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code), *findall(r'(?<=protected static )[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code),
 			*[lstrip(l) for l in findall(r'^\s*[A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)], *[lstrip(l.replace('static ', '')) for l in findall(r'^\s*static [A-Za-z0-9_]+ [A-Za-z0-9_]+\([A-Za-z0-9_@, \t\r\n]+?\)', code)]]   # =>   # {methodName}: {methodType}			met2 =set([f'# {" ".join(m.split(" ")[1:])}: {m.split(" ")[0]}' for m in met2])
@@ -812,9 +812,9 @@ def triage():
 	# set a 5-second connection timeout
 	client = pymongo.MongoClient(conn_str, serverSelectionTimeoutMS=5000)
 	try:
-	    print(client.server_info())
+		print(client.server_info())
 	except Exception:
-	    print("Unable to connect to the server.")
+		print("Unable to connect to the server.")
 
 	# Not very reactive lol
 
