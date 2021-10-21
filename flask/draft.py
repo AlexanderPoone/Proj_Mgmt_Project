@@ -28,7 +28,7 @@ from re import findall, DOTALL
 from flask import Flask, jsonify, make_response, request, send_from_directory, abort, redirect, render_template, render_template_string
 from flask_cors import CORS
 
-from urllib.parse import urlencode
+from urllib.parse import urlencode, quote
 from urllib.request import urlopen, Request
 
 # NLP libraries
@@ -57,10 +57,10 @@ myclient = MongoClient("mongodb://localhost:27017/")
 db = myclient["project"]
 
 lblScheme = {
-	'class:bug': ('DC3545', 'software bug report (Action: Assign issue to developer team.)', 'danger'),
-	'class:performance': ('FFC107', 'performance issues (e.g. slow, huge memory consumption. Action: Assign issue to tester team to feedback to developer team.)', 'warning'),
-	'class:documentation': ('198754', 'documentation errors (e.g. broken links, not clear, typos. Action: Assign issue to documentation team.)', 'success'),
-	'class:support': ('0D6EFD', 'question/technical support (e.g. how to ..., cannot install. Action: Direct the users to user manual or the ops team.)', 'primary'),
+	'class:software': ('DC3545', 'software bug report (Action: Assign issue to developer team.)', 'danger'),
+	'class:performance': ('FFC107', 'performance issues (e.g. memory, I/O. Action: Assign it to tester team to feedback to dev team)', 'warning'),
+	'class:documentation': ('198754', 'documentation errors (e.g. broken links, not clear, typos. Action: Assign it to documentation team)', 'success'),
+	'class:support': ('0D6EFD', 'question/technical support (e.g. how to ~, cannot install. Action: Direct the users to support team)', 'primary'),
 	'class:feature-request': ('0DCAF0', 'feature requests (save for later, when there is time capacity and resources)', 'info'),
 	'class:invalid': ('F8F9FA', 'invalid/spam (Action: the issue should be closed immediately)', 'light'),
 }
@@ -268,7 +268,7 @@ def issuesView(owner, reponame):
 
 	contributors, contributorRoles = getContributors(owner, reponame)
 	###########################
-	initialiseTagSystem(owner, reponame)
+	initialiseLabelSystem(owner, reponame)
 
 	# list all issues
 	###########################
@@ -695,9 +695,38 @@ def generateClassUml(owner, reponame):
 
 
 '''
-Set up issue classes for the repository
+Remove Default Label System by GitHub
 '''
-def initialiseTagSystem(owner, reponame):
+def deleteLabelSystem(owner, reponame):
+	tok = request.cookies.get('access_token')
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+
+	# cnt = 0
+
+	for lbl in ['bug','documentation','duplicate','enhancement','good first issue','help wanted','invalid','question']: #*lblScheme.keys()]:
+		url = f"https://api.github.com/repos/{owner}/{reponame}/labels/{quote(lbl)}"
+
+		body = {}
+
+		data = dumps(body).encode('utf-8')
+		print(data)
+
+		req = Request(url, data=data, method='DELETE')
+		for h in headers:
+			req.add_header(h, headers[h])
+
+		try:
+			res = urlopen(req)
+		except Exception as e:
+			print(e)
+
+def initialiseLabelSystem(owner, reponame):
+	deleteLabelSystem(owner, reponame)
+
 	tok = request.cookies.get('access_token')
 	headers = {
 		'Accept': '*/*',
@@ -732,7 +761,7 @@ def initialiseTagSystem(owner, reponame):
 
 @app.route('/issuesToTopic/<string:owner>/<string:reponame>', methods = ['GET'])
 def issuesToTopic(owner, reponame):
-	initialiseTagSystem(owner, reponame)
+	initialiseLabelSystem(owner, reponame)
 	return 'under construction'
 
 
