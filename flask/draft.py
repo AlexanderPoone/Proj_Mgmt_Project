@@ -195,7 +195,7 @@ def dashboard():
 
 
 
-@app.route('/repo/<string:owner>/<string:reponame>', methods = ['GET'])
+@app.route('/repocode/<string:owner>/<string:reponame>', methods = ['GET'])
 def repoDetail(owner, reponame):
 	###########################
 	# Get logged in user's info
