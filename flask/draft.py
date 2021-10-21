@@ -88,7 +88,7 @@ def login():
 			'redirect_uri': 'https://dord.mynetgear.com:5351/login',
 			'allow_signup': False
 		}
-		return redirect(f'https://github.com/login/oauth/authorize?{urlencode(query)}')
+		return redirect(f'https://github.com/login/oauth/authorize?{urlencode(query)}&scope=repo')
 	else:
 		url = 'https://github.com/login/oauth/access_token'
 
@@ -296,6 +296,8 @@ def issuesView(owner, reponame):
 	#########################################################
 
 	for issue in issues:
+		print('Hi')
+		print(issue['labels'])
 		issueIsNew = len(issue['labels']) == 0
 		if issueIsNew:
 			cleanedString = f'{issue["title"]} {issue["body"][:30]}'
@@ -308,17 +310,20 @@ def issuesView(owner, reponame):
 			maxCat = max(out.cats, key=out.cats.get)
 			print(maxCat)
 
-			if maxConfidence > 0.8:
+			if maxConfidence > 0.5:
 				########################################
 				#  Request 1: Give issue the tag
 				issue['bootstrapClass'] = lblScheme[maxCat][2];
 
-				url = f"https://api.github.com/repos/{reponame}/{name}/labels"
+				url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/labels"
 
 				body = {
 					'name': maxCat,			#  may add emoji
 					'color': lblScheme[maxCat][0],
 					'description': lblScheme[maxCat][1]
+				}
+				body = {
+					'labels': [maxCat]
 				}
 
 				data = dumps(body).encode('utf-8')
@@ -336,38 +341,36 @@ def issuesView(owner, reponame):
 
 				if maxCat not in ('class:support', 'class:invalid'):
 					########################################
-					#  Request 2: Assign the issue
+					print('Request 2: Assign the issue')
 
 					collection = db['roles']
 
-					teamMembers = collection.find({'role': maxCat.replace('class:', '')})
+					teamMembers = [x for x in collection.find({'role': maxCat.replace('class:', '')})]
 
-					from random import choice
-					assignee = choice(teamMembers)
+					if len(teamMembers) == 0:
+						assignee = None
+					else:
+						from random import choice
+						assignee = choice(teamMembers)
 
-					url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/assignees'
+					url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/assignees"
 
-					body = {'assignees': ['username']}
+					body = {'assignees': ['DerWahrheitssucher']}
 					data = dumps(body).encode('utf-8')
 
 					req = Request(url, data=data)
 
-					tok = request.cookies.get('access_token')
-
-					headers = {
-						'Accept': '*/*',
-						'Content-Type': 'application/json',
-						'Authorization': f"token {tok}"
-					}
 					for h in headers:
 						req.add_header(h, headers[h])
 
-					res = urlopen(req)
-
-					return redirect(f'/repo/{owner}/{reponame}')
+					try:
+						res = urlopen(req)
+					except Exception as e:
+						print(e.read())
+					print(res.read())
 
 					########################################
-					#  At last, update the database
+					print('At last, update the database')
 
 					collection = db['issues']
 					mylist = [ 
@@ -377,7 +380,7 @@ def issuesView(owner, reponame):
 						 'githubIssueID': issue['id'],
 						 'from': '',				# TODO
 						 'to': '',					# TODO
-						 'assignee': assignee['collaborator'],
+						 'assignee': None,#assignee['collaborator'],
 						 'status': 'normal'
 						}
 					] 
