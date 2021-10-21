@@ -56,6 +56,14 @@ nlp = spacy.load('basic_triage_small2')
 myclient = MongoClient("mongodb://localhost:27017/") 
 db = myclient["project"]
 
+lblScheme = {
+	'class:bug': ('DC3545', 'software bug report (Action: Assign issue to developer team.)', 'danger'),
+	'class:performance': ('FFC107', 'performance issues (e.g. slow, huge memory consumption. Action: Assign issue to tester team to feedback to developer team.)', 'warning'),
+	'class:documentation': ('198754', 'documentation errors (e.g. broken links, not clear, typos. Action: Assign issue to documentation team.)', 'success'),
+	'class:support': ('0D6EFD', 'question/technical support (e.g. how to ..., cannot install. Action: Direct the users to user manual or the ops team.)', 'primary'),
+	'class:feature-request': ('0DCAF0', 'feature requests (save for later, when there is time capacity and resources)', 'info'),
+	'class:invalid': ('F8F9FA', 'invalid/spam (Action: the issue should be closed immediately)', 'light'),
+}
 
 '''
 https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
@@ -294,6 +302,8 @@ def issuesView(owner, reponame):
 			if maxConfidence > 0.8:
 				########################################
 				#  Request 1: Give issue the tag
+                issue['bootstrapClass'] = lblScheme[maxCat][2];
+
 				url = f"https://api.github.com/repos/{reponame}/{name}/labels"
 
 				body = {
