@@ -65,6 +65,15 @@ lblScheme = {
 	'class:invalid': ('F8F9FA', 'invalid/spam (Action: the issue should be closed immediately)', 'light'),
 }
 
+roleScheme = {
+	'developer': ('Developer Team', 'danger'),
+	'documentation': ('Documentation Team', 'success'),
+	'tester': ('Tester Team', 'warning'),
+	'support': ('Support Team', 'primary')	
+}
+
+
+
 '''
 https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
 '''
@@ -161,9 +170,15 @@ def getContributors(owner, reponame):
 	res = urlopen(req)
 	resJson = loads(res.read())
 
-	contributorRoles = ['Developer Team']
-	for x in range(len(resJson) - 1):
-		contributorRoles.append('Documentation Team')
+	contributorRoles = []
+	collection = db['roles']
+	for x in resJson:
+		collaborator = [x for x in collection.find({'collaborator': x['login']})]
+		if len(collaborator) == 0:
+			collection.insert({'owner': owner, 'reponame': reponame, 'collaborator': x['login'], 'role': 'developer'})
+			contributorRoles.append(['developer', *roleScheme['developer']])
+		else:
+			contributorRoles.append([collaborator[0]['role'], *roleScheme[collaborator[0]['role']]])
 
 	print(resJson)
 

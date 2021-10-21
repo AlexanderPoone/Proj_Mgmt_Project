@@ -38,7 +38,7 @@
                         <p><img src="{{ contributors[contributor]['avatar_url'] }}"
                                 class="avatar img-fluid rounded mr-1">
                             <strong>{{ contributors[contributor]['login'] }}</strong> <span
-                                class="badge rounded-pill {{ 'bg-primary' if contributorRoles[contributor] == 'Developer Team' else 'bg-success' }}">{{ contributorRoles[contributor] }}</span>
+                                class="badge rounded-pill bg-{{ contributorRoles[contributor][2] }}">{{ contributorRoles[contributor][1] }}</span>
                         </p>
                         {% endfor %}
                         <br><br>
