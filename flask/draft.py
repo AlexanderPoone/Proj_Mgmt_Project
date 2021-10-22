@@ -27,7 +27,6 @@ from re import findall, DOTALL
 # HTTP libraries
 from flask import Flask, jsonify, make_response, request, send_from_directory, abort, redirect, render_template, render_template_string
 from flask_cors import CORS
-from flask_talisman import Talisman
 
 from urllib.parse import urlencode, quote
 from urllib.request import urlopen, Request
@@ -52,7 +51,6 @@ from re import sub
 
 app = Flask(__name__)
 CORS(app)
-Talisman(app, content_security_policy=None)
 
 nlp = spacy.load('basic_triage_small2')
 
@@ -76,6 +74,14 @@ roleScheme = {
 }
 
 
+@app.before_request
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301  
+        print(url)
+
+        return redirect(url, code=code)
 
 '''
 https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
