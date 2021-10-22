@@ -27,6 +27,7 @@ from re import findall, DOTALL
 # HTTP libraries
 from flask import Flask, jsonify, make_response, request, send_from_directory, abort, redirect, render_template, render_template_string
 from flask_cors import CORS
+from flask_talisman import Talisman
 
 from urllib.parse import urlencode, quote
 from urllib.request import urlopen, Request
@@ -45,11 +46,13 @@ from wordcloud import WordCloud
 from base64 import b64encode, b64decode
 from json import dumps, loads
 from pprint import pprint
+from random import choice
 from re import sub
 
 
 app = Flask(__name__)
 CORS(app)
+Talisman(app, content_security_policy=None)
 
 nlp = spacy.load('basic_triage_small2')
 
@@ -365,14 +368,13 @@ def issuesView(owner, reponame):
 					teamMembers = [x for x in collection.find({'role': maxCat.replace('class:', '')})]
 
 					if len(teamMembers) == 0:
-						assignee = None
+						assignee = 'DerWahrheitssucher'
 					else:
-						from random import choice
-						assignee = choice(teamMembers)
+						assignee = choice(teamMembers)['collaborator']
 
 					url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/assignees"
 
-					body = {'assignees': ['DerWahrheitssucher']}
+					body = {'assignees': [assignee]}
 					data = dumps(body).encode('utf-8')
 
 					req = Request(url, data=data)
@@ -386,10 +388,16 @@ def issuesView(owner, reponame):
 						print(e.read())
 					print(res.read())
 
+					# Find issue MAX issues['to']
+					collection = db['issues']
+					max_date = list(collection.find({}).sort([('to', -1)])).limit(1)
+					print(max_date)
+					print('Parse the date... If nothing, set from date to tomorrow.')
+
 					########################################
 					print('At last, update the database')
 
-					collection = db['issues']
+					#collection = db['issues']
 					mylist = [ 
 						{
 						 'owner': owner,
@@ -397,7 +405,7 @@ def issuesView(owner, reponame):
 						 'githubIssueID': issue['id'],
 						 'from': '',				# TODO
 						 'to': '',					# TODO
-						 'assignee': None,#assignee['collaborator'],
+						 'assignee': assignee,		#assignee['collaborator'],
 						 'status': 'normal'
 						}
 					] 
@@ -408,13 +416,11 @@ def issuesView(owner, reponame):
 		contributors = contributors, contributorRoles = contributorRoles)
 
 
-@app.route('/assign_team/<string:owner>/<string:repo>/<string:collaborator>/<string:role>', methods = ['GET'])
+@app.route('/assign_team/<string:owner>/<string:reponame>/<string:collaborator>/<string:role>', methods = ['GET'])
 def assignTeam(owner, reponame, collaborator, role):
 	collection = db['roles']
-	mylist = [ 
-		{'owner': owner, 'reponame': reponame, 'collaborator': collaborator, 'role': role}
-	] 
-	collection.insert_many(mylist)
+
+	collection.update_one({'owner': owner, 'reponame': reponame, 'collaborator': collaborator}, {'$set': {'role': role}})
 
 	return redirect(f'/repo/{owner}/{reponame}')
 
