@@ -567,7 +567,7 @@ def generateClassUml(owner, reponame):
 	A = pygraphviz.AGraph(directed=True)
 	for ent in entities:
 		# Is there lemon chiffon?
-		A.add_node(ent,shape='box',label=f'{ent}\n_____________\n_____________\n\n') #color='goldenrod2', style='filled',
+		A.add_node(ent,shape='box',label=f'{ent}\n_____________\n_____________\n\n',color='black', fillcolor='lemonchiffon', style='filled')
 
 
 	imports = set()
