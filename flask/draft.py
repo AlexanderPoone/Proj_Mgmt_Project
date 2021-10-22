@@ -365,13 +365,13 @@ def issuesView(owner, reponame):
 					print(e.read())
 				print(res.read())
 
-				if maxCat not in ('class:support', 'class:invalid'):
+				if maxCat not in ('class:feature-request', 'class:invalid'):
 					########################################
 					print('Request 2: Assign the issue')
 
 					collection = db['roles']
 
-					teamMembers = [x for x in collection.find({'role': maxCat.replace('class:', '')})]
+					teamMembers = [x for x in collection.find({'role': maxCat.replace('software','developer').replace('performance','tester').replace('class:', '')})]
 
 					if len(teamMembers) == 0:
 						assignee = 'DerWahrheitssucher'
@@ -396,26 +396,25 @@ def issuesView(owner, reponame):
 
 					# Find issue MAX issues['to']
 					collection = db['issues']
-					max_date = list(collection.find({}).sort([('to', -1)])).limit(1)
+					max_date = list(collection.find({}).sort([('to', -1)]).limit(1))[0]
 					print(max_date)
 					print('Parse the date... If nothing, set from date to tomorrow.')
 
 					########################################
-					print('At last, update the database')
+					if maxCat != 'class:feature-request':
+						print('At last, update the database')
 
-					#collection = db['issues']
-					mylist = [ 
-						{
-						 'owner': owner,
-						 'reponame': reponame,
-						 'githubIssueID': issue['id'],
-						 'from': '',				# TODO
-						 'to': '',					# TODO
-						 'assignee': assignee,		#assignee['collaborator'],
-						 'status': 'normal'
-						}
-					] 
-					collection.insert_many(mylist)
+						#collection = db['issues']
+						mylist = {
+							 'owner': owner,
+							 'reponame': reponame,
+							 'githubIssueID': issue['id'],
+							 'from': '',				# TODO
+							 'to': '',					# TODO
+							 'assignee': assignee,		#assignee['collaborator'],
+							 'status': 'normal'
+							}
+						collection.insert(mylist)
 	return render_template('repo.html', segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
