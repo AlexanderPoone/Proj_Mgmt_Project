@@ -833,7 +833,7 @@ def deleteLabelSystem(owner, reponame):
 
 	# cnt = 0
 
-	for lbl in ['bug','documentation','duplicate','enhancement','good first issue','help wanted','invalid','question']: #*lblScheme.keys()]:
+	for lbl in ['bug','documentation','duplicate','enhancement','good first issue','help wanted','invalid','question','wontfix']: #*lblScheme.keys()]:
 		url = f"https://api.github.com/repos/{owner}/{reponame}/labels/{quote(lbl)}"
 
 		body = {}
