@@ -326,6 +326,67 @@ def issuesView(owner, reponame):
 		print(issue['labels'])
 		issueIsNew = len(issue['labels']) == 0
 		if issueIsNew:
+			if issue["body"] is None or len(issue["body"].strip()) < 20:
+				url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
+
+				if issue["body"] is None or len(issue["body"].strip()) == 0:
+					reply = f"Please try again by filling in the issue message body. We cannot work on an issue unless details are provided. Closed."
+				else:
+					reply = f"The issue message body is too short (should be more than 20 characters). Please provide more details. We cannot work on an issue unless details are provided. Closed."
+				body = {'body': reply}
+
+				data = dumps(body).encode('utf-8')
+
+				req = Request(url, data=data)
+
+				for h in headers:
+					req.add_header(h, headers[h])
+
+				try:
+					res = urlopen(req)
+				except Exception as e:
+					print(e.read())
+				print(res.read())
+
+				url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/labels"
+
+				body = {
+					'labels': ['class:invalid']
+				}
+
+				data = dumps(body).encode('utf-8')
+				print(data)
+
+				req = Request(url, data=data)
+				for h in headers:
+					req.add_header(h, headers[h])
+
+				try:
+					res = urlopen(req)
+				except Exception as e:
+					print(e.read())
+				print(res.read())
+
+				url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}'
+
+				body = {'state': 'closed'}
+				data = dumps(body).encode('utf-8')
+
+				req = Request(url, data=data, method='PATCH')
+
+				tok = request.cookies.get('access_token')
+
+				headers = {
+					'Accept': '*/*',
+					'Content-Type': 'application/json',
+					'Authorization': f"token {tok}"
+				}
+				for h in headers:
+					req.add_header(h, headers[h])
+
+				res = urlopen(req)
+
+				continue
 			cleanedString = f'{issue["title"]} {issue["body"][:30]}'
 
 			out = nlp(cleanedString)
@@ -415,6 +476,45 @@ def issuesView(owner, reponame):
 							 'status': 'normal'
 							}
 						collection.insert(mylist)
+
+
+						#######################################
+						url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
+
+						reply = f"Hello @{issue['user']['login']}, thanks for the issue report! Your report is being reviewed and our team member @{assignee} will follow up the case soon. We will notify you whenever progress is made. Thanks!\n\nThis is an automated message. Wrongly classified? [Click here](#)."
+						body = {'body': reply}
+
+						data = dumps(body).encode('utf-8')
+
+						req = Request(url, data=data)
+
+						for h in headers:
+							req.add_header(h, headers[h])
+
+						try:
+							res = urlopen(req)
+						except Exception as e:
+							print(e.read())
+						print(res.read())
+					else:
+						url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
+
+						reply = f"Hi @{issue['user']['login']}, thank you for your idea! Due to the large amount of work, we may not be able to add new features at this stage. We will schedule time to review this after a few stable releases.\n\nThis is an automated message. Wrongly classified? [Click here](#)."
+						body = {'body': reply}
+
+						data = dumps(body).encode('utf-8')
+
+						req = Request(url, data=data)
+
+						for h in headers:
+							req.add_header(h, headers[h])
+
+						try:
+							res = urlopen(req)
+						except Exception as e:
+							print(e.read())
+						print(res.read())
+						
 	return render_template('repo.html', segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
