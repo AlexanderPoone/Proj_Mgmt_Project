@@ -52,7 +52,7 @@ from re import sub
 app = Flask(__name__)
 CORS(app)
 
-nlp = spacy.load('basic_triage_small2')
+nlp = spacy.load('basic_triage_small5')
 
 myclient = MongoClient("mongodb://localhost:27017/") 
 db = myclient["project"]
@@ -322,7 +322,6 @@ def issuesView(owner, reponame):
 	#########################################################
 
 	for issue in issues:
-		print('Hi')
 		print(issue['labels'])
 		issueIsNew = len(issue['labels']) == 0
 		if issueIsNew:
@@ -387,10 +386,10 @@ def issuesView(owner, reponame):
 				res = urlopen(req)
 
 				continue
-			cleanedString = f'{issue["title"]} {issue["body"][:30]}'
+			cleanedString = f'{issue["title"]} {" ".join(issue["body"].split(" ")[:34])}'
 
 			out = nlp(cleanedString)
-			print(out.cats)
+			print(f'DEBUG: {cleanedString} {out.cats}')
 
 			# Add issue listing
 			maxConfidence = max(out.cats.values())
@@ -426,7 +425,7 @@ def issuesView(owner, reponame):
 					print(e.read())
 				print(res.read())
 
-				if maxCat not in ('class:feature-request', 'class:invalid'):
+				if maxCat != ('class:feature-request', 'class:invalid'):
 					########################################
 					print('Request 2: Assign the issue')
 
@@ -462,58 +461,57 @@ def issuesView(owner, reponame):
 					print('Parse the date... If nothing, set from date to tomorrow.')
 
 					########################################
-					if maxCat != 'class:feature-request':
-						print('At last, update the database')
+					print('At last, update the database')
 
-						#collection = db['issues']
-						mylist = {
-							 'owner': owner,
-							 'reponame': reponame,
-							 'githubIssueID': issue['id'],
-							 'from': '',				# TODO
-							 'to': '',					# TODO
-							 'assignee': assignee,		#assignee['collaborator'],
-							 'status': 'normal'
-							}
-						collection.insert(mylist)
+					#collection = db['issues']
+					mylist = {
+						 'owner': owner,
+						 'reponame': reponame,
+						 'githubIssueID': issue['id'],
+						 'from': '',				# TODO
+						 'to': '',					# TODO
+						 'assignee': assignee,		#assignee['collaborator'],
+						 'status': 'normal'
+						}
+					collection.insert(mylist)
 
 
-						#######################################
-						url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
+					#######################################
+					url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
 
-						reply = f"Hello @{issue['user']['login']}, thanks for the issue report! Your report is being reviewed and our team member @{assignee} will follow up the case soon. We will notify you whenever progress is made. Thanks!\n\nThis is an automated message. Wrongly classified? [Click here](#)."
-						body = {'body': reply}
+					reply = f"Hello @{issue['user']['login']}, thanks for the issue report! Your report is being reviewed and our team member @{assignee} will follow up the case soon. We will notify you whenever progress is made. Thanks!\n\nThis is an automated message. Wrongly classified? [Click here](#)."
+					body = {'body': reply}
 
-						data = dumps(body).encode('utf-8')
+					data = dumps(body).encode('utf-8')
 
-						req = Request(url, data=data)
+					req = Request(url, data=data)
 
-						for h in headers:
-							req.add_header(h, headers[h])
+					for h in headers:
+						req.add_header(h, headers[h])
 
-						try:
-							res = urlopen(req)
-						except Exception as e:
-							print(e.read())
-						print(res.read())
-					else:
-						url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
+					try:
+						res = urlopen(req)
+					except Exception as e:
+						print(e.read())
+					print(res.read())
+				elif maxCat == 'class:feature-request':
+					url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
 
-						reply = f"Hi @{issue['user']['login']}, thank you for your idea! Due to the large amount of work, we may not be able to add new features at this stage. We will schedule time to review this after a few stable releases.\n\nThis is an automated message. Wrongly classified? [Click here](#)."
-						body = {'body': reply}
+					reply = f"Hi @{issue['user']['login']}, thank you for your idea! Due to the large amount of work, we may not be able to add new features at this stage. We will schedule time to review this after a few stable releases.\n\nThis is an automated message. Wrongly classified? [Click here](#)."
+					body = {'body': reply}
 
-						data = dumps(body).encode('utf-8')
+					data = dumps(body).encode('utf-8')
 
-						req = Request(url, data=data)
+					req = Request(url, data=data)
 
-						for h in headers:
-							req.add_header(h, headers[h])
+					for h in headers:
+						req.add_header(h, headers[h])
 
-						try:
-							res = urlopen(req)
-						except Exception as e:
-							print(e.read())
-						print(res.read())
+					try:
+						res = urlopen(req)
+					except Exception as e:
+						print(e.read())
+					print(res.read())
 						
 	return render_template('repo.html', segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
