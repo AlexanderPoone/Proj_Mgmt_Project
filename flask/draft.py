@@ -425,7 +425,7 @@ def issuesView(owner, reponame):
 					print(e.read())
 				print(res.read())
 
-				if maxCat != ('class:feature-request', 'class:invalid'):
+				if maxCat not in ('class:feature-request', 'class:invalid'):
 					########################################
 					print('Request 2: Assign the issue')
 
