@@ -22,3 +22,7 @@ To install the dependencies, enter the following in the command line:
 ```
 pip3 install -r requirements.txt
 ```
+For UML Class diagrams, install GraphViz here [https://graphviz.org/download/#windows](https://graphviz.org/download/#windows) and PyGraphViz here: [ttps://www.lfd.uci.edu/~gohlke/pythonlibs/#pygraphviz](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pygraphviz)
+```
+pip3 install pygraphviz‑1.7‑cp39‑cp39‑win_amd64.whl
+```
