@@ -43,6 +43,7 @@ from wordcloud import WordCloud
 
 # Standard library
 from base64 import b64encode, b64decode
+from datetime import datetime, timedelta
 from json import dumps, loads
 from pprint import pprint
 from random import choice
@@ -76,12 +77,12 @@ roleScheme = {
 
 @app.before_request
 def before_request():
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301  
-        print(url)
+	if request.url.startswith('http://'):
+		url = request.url.replace('http://', 'https://', 1)
+		code = 301  
+		print(url)
 
-        return redirect(url, code=code)
+		return redirect(url, code=code)
 
 '''
 https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
@@ -403,11 +404,6 @@ def issuesView(owner, reponame):
 
 				url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/labels"
 
-				# body = {
-				# 	'name': maxCat,			#  may add emoji
-				# 	'color': lblScheme[maxCat][0],
-				# 	'description': lblScheme[maxCat][1]
-				# }
 				body = {
 					'labels': [maxCat]
 				}
@@ -454,27 +450,28 @@ def issuesView(owner, reponame):
 						print(e.read())
 					print(res.read())
 
-					# Find issue MAX issues['to']
+					issue['assignee'] = assignee
+					########################################
+					# TODO: Find issue MAX issues['to']
+					'''
+					print('At last, update the database')
+
 					collection = db['issues']
 					max_date = list(collection.find({}).sort([('to', -1)]).limit(1))[0]
 					print(max_date)
 					print('Parse the date... If nothing, set from date to tomorrow.')
 
-					########################################
-					print('At last, update the database')
-
-					#collection = db['issues']
 					mylist = {
 						 'owner': owner,
 						 'reponame': reponame,
 						 'githubIssueID': issue['id'],
-						 'from': '',				# TODO
-						 'to': '',					# TODO
-						 'assignee': assignee,		#assignee['collaborator'],
+						 'from': datetime.today(),												# TODO
+						 'to': datetime.today() + timedelta(days=7),							# TODO: Default to a week for now
+						 'assignee': assignee,													# assignee['collaborator'],
 						 'status': 'normal'
 						}
 					collection.insert(mylist)
-
+					'''
 
 					#######################################
 					url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
@@ -513,7 +510,10 @@ def issuesView(owner, reponame):
 						print(e.read())
 					print(res.read())
 						
-	return render_template('repo.html', segment='index', 
+	return render_template('repo.html', 
+		tasks=issues,
+		pullRequests=[],
+		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
 		contributors = contributors, contributorRoles = contributorRoles)
@@ -528,12 +528,39 @@ def assignTeam(owner, reponame, collaborator, role):
 	return redirect(f'/repo/{owner}/{reponame}')
 
 
+@app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
+def confirm(repoowner, reponame, issue_number):
+	collection = db['issues']
+	########################################
+	# TODO: Find issue MAX issues['to']
+	
+	print('Confirmed -> update the database')
 
-@app.route('/resolved/<string:owner>/<string:repo>/<string:issue_number>', methods = ['GET'])
-def resolved(owner, repo, issue_number):
+	collection = db['issues']
+	max_date = list(collection.find({}).sort([('to', -1)]).limit(1))[0]
+	print(max_date)
+	print('Parse the date... If nothing, set from date to tomorrow.')
+
+	mylist = {
+		 'owner': owner,
+		 'reponame': reponame,
+		 'githubIssueID': issue['id'],
+		 'from': datetime.today(),												# TODO
+		 'to': datetime.today() + timedelta(days=7),							# TODO: Default to a week for now
+		 'assignee': assignee,													# assignee['collaborator'],
+		 'status': 'normal'
+		}
+	collection.insert(mylist)
+
+	return 'success'
+	
+
+@app.route('/reject/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
+def reject(repoowner, reponame, issue_number):
 	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments'
 
-	body = {'body': 'The issue has been resolved in # and will be closed. If you have further enquiries, please open a new issue and link to this issue. Thank you!'}
+	body = {'body': f'This issue has been reviewed and it is marked as invalid because of the following reason:\n\nDuplicate\n\nThis issue is being closed.'}
+
 	data = dumps(body).encode('utf-8')
 
 	req = Request(url, data=data)
@@ -549,7 +576,59 @@ def resolved(owner, repo, issue_number):
 		req.add_header(h, headers[h])
 
 	res = urlopen(req)
+	
 	##############################################
+	# Close the issue
+	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}'
+
+	body = {'state': 'closed'}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data, method='PATCH')
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+
+	return redirect(f'/repo/{owner}/{reponame}')
+
+@app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
+def delay(repoowner, reponame, issue_number):
+	# DBIO
+	return 'success'
+
+@app.route('/resolved/<string:owner>/<string:reponame>/<int:issue_number>/<int:pull_request_number>', methods = ['GET'])
+def resolved(owner, repo, issue_number, pull_request_number):
+	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments'
+
+	body = {'body': f'Dear contributors, a patch regarding this issue has been added in Pull Request #{pull_request_number}. Please check it out and feel free to comment on it. The issue is considered resolved and is being closed. If you have further enquiries, please open a new issue and link to this issue. Thank you!'}
+
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data)
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+	
+	##############################################
+	# Close the issue
 	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}'
 
 	body = {'state': 'closed'}

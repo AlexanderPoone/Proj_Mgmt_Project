@@ -20,7 +20,7 @@
             <div class="col-auto ml-auto text-right mt-n1">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-                        <li class="breadcrumb-item"><a href="/">Issue Management + Release Notes Generation</a></li>
+                        <li class="breadcrumb-item"><a href="/">Scrum Visualisation & Issue Management</a></li>
                         <li class="breadcrumb-item"><a href="/repo/{{repoowner}}/{{reponame}}">{{reponame}}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{% if codeFileName is defined %}Code Tools{% else %}Issue Management Tools{% endif %}</li>
                     </ol>
@@ -173,7 +173,7 @@
 <!--                     </div>
                 </div>
             </div> -->
-            <div class="col-xl-6 col-xxl-6">
+            <div class="col-xl-3 col-xxl-3">
                 <div class="card flex-fill w-100">
                     <div class="card-header">
 
@@ -190,7 +190,16 @@
                 </div>
             </div>
 
-            <div class="col-xl-6 col-xxl-6"><!--d-flex-->
+
+
+
+
+
+
+
+
+
+            <div class="col-xl-9 col-xxl-9"><!--d-flex-->
                 <div class="card flex-fill">
                     <div class="card-header">
 
@@ -199,15 +208,52 @@
                     <table class="table table-hover my-0">
                         <thead>
                             <tr>
+                                <th>Issue number</th>
                                 <th>Issue</th>
+                                <th>Description</th>
                                 <th class="d-none d-xl-table-cell">Start Date</th>
                                 <th class="d-none d-xl-table-cell">End Date</th>
-                                <th>Status</th>
                                 <th class="d-none d-md-table-cell">Assignee</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+<script>
+function confirm(issueNumber) {
+ fetch(`/confirm/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
+}
+function reject(issueNumber) {
+ fetch(`/reject/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
+}
+function finish(issueNumber) {
+ let pull_request_id = document.querySelector('#relatedPullRequest').value;
+ fetch(`/finish/{{repoowner}}/{{reponame}}/${issueNumber}?pull_request_id=${pull_request_id}`).then(res=>{});
+}
+function delay(issueNumber) {
+ let reason= encodeURI(document.querySelector('#inpDelayReason').value);
+ fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}?reason=${reason}`).then(res=>{});
+}
+</script>
+{% for x in tasks %}
+<tr>
+<td>{{x.number}}</td>
+<td>{{x.title}}</td>
+<td>{{x.body|safe}}</td>
+<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
+<td class="d-none d-xl-table-cell">{{x.endDate}}</td>
+<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
+                                class="avatar img-fluid rounded mr-1"><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
+<td style="display: inline-flex;">
+{% if x.date is none %}
+<button type="button" onclick="confirm({{x.issue_number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Confirm task</button> <button type="button" onclick="reject({{x.issue_number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Reject task</button>
+{% else %}
+<span style="display: block; margin: 4px;"><select id="relatedPullRequest" class="form-select"><option selected value="none">No pull requests</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="finish({{x.issue_number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Finish task</button></span>
+<!--Drop-down calendar goes here--><span style="display: block; margin: 4px;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason"><div id="lblReason" class="form-text">Reason</div><button type="button" onclick="delay({{x.issue_number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+<!--                             <tr>
                                 <td>Project Apollo</td>
                                 <td class="d-none d-xl-table-cell">01/01/2020</td>
                                 <td class="d-none d-xl-table-cell">31/06/2020</td>
@@ -262,7 +308,7 @@
                                 <td class="d-none d-xl-table-cell">31/06/2020</td>
                                 <td><span class="badge bg-danger">Delayed</span></td>
                                 <td class="d-none d-md-table-cell">William Harris</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
