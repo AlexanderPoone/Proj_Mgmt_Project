@@ -28,3 +28,7 @@ For UML Class diagrams, install GraphViz here [https://graphviz.org/download/#wi
 ```
 pip3 install pygraphviz‑1.7‑cp39‑cp39‑win_amd64.whl
 ```
+For NLP triage, you need to run this command:
+```
+python -m spacy download en_core_web_sm
+```
