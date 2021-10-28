@@ -242,7 +242,7 @@
 				<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
 				<td class="d-none d-xl-table-cell">{{x.endDate}}</td>
 				<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
-								class="avatar img-fluid rounded mr-1"><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
+								class="avatar img-fluid rounded mr-1" {% if x.date is none %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
 				<td style="display: inline-flex;">
 				{% if x.date is none %}
 				<button type="button" onclick="confirm({{x.issue_number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Confirm task</button> <button type="button" onclick="reject({{x.issue_number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Reject task</button>
