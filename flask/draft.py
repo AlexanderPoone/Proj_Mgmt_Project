@@ -298,7 +298,7 @@ def issuesView(owner, reponame):
 	# list all issues
 	###########################
 
-	url = f"https://api.github.com/repos/{owner}/{reponame}/issues?state=all&per_page=100"
+	url = f"https://api.github.com/repos/{owner}/{reponame}/issues?state=open&per_page=100"
 
 	req = Request(url)
 
