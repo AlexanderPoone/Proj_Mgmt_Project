@@ -263,7 +263,7 @@
                             <tr>
                                 <th>Issue number</th>
                                 <th>Issue</th>
-                                <th>Description</th>
+                                <th style="width: 24%;">Description</th>
                                 <th class="d-none d-xl-table-cell">Start Date</th>
                                 <th class="d-none d-xl-table-cell">End Date</th>
                                 <th class="d-none d-md-table-cell">Assignee</th>
@@ -300,8 +300,8 @@
 				{% if x.date is none %}
 				<button type="button" onclick="confirm({{x.issue_number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Confirm task</button> <button type="button" onclick="reject({{x.issue_number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Reject task</button>
 				{% else %}
-				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">No pull requests</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="resolve({{x.issue_number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
-				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><span style="display: inline-flex;"><label for="inpDelayReason" class="col-form-label">Reason:</label><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason"></span><br><br><button type="button" onclick="delay({{x.issue_number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
+				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">Pick a pull request</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="resolve({{x.issue_number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
+				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><span style="display: inline-flex;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"></span><br><br><button type="button" onclick="delay({{x.issue_number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
 				{% endif %}
 				</td>
 				</tr>
