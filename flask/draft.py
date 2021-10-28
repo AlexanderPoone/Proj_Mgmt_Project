@@ -632,7 +632,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 	url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/comments'
 
-	body = {'body': f'Dear contributors, a patch regarding this issue has been added in Pull Request #{pull_request_number}. Please check it out and feel free to comment on it.\n\nThe issue is considered resolved and is being closed. If you have further enquiries, please open a new issue and link to this issue. Thank you!'}
+	body = {'body': f'Hello, a patch regarding this issue has been added in Pull Request #{pull_request_number}. Please check it out and feel free to comment on it.\n\nThe issue is considered resolved and is being closed. If you have further enquiries, please open a new issue and link to this issue. Thank you!'}
 
 	data = dumps(body).encode('utf-8')
 
@@ -686,7 +686,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 	res = urlopen(req)
 
-	return 'Success!'
+	return f'<strong>Success!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}">View on GitHub</a>'
 
 
 '''
