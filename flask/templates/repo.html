@@ -218,97 +218,41 @@
                             </tr>
                         </thead>
                         <tbody>
-<script>
-function confirm(issueNumber) {
- fetch(`/confirm/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
-}
-function reject(issueNumber) {
- fetch(`/reject/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
-}
-function finish(issueNumber) {
- let pull_request_id = document.querySelector('#relatedPullRequest').value;
- fetch(`/finish/{{repoowner}}/{{reponame}}/${issueNumber}?pull_request_id=${pull_request_id}`).then(res=>{});
-}
-function delay(issueNumber) {
- let reason= encodeURI(document.querySelector('#inpDelayReason').value);
- fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}?reason=${reason}`).then(res=>{});
-}
-</script>
-{% for x in tasks %}
-<tr>
-<td>{{x.number}}</td>
-<td>{{x.title}}</td>
-<td>{{x.body|safe}}</td>
-<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
-<td class="d-none d-xl-table-cell">{{x.endDate}}</td>
-<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
-                                class="avatar img-fluid rounded mr-1"><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
-<td style="display: inline-flex;">
-{% if x.date is none %}
-<button type="button" onclick="confirm({{x.issue_number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Confirm task</button> <button type="button" onclick="reject({{x.issue_number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Reject task</button>
-{% else %}
-<span style="display: block; margin: 4px;"><select id="relatedPullRequest" class="form-select"><option selected value="none">No pull requests</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="finish({{x.issue_number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Finish task</button></span>
-<!--Drop-down calendar goes here--><span style="display: block; margin: 4px;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason"><div id="lblReason" class="form-text">Reason</div><button type="button" onclick="delay({{x.issue_number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
-{% endif %}
-</td>
-</tr>
-{% endfor %}
-<!--                             <tr>
-                                <td>Project Apollo</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-success">Normal</span></td>
-                                <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                            </tr>
-                            <tr>
-                                <td>Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-danger">Delayed</span></td>
-                                <td class="d-none d-md-table-cell">William Harris</td>
-                            </tr>
-                            <tr>
-                                <td>Project Hades</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-success">Normal</span></td>
-                                <td class="d-none d-md-table-cell">Sharon Lessman</td>
-                            </tr>
-                            <tr>
-                                <td>Project Nitro</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-danger">Delayed</span></td>
-                                <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                            </tr>
-                            <tr>
-                                <td>Project Phoenix</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-success">Normal</span></td>
-                                <td class="d-none d-md-table-cell">William Harris</td>
-                            </tr>
-                            <tr>
-                                <td>Project X</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-success">Normal</span></td>
-                                <td class="d-none d-md-table-cell">Sharon Lessman</td>
-                            </tr>
-                            <tr>
-                                <td>Project Romeo</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-success">Normal</span></td>
-                                <td class="d-none d-md-table-cell">Christina Mason</td>
-                            </tr>
-                            <tr>
-                                <td>Project Wombat</td>
-                                <td class="d-none d-xl-table-cell">01/01/2020</td>
-                                <td class="d-none d-xl-table-cell">31/06/2020</td>
-                                <td><span class="badge bg-danger">Delayed</span></td>
-                                <td class="d-none d-md-table-cell">William Harris</td>
-                            </tr> -->
+				<script>
+				function confirm(issueNumber) {
+				 fetch(`/confirm/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
+				}
+				function reject(issueNumber) {
+				 fetch(`/reject/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
+				}
+				function resolve(issueNumber) {
+				 let pull_request_id = document.querySelector('#relatedPullRequest').value;
+				 fetch(`/resolve/{{repoowner}}/{{reponame}}/${issueNumber}?pull_request_id=${pull_request_id}`).then(res=>{});
+				}
+				function delay(issueNumber) {
+				 let reason= encodeURI(document.querySelector('#inpDelayReason').value);
+				 fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}?reason=${reason}`).then(res=>{});
+				}
+				</script>
+				{% for x in tasks %}
+				<tr>
+				<td>{{x.number}}</td>
+				<td>{{x.title}}</td>
+				<td>{{x.body|safe}}</td>
+				<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
+				<td class="d-none d-xl-table-cell">{{x.endDate}}</td>
+				<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
+								class="avatar img-fluid rounded mr-1"><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
+				<td style="display: inline-flex;">
+				{% if x.date is none %}
+				<button type="button" onclick="confirm({{x.issue_number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Confirm task</button> <button type="button" onclick="reject({{x.issue_number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Reject task</button>
+				{% else %}
+				<span style="display: block; margin: 4px;"><select id="relatedPullRequest" class="form-select"><option selected value="none">No pull requests</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="resolve({{x.issue_number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
+				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason"><div id="lblReason" class="form-text">Reason</div><button type="button" onclick="delay({{x.issue_number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
+				{% endif %}
+				</td>
+				</tr>
+				{% endfor %}
                         </tbody>
                     </table>
                 </div>
