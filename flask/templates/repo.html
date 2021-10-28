@@ -3,7 +3,56 @@
 {% block title %} Dashboard {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+
+{% block stylesheets %}
+<script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/d3/3.0.0/d3.min.js"></script>
+<style>
+.chart {
+	shape-rendering: crispEdges;
+}
+
+.mini text {
+	font: 9px sans-serif;	
+}
+
+.main text {
+	font: 12px sans-serif;	
+}
+
+.month text {
+	text-anchor: start;
+}
+
+.todayLine {
+	stroke: blue;
+	stroke-width: 1.5;
+}
+
+.axis line, .axis path {
+	stroke: black;
+}
+
+.miniItem {
+	stroke-width: 6;	
+}
+
+.future {
+	stroke: gray;
+	fill: #ddd;
+}
+
+.past {
+	stroke: green;
+	fill: lightgreen;
+}
+
+.brush .extent {
+	stroke: gray;
+	fill: blue;
+	fill-opacity: .165;
+}
+</style>
+{% endblock stylesheets %}
 
 {% block content %}
 
