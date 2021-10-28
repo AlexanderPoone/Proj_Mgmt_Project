@@ -240,20 +240,23 @@
                 </div>
             </div>
 
+            <div class="col-xl-9 col-xxl-9">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
 
+                        <h5 class="card-title mb-0"><i class="fad fa-tasks-alt"></i>&nbsp;&nbsp;Assigned Tasks
+                        </h5>
+                    </div>
+                    <div class="card-body py-3" id="swimLaneDiv">
+                    </div>
+                </div>
+            </div>
 
-
-
-
-
-
-
-
-            <div class="col-xl-9 col-xxl-9"><!--d-flex-->
+            <div class="col-xl-12 col-xxl-12"><!--d-flex-->
                 <div class="card flex-fill">
                     <div class="card-header">
 
-                        <h5 class="card-title mb-0"><i class="fad fa-bug fa-lg"></i>&nbsp;&nbsp;Issues</h5>
+                        <h5 class="card-title mb-0"><i class="fad fa-bug fa-lg"></i>&nbsp;&nbsp;Issue Control</h5>
                     </div>
                     <table class="table table-hover my-0">
                         <thead>
@@ -298,7 +301,7 @@
 				<button type="button" onclick="confirm({{x.issue_number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Confirm task</button> <button type="button" onclick="reject({{x.issue_number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Reject task</button>
 				{% else %}
 				<span style="display: block; margin: 4px;"><select id="relatedPullRequest" class="form-select"><option selected value="none">No pull requests</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="resolve({{x.issue_number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
-				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason"><div id="lblReason" class="form-text">Reason</div><button type="button" onclick="delay({{x.issue_number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
+				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px;"><span style="display: inline-flex;"><label for="inpDelayReason" class="col-form-label">Reason:</label><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason"></span><br><br><button type="button" onclick="delay({{x.issue_number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
 				{% endif %}
 				</td>
 				</tr>
@@ -400,6 +403,7 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
     var data = placeholderData(),
         lanes = data.lanes,
         items = data.items,
@@ -409,9 +413,9 @@
             top: 20,
             right: 15,
             bottom: 15,
-            left: 60
+            left: 120
         },
-        width = 960 - margin.left - margin.right,
+        width = 1260 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom,
         miniHeight = lanes.length * 12 + 50,
         mainHeight = height - miniHeight - 50;
@@ -433,7 +437,7 @@
     var y1 = d3.scale.linear().domain([ext[0], ext[1] + 1]).range([0, mainHeight]);
     var y2 = d3.scale.linear().domain([ext[0], ext[1] + 1]).range([0, miniHeight]);
 
-    var chart = d3.select('body')
+    var chart = d3.select('#swimLaneDiv')
         .append('svg:svg')
         .attr('width', width + margin.right + margin.left)
         .attr('height', height + margin.top + margin.bottom)
@@ -704,7 +708,7 @@
 
         labels.enter().append('text')
             .text(function (d) {
-                return 'Item\n\n\n\n Id: ' + d.id;
+                return d.name;
             })
             .attr('x', function (d) {
                 return x1(Math.max(d.start, minExtent)) + 2;
@@ -748,6 +752,7 @@
 
         return result;
     }
+});
 </script>
 
 <script>

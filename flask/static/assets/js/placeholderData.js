@@ -37,7 +37,7 @@
 
         var parseData = function (data) {
             var i = 0, length = data.length, node;
-            chart = { lanes: {} };
+            var chart = { lanes: {} };
             
             for (i; i < length; i++) {
                 var item = data[i];
@@ -70,6 +70,7 @@
 
 	        			items.push({
 	        				id: item.id,
+	        				name: 'Task #' + item.id,
 	        				lane: laneId,
 	        				start: item.start,
 	        				end: item.end,
@@ -97,6 +98,8 @@
 			  , startDay = randomNumber(1,28)
 			  , totalMonths = randomNumber(4,10);
 
+			var temp = ['SoftFeta','DerWahrheitssucher','BerndRoseau','SergeiGainsboro','aurum1337','Eixample'];
+
 			for (var i = 0; i < laneCount; i++) {
 				var dt = new Date(2012, startMonth, startDay);
 				for (var j = 0; j < totalWorkItems; j++) {
@@ -108,8 +111,8 @@
 
 					var workItem = {
 						id: i * totalWorkItems + j,
-						name: 'work item ' + j,
-						lane: 'lane ' + i,
+						name: 'Task #' + j,
+						lane: temp[i],
 						start: dtS,
 						end: dt,
 						desc: 'This is a description.'
