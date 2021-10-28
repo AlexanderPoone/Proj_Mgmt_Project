@@ -386,6 +386,8 @@ def issuesView(owner, reponame):
 
 				res = urlopen(req)
 
+				issue['labels'] = ['class:invalid']
+
 				continue
 			cleanedString = f'{issue["title"]} {" ".join(issue["body"].split(" ")[:34])}'
 
@@ -420,6 +422,12 @@ def issuesView(owner, reponame):
 				except Exception as e:
 					print(e.read())
 				print(res.read())
+
+				issue['labels'] = [maxCat]
+
+
+
+
 
 				if maxCat not in ('class:feature-request', 'class:invalid'):
 					########################################
@@ -511,7 +519,7 @@ def issuesView(owner, reponame):
 					print(res.read())
 						
 	return render_template('repo.html', 
-		tasks=issues,
+		tasks=[x for x in issues if 'class:feature-request' not in x['labels'] and 'class:invalid' not in x['labels']],
 		pullRequests=[],
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
