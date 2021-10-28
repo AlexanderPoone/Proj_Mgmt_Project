@@ -459,6 +459,7 @@ def issuesView(owner, reponame):
 					print(res.read())
 
 					issue['assignee'] = assignee
+					issue['date'] = '2021-10-01'
 					########################################
 					# TODO: Find issue MAX issues['to']
 					'''
@@ -517,6 +518,9 @@ def issuesView(owner, reponame):
 					except Exception as e:
 						print(e.read())
 					print(res.read())
+		else:
+			print('join database here')
+			issue['date'] = '2021-10-02'
 						
 	return render_template('repo.html', 
 		tasks=[x for x in issues if 'class:feature-request' not in x['labels'] and 'class:invalid' not in x['labels']],

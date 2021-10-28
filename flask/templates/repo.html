@@ -259,7 +259,7 @@
                         <h5 class="card-title mb-0"><i class="fad fa-bug fa-lg"></i>&nbsp;&nbsp;Issue Control</h5>
                     </div>
                     <div class="card-body py-3">
-                    <strong>Feature requests and invalid issue requests (description < 30 characters, social interaction without any real content, spam etc) has already been filtered out and will not be shown below. This can save time and avoid distraction for large projects.</strong>
+                    <h3>Feature requests and invalid issue requests (description < 30 characters, social interaction without any real content, spam etc) has already been filtered out and will not be shown below. This can save time and avoid distraction for large projects.</h3>
                 </div>
                     <table class="table table-hover my-0">
                         <thead>
@@ -305,12 +305,13 @@
 								class="avatar img-fluid rounded mr-1" {% if x.date is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
 				<td>
 				{% if x.date is not defined %}
-                <span style="display: inline-flex;">
-				<button type="button" onclick="confirm({{x.number}});" class="btn btn-warning"><i class="fad fa-check-circle"></i> Create task</button> <button type="button" onclick="reject({{x.number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Invalid issue</button>
+                <span style="display: inline-flex; width: 100%">
+				<button type="button" onclick="confirm({{x.number}});" class="btn btn-primary" style="width: 50%;"><i class="fad fa-check-circle"></i> Create task</button> <button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 50%;"><i class="fad fa-trash-alt"></i> Invalid issue</button>
 				</span>
                 {% else %}
+                <span style="display: inline-flex;">
 				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">Pick a pull request</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="resolve({{x.number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
-				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><span style="display: inline-flex;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"></span><br><br><button type="button" onclick="delay({{x.number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
+				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><span style="display: inline-flex;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"></span><br><br><button type="button" onclick="delay({{x.number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span></span>
 				{% endif %}
 				</td>
 				</tr>
