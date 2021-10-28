@@ -386,7 +386,7 @@ def issuesView(owner, reponame):
 
 				res = urlopen(req)
 
-				issue['labels'] = ['class:invalid']
+				issue['labels'] = [{'name': 'class:invalid'}]
 
 				continue
 			cleanedString = f'{issue["title"]} {" ".join(issue["body"].split(" ")[:34])}'
@@ -423,7 +423,7 @@ def issuesView(owner, reponame):
 					print(e.read())
 				print(res.read())
 
-				issue['labels'] = [maxCat]
+				issue['labels'] = [{'name': maxCat}]
 
 
 
@@ -459,7 +459,7 @@ def issuesView(owner, reponame):
 					print(res.read())
 
 					issue['assignee'] = assignee
-					issue['date'] = '2021-10-01'
+					issue['startDate'] = '2021-10-01'
 					########################################
 					# TODO: Find issue MAX issues['to']
 					'''
@@ -520,10 +520,13 @@ def issuesView(owner, reponame):
 					print(res.read())
 		else:
 			print('join database here')
-			issue['date'] = '2021-10-02'
+			issue['startDate'] = '2021-10-02'
+			issue['endDate'] = '2021-10-09'
 						
+
+	#print(526,[x['labels'] for x in issues])
 	return render_template('repo.html', 
-		tasks=[x for x in issues if 'class:feature-request' not in x['labels'] and 'class:invalid' not in x['labels']],
+		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in x['labels']],
 		pullRequests=[],
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
@@ -540,9 +543,9 @@ def assignTeam(owner, reponame, collaborator, role):
 	return redirect(f'/repo/{owner}/{reponame}')
 
 
-@app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
-def confirm(owner, reponame, issue_number):
-	print('confirm', owner, reponame, issue_number)
+@app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>/<string:assignee>', methods = ['GET'])
+def confirm(owner, reponame, issue_number, assignee):
+	print('confirm', owner, reponame, issue_number, assignee)
 
 	collection = db['issues']
 	########################################
@@ -558,7 +561,7 @@ def confirm(owner, reponame, issue_number):
 	mylist = {
 		 'owner': owner,
 		 'reponame': reponame,
-		 'githubIssueID': issue['id'],
+		 'githubIssueID': issue_number,
 		 'from': datetime.today(),												# TODO
 		 'to': datetime.today() + timedelta(days=7),							# TODO: Default to a week for now
 		 'assignee': assignee,													# assignee['collaborator'],

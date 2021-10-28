@@ -302,9 +302,9 @@
 				<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
 				<td class="d-none d-xl-table-cell">{{x.endDate}}</td>
 				<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
-								class="avatar img-fluid rounded mr-1" {% if x.date is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
+								class="avatar img-fluid rounded mr-1" {% if x.startDate is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
 				<td>
-				{% if x.date is not defined %}
+				{% if x.startDate is not defined %}
                 <span style="display: inline-flex; width: 100%">
 				<button type="button" onclick="confirm({{x.number}});" class="btn btn-primary" style="width: 50%;"><i class="fad fa-check-circle"></i> Create task</button> <button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 50%;"><i class="fad fa-trash-alt"></i> Invalid issue</button>
 				</span>
