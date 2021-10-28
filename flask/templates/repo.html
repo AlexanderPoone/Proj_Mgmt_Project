@@ -280,7 +280,10 @@
 				}
 				function resolve(issueNumber) {
 				 let pull_request_id = document.querySelector('#relatedPullRequest').value;
-				 fetch(`/resolve/{{repoowner}}/{{reponame}}/${issueNumber}/${pull_request_id}`).then(res=>{});
+				 fetch(`/resolve/{{repoowner}}/{{reponame}}/${issueNumber}/99999`).then(res=>{
+                    console.log(res);
+                    console.log('Replace block with "Success! <a href="#" target="_blank">View on GitHub</a>');
+                 });
                  // fetch(`/resolve/{{repoowner}}/{{reponame}}/${issueNumber}?pull_request_id=${pull_request_id}`).then(res=>{});
 				}
 				function delay(issueNumber) {
@@ -296,11 +299,13 @@
 				<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
 				<td class="d-none d-xl-table-cell">{{x.endDate}}</td>
 				<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
-								class="avatar img-fluid rounded mr-1" {% if x.date is none %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
-				<td style="display: inline-flex;">
-				{% if x.date is none %}
-				<button type="button" onclick="confirm({{x.number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Confirm task</button> <button type="button" onclick="reject({{x.number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Reject task</button>
-				{% else %}
+								class="avatar img-fluid rounded mr-1" {% if x.date is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
+				<td>
+				{% if x.date is not defined %}
+                <span style="display: inline-flex;">
+				<button type="button" onclick="confirm({{x.number}});" class="btn btn-light"><i class="fad fa-check-circle"></i> Create task</button> <button type="button" onclick="reject({{x.number}});" class="btn btn-secondary"><i class="fad fa-trash-alt"></i> Invalid issue</button>
+				</span>
+                {% else %}
 				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">Pick a pull request</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="resolve({{x.number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
 				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><span style="display: inline-flex;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"></span><br><br><button type="button" onclick="delay({{x.number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span>
 				{% endif %}
