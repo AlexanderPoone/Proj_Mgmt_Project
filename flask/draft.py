@@ -530,6 +530,8 @@ def assignTeam(owner, reponame, collaborator, role):
 
 @app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
 def confirm(repoowner, reponame, issue_number):
+	print('confirm', repoowner, reponame, issue_number)
+
 	collection = db['issues']
 	########################################
 	# TODO: Find issue MAX issues['to']
@@ -557,6 +559,8 @@ def confirm(repoowner, reponame, issue_number):
 
 @app.route('/reject/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
 def reject(repoowner, reponame, issue_number):
+	print('reject', repoowner, reponame, issue_number)
+
 	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments'
 
 	body = {'body': f'This issue has been reviewed and it is marked as invalid because of the following reason:\n\nDuplicate\n\nThis issue is being closed.'}
@@ -602,11 +606,15 @@ def reject(repoowner, reponame, issue_number):
 
 @app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
 def delay(repoowner, reponame, issue_number):
+	print('delay', repoowner, reponame, issue_number)
+
 	# DBIO
 	return 'success'
 
-@app.route('/resolved/<string:owner>/<string:reponame>/<int:issue_number>/<int:pull_request_number>', methods = ['GET'])
-def resolved(owner, repo, issue_number, pull_request_number):
+@app.route('/resolve/<string:owner>/<string:reponame>/<int:issue_number>/<int:pull_request_number>', methods = ['GET'])
+def resolve(owner, repo, issue_number, pull_request_number):
+	print('resolve', repoowner, reponame, issue_number, pull_request_number)
+
 	url = f'https://api.github.com/repos/{owner}/{repo}/issues/{issue_number}/comments'
 
 	body = {'body': f'Dear contributors, a patch regarding this issue has been added in Pull Request #{pull_request_number}. Please check it out and feel free to comment on it. The issue is considered resolved and is being closed. If you have further enquiries, please open a new issue and link to this issue. Thank you!'}
