@@ -569,7 +569,8 @@ def confirm(owner, reponame, issue_number, assignee):
 		}
 	collection.insert(mylist)
 
-	return 'success'
+	return f'<strong>Task created sucessfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
+
 	
 
 @app.route('/reject/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
@@ -617,14 +618,14 @@ def reject(owner, reponame, issue_number):
 
 	res = urlopen(req)
 
-	return redirect(f'/repo/{owner}/{reponame}')
+	return f'<strong>Issue closed and marked as invalid sucessfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
 @app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
 def delay(owner, reponame, issue_number):
 	print('delay', owner, reponame, issue_number)
 
 	# DBIO
-	return 'success'
+	return f'<strong>Task marked as delayed!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
 @app.route('/resolve/<string:owner>/<string:reponame>/<int:issue_number>/<int:pull_request_number>', methods = ['GET'])
 def resolve(owner, reponame, issue_number, pull_request_number):
@@ -686,7 +687,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 	res = urlopen(req)
 
-	return f'<strong>Success!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View on GitHub</a>'
+	return f'<strong>Task resolved successfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
 
 '''

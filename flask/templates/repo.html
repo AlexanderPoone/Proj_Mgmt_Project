@@ -276,10 +276,14 @@
                         <tbody>
 				<script>
 				function confirm(issueNumber) {
-				 fetch(`/confirm/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
+				 fetch(`/confirm/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>res.text()).then(res=>{console.log(res);
+                    document.querySelector(`#block_${issueNumber}`).innerHTML = res;
+                 });
 				}
 				function reject(issueNumber) {
-				 fetch(`/reject/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>{});
+				 fetch(`/reject/{{repoowner}}/{{reponame}}/${issueNumber}`).then(res=>res.text()).then(res=>{console.log(res);
+                    document.querySelector(`#block_${issueNumber}`).innerHTML = res;
+                 });
 				}
 				function resolve(issueNumber) {
 				 let pull_request_id = document.querySelector('#relatedPullRequest').value;
@@ -290,7 +294,9 @@
 				}
 				function delay(issueNumber) {
 				 let reason= encodeURI(document.querySelector('#inpDelayReason').value);
-				 fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}?reason=${reason}`).then(res=>{});
+				 fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}?reason=${reason}`).then(res=>res.text()).then(res=>{console.log(res);
+                    document.querySelector(`#block_${issueNumber}`).innerHTML = res;
+                 });
 				}
 				</script>
 				{% for x in tasks %}
