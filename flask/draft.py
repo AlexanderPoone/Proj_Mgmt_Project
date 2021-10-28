@@ -686,7 +686,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 	res = urlopen(req)
 
-	return f'<strong>Success!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}">View on GitHub</a>'
+	return f'<strong>Success!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View on GitHub</a>'
 
 
 '''
