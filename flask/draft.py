@@ -298,7 +298,7 @@ def issuesView(owner, reponame):
 	# list all issues
 	###########################
 
-	url = f"https://api.github.com/repos/{owner}/{reponame}/issues?state=open&per_page=100"
+	url = f"https://api.github.com/repos/{owner}/{reponame}/issues?pulls=false&state=open&per_page=100"
 
 	req = Request(url)
 
@@ -323,8 +323,9 @@ def issuesView(owner, reponame):
 	#########################################################
 
 	for issue in issues:
-		print(issue['labels'])
+
 		issueIsNew = len(issue['labels']) == 0
+
 		if issueIsNew:
 			if issue["body"] is None or len(issue["body"].strip()) < 20:
 				url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
@@ -460,27 +461,6 @@ def issuesView(owner, reponame):
 
 					issue['assignee'] = assignee
 					issue['startDate'] = '2021-10-01'
-					########################################
-					# TODO: Find issue MAX issues['to']
-					'''
-					print('At last, update the database')
-
-					collection = db['issues']
-					max_date = list(collection.find({}).sort([('to', -1)]).limit(1))[0]
-					print(max_date)
-					print('Parse the date... If nothing, set from date to tomorrow.')
-
-					mylist = {
-						 'owner': owner,
-						 'reponame': reponame,
-						 'githubIssueID': issue['id'],
-						 'from': datetime.today(),												# TODO
-						 'to': datetime.today() + timedelta(days=7),							# TODO: Default to a week for now
-						 'assignee': assignee,													# assignee['collaborator'],
-						 'status': 'normal'
-						}
-					collection.insert(mylist)
-					'''
 
 					#######################################
 					url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
@@ -519,15 +499,45 @@ def issuesView(owner, reponame):
 						print(e.read())
 					print(res.read())
 		else:
-			print('join database here')
-			issue['startDate'] = '2021-10-02'
-			issue['endDate'] = '2021-10-09'
+			print('Already a task: join database here')
+			collection = db['issues']
+
+			existingTask = list(collection.find({'githubIssueID': issue['number']}))
+			if len(existingTask) > 0:
+				issue['startDate'] = existingTask[0]['startDate']
+				issue['endDate'] = existingTask[0]['endDate']
+			issue['startDate'] = '2021-10-01'
 						
+	#################################################
+	# Get all PRs
+	url = f'https://api.github.com/repos/{owner}/{reponame}/pulls?per_page=100'
+
+	req = Request(url)
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	try:
+		res = urlopen(req)
+		pullRequests = loads(res.read())
+
+		print(532, pullRequests)
+	except Exception as e:
+		print(str(e))
+
 
 	#print(526,[x['labels'] for x in issues])
 	return render_template('repo.html', 
 		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in x['labels']],
-		pullRequests=[],
+		pullRequests=pullRequests,
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
@@ -543,9 +553,9 @@ def assignTeam(owner, reponame, collaborator, role):
 	return redirect(f'/repo/{owner}/{reponame}')
 
 
-@app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>/<string:assignee>', methods = ['GET'])
-def confirm(owner, reponame, issue_number, assignee):
-	print('confirm', owner, reponame, issue_number, assignee)
+@app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>/<string:assignee>/<int:numdays>', methods = ['GET'])
+def confirm(owner, reponame, issue_number, assignee, numdays):
+	print('confirm', owner, reponame, issue_number, assignee, numdays)
 
 	collection = db['issues']
 	########################################
@@ -558,13 +568,16 @@ def confirm(owner, reponame, issue_number, assignee):
 	print(max_date)
 	print('Parse the date... If nothing, set from date to tomorrow.')
 
+	startdate = datetime.today() + 1
+	enddate = startdate + timedelta(days=numdays)
+
 	mylist = {
 		 'owner': owner,
 		 'reponame': reponame,
 		 'githubIssueID': issue_number,
-		 'from': datetime.today(),												# TODO
-		 'to': datetime.today() + timedelta(days=7),							# TODO: Default to a week for now
-		 'assignee': assignee,													# assignee['collaborator'],
+		 'from': startdate,												# TODO
+		 'to': enddate,													# TODO: Default to a week for now
+		 'assignee': assignee,											# assignee['collaborator'],
 		 'status': 'normal'
 		}
 	collection.insert(mylist)

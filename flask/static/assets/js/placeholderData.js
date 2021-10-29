@@ -91,6 +91,9 @@
 		};
 
 		var generateRandomWorkItems = function () {
+			let data = {{databaseTasks}};
+
+			/*
 			var data = [];
 			var laneCount = randomNumber(5,7)
 			  , totalWorkItems = randomNumber(20,30)
@@ -121,6 +124,7 @@
 					data.push(workItem);
 				}
 			}
+			*/
 			return data;
 		};
 
