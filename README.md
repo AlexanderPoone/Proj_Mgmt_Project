@@ -1,4 +1,4 @@
-# CS5351 Project - Scrum Visualisation & Issue Management
+# CS5351 Project - Issue Management & Visualisation
 **Group 2**
 
 # Objective

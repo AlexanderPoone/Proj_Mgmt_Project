@@ -2,9 +2,7 @@
 #
 # 	IMPORTANT: Replace ssl_context with your SSL Certificate for HTTPS !!!
 #
-#   Issue Management + Release Notes Generation
-#   (Automatic Bug Triage and Assignment by Topic Modelling)
-#   Draft only
+#   Issue Management & Visualisation
 #
 #	Author:			Alex Poon
 #	Date:		  	Sep 30, 2021
