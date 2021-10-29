@@ -1,12 +1,14 @@
 ##############################################
 #
+# 	IMPORTANT: Replace ssl_context with your SSL Certificate for HTTPS !!!
+#
 #   Issue Management + Release Notes Generation
 #   (Automatic Bug Triage and Assignment by Topic Modelling)
 #   Draft only
 #
-#	Author:		Alex Poon
-#	Date:		  Sep 30, 2021
-#	Last update:   Oct 19, 2021
+#	Author:			Alex Poon
+#	Date:		  	Sep 30, 2021
+#	Last update:  	Oct 29, 2021
 #
 ##############################################
 
@@ -17,8 +19,6 @@ from collections import Counter
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import guess_lexer, find_lexer_class_for_filename
-
-import pygraphviz
 
 from pymongo import MongoClient
 
@@ -58,6 +58,7 @@ nlp = spacy.load('basic_triage_small5')
 myclient = MongoClient("mongodb://localhost:27017/") 
 db = myclient["project"]
 
+# label name: (color HEX, description, bootstrap color scheme)
 lblScheme = {
 	'class:software': ('DC3545', 'software bug report (Action: Assign issue to developer team.)', 'danger'),
 	'class:performance': ('FFC107', 'performance issues (e.g. memory, I/O. Action: Assign it to tester team to feedback to dev team)', 'warning'),
@@ -67,6 +68,8 @@ lblScheme = {
 	'class:invalid': ('F8F9FA', 'invalid/spam (Action: the issue should be closed immediately)', 'light'),
 }
 
+
+# team id: (team description, bootstrap color schem)
 roleScheme = {
 	'developer': ('Developer Team', 'danger'),
 	'documentation': ('Documentation Team', 'success'),
@@ -74,7 +77,7 @@ roleScheme = {
 	'support': ('Support Team', 'primary')	
 }
 
-
+# Force connection to be HTTPS
 @app.before_request
 def before_request():
 	if request.url.startswith('http://'):
@@ -84,19 +87,15 @@ def before_request():
 
 		return redirect(url, code=code)
 
-'''
-https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
-'''
+
+# Redirect to login
 @app.route('/', methods = ['GET'])
 def index():
 	return redirect('login')
 
+# Log in
 @app.route('/login', methods = ['GET'])
 def login():
-	'''
-	ImmutableMultiDict([('error', 'access_denied'), ('error_description', 'The user has denied your application access.'), ('error_uri', 'https://docs.github.com/apps/managing-oauth-apps/troubleshooting-authorization-request-errors/#access-denied')])
-	ImmutableMultiDict([('code', 'c9427c0daabef591bec8')])
-	'''
 	print(request.method)
 	print(request.json)
 	print(request.args)
@@ -140,8 +139,8 @@ def login():
 		response.set_cookie('access_token', cookieContent['access_token'])
 		return response
 
+# Get auth'd user's name and avatar
 def getUserInfo():
-	# Get auth'd user's name and avatar
 	url = 'https://api.github.com/user'
 
 	req = Request(url)
@@ -161,6 +160,7 @@ def getUserInfo():
 
 	return resJson
 
+# Get contributors' names and avatars
 def getContributors(owner, reponame):
 	url = f'https://api.github.com/repos/{owner}/{reponame}/contributors'
 	print(url)
@@ -194,6 +194,7 @@ def getContributors(owner, reponame):
 
 	return resJson, contributorRoles
 
+# Main page
 @app.route('/dashboard', methods = ['GET'])
 def dashboard():
 	userInfo = getUserInfo()
@@ -232,7 +233,7 @@ def dashboard():
 		open_issues=open_issues, open_issue_repos=open_issue_repos, repolist=resJson2, wordcloud=wordcloud)
 
 
-
+# Unused
 @app.route('/repocode/<string:owner>/<string:reponame>', methods = ['GET'])
 def repoDetail(owner, reponame):
 	###########################
@@ -279,7 +280,7 @@ def repoDetail(owner, reponame):
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame, codeFileName=codeFileName,
 		parsed = parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
 
-
+# REPO MAIN PAGE
 @app.route('/repo/<string:owner>/<string:reponame>', methods = ['GET'])
 def issuesView(owner, reponame):
 	global nlp
@@ -544,6 +545,7 @@ def issuesView(owner, reponame):
 		contributors = contributors, contributorRoles = contributorRoles)
 
 
+# Assign a collaborator to a team
 @app.route('/assign_team/<string:owner>/<string:reponame>/<string:collaborator>/<string:role>', methods = ['GET'])
 def assignTeam(owner, reponame, collaborator, role):
 	collection = db['roles']
@@ -552,7 +554,7 @@ def assignTeam(owner, reponame, collaborator, role):
 
 	return redirect(f'/repo/{owner}/{reponame}')
 
-
+# Convert GitHub Issue to Task (Put into database)
 @app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>/<string:assignee>/<int:numdays>', methods = ['GET'])
 def confirm(owner, reponame, issue_number, assignee, numdays):
 	print('confirm', owner, reponame, issue_number, assignee, numdays)
@@ -584,8 +586,7 @@ def confirm(owner, reponame, issue_number, assignee, numdays):
 
 	return f'<strong>Task created sucessfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
-	
-
+# Dump the issue (for example: duplicates)
 @app.route('/reject/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
 def reject(owner, reponame, issue_number):
 	print('reject', owner, reponame, issue_number)
@@ -633,13 +634,7 @@ def reject(owner, reponame, issue_number):
 
 	return f'<strong>Issue closed and marked as invalid sucessfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
-@app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
-def delay(owner, reponame, issue_number):
-	print('delay', owner, reponame, issue_number)
-
-	# DBIO
-	return f'<strong>Task marked as delayed!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
-
+# Task finished
 @app.route('/resolve/<string:owner>/<string:reponame>/<int:issue_number>/<int:pull_request_number>', methods = ['GET'])
 def resolve(owner, reponame, issue_number, pull_request_number):
 	print('resolve', owner, reponame, issue_number, pull_request_number)
@@ -664,20 +659,14 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 	res = urlopen(req)
 	
-
-
-	# TODO: Mark issue as 'resolved' in MongoDB
-
-	'''
+	##############################################
+	# Mark issue as 'resolved' in MongoDB
 	collection = db['issues']
-	mylist = [ 
-		{'owner': owner, 'reponame': reponame, 'githubIssueID': issue_number, 'log': 'Delay reason'}
-	] 
-	collection.insert_many(mylist)
-	'''
+	
+	query = { "githubIssueID": issue_number }
+	newvalues = { "$set": { "status": "resolved" } }
 
-
-
+	collection.update_one(query, newvalues)
 
 	##############################################
 	# Close the issue
@@ -703,11 +692,30 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 	return f'<strong>Task resolved successfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
 
-'''
-Get source code: https://docs.github.com/en/rest/reference/git#get-a-tree
-'''
+# Task delayed
+@app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
+def delay(owner, reponame, issue_number):
+	print('delay', owner, reponame, issue_number)
+
+	# TODO TODO TODO TODO TODO
+
+	collection = db['issues']
+
+	query = { "githubIssueID": issue_number }
+	newvalues = { "$set": { "status": "delayed" } }
+
+	collection.update_one(query, newvalues)
+
+	# TODO TODO TODO TODO TODO
+
+	return f'<strong>Task marked as delayed!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
+
+
+# Generate UML Class Diagram (JUST FOR FUN)
 @app.route('/generateClassUml/<string:owner>/<string:reponame>', methods = ['GET'])
 def generateClassUml(owner, reponame):
+	import pygraphviz
+
 	userInfo = getUserInfo()
 	###########################
 	# Get collaborators usernames, names and avatars
@@ -941,9 +949,8 @@ def generateClassUml(owner, reponame):
 		graph = graphString, parsed=parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
 
 
-'''
-Remove Default Label System by GitHub
-'''
+
+# Remove Default Label System by GitHub
 def deleteLabelSystem(owner, reponame):
 	tok = request.cookies.get('access_token')
 	headers = {
@@ -971,6 +978,7 @@ def deleteLabelSystem(owner, reponame):
 		except Exception as e:
 			print(e)
 
+# Initialise Our Label System
 def initialiseLabelSystem(owner, reponame):
 	deleteLabelSystem(owner, reponame)
 
@@ -1091,7 +1099,7 @@ def topicModelling(doNlp=False):
 
 	return wordcloud.to_svg(embed_font=True)
 
-
+# Log out
 @app.route('/logout', methods = ['GET'])
 def logout():
 	#	Delete an app authorization
@@ -1125,4 +1133,5 @@ def logout():
 	return redirect('login')
 
 if __name__ == "__main__":
+	# Replace ssl_context with your SSL Certificate for HTTPS !!!!
 	app.run(host='0.0.0.0', port=5351, ssl_context=('_internal/cert.pem', '_internal/privkey.pem'))
