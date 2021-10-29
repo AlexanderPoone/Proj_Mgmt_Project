@@ -138,8 +138,8 @@ def login():
 		return response
 
 # Get auth'd user's name and avatar
-def getUserInfo():
-	url = 'https://api.github.com/user'
+def getUserInfo(username=None):
+	url = 'https://api.github.com/user' if username is None else f'https://api.github.com/users/{username}'
 
 	req = Request(url)
 
@@ -442,13 +442,14 @@ def issuesView(owner, reponame):
 
 					collectionTasks = db['tasks']
 					if len(teamMembers) == 0:
+						# If the team has 0 members (which should not happen actually)
 						print('This should not be shown!')
 
 						assignee = list(collection.find())[0]['collaborator']
 					else:
 						# Get the person w/ the least workload
 						countTasksByPerson = {}
-						
+
 						for x in teamMembers:
 							countTasksByPerson[x['collaborator']] = collectionTasks.count_documents({'assignee': x['collaborator']})
 						
@@ -470,7 +471,7 @@ def issuesView(owner, reponame):
 						print(e.read())
 					print(res.read())
 
-					issue['assignee'] = assignee
+					issue['assignee'] = getUserInfo(assignee)
 
 					#######################################
 					url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
@@ -509,7 +510,7 @@ def issuesView(owner, reponame):
 						print(e.read())
 					print(res.read())
 		else:
-			print('Already a task: join database here')
+			print('Already labelled: left join database here')
 			collection = db['tasks']
 
 			existingTask = list(collection.find({'githubIssueID': issue['number']}))
