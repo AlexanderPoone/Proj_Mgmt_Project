@@ -71,7 +71,7 @@ We are using the **Flask** framework, since many functions can be added by direc
 ![image](https://user-images.githubusercontent.com/9071916/137674320-6294ccd5-51dc-46df-b276-46dc15244f1c.png)
 
 ## Schema design
-We keep the following data:
+Everything GitHub supports is hosted by GitHub. Everything GitHub does not support is hosted by our small database. We keep the following data:
 
 Collection `roles`
 | owner | reponame | collaborator | role |
