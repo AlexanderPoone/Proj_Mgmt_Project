@@ -301,7 +301,7 @@
 				</script>
 				{% for x in tasks %}
 				<tr>
-				<td><a href="https://github.com/{{repoowner}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
+				<td><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
 				<td>{{x.title}}</td>
 				<td>{{x.body|safe}}</td>
 				<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
