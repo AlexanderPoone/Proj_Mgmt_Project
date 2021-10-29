@@ -323,6 +323,7 @@ def issuesView(owner, reponame):
 
 	for issue in issues:
 		if 'pull_request' in issue:
+			# Skip
 			continue
 
 		issueIsNew = len(issue['labels']) == 0
@@ -537,7 +538,7 @@ def issuesView(owner, reponame):
 
 	#print(526,[x['labels'] for x in issues])
 	return render_template('repo.html', 
-		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in x['labels']],
+		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in x['labels'] and 'pull_request' not in x],
 		pullRequests=pullRequests,
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
