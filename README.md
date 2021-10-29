@@ -78,7 +78,7 @@ Collection `roles`
 |-----|-----|-----|-----|
 | str | str | str | 'developer'\|'documentation'\|'support' |
 
-Collection `issues`
+Collection `tasks`
 | owner | reponame | githubIssueID | from | to | assignee | status |
 |-----|-----|-----|-----|-----|-----|-----|
 | str | str | int | date | date | str | 'normal'\|'delayed' |
