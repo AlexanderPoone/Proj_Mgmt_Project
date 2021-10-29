@@ -459,7 +459,7 @@ def issuesView(owner, reponame):
 					print(res.read())
 
 					issue['assignee'] = assignee
-					issue['startDate'] = '2021-10-01'
+					# issue['startDate'] = '2021-10-01'
 
 					#######################################
 					url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
