@@ -1,12 +1,12 @@
 ##############################################
 #
-# 	IMPORTANT: Replace ssl_context with your SSL Certificate for HTTPS !!!
+#   IMPORTANT: Scroll to the bottom of the code file. Replace the line with app.run(host='0.0.0.0', port=5351) if you don't have a SSH Certificate !!!
 #
 #   Issue Management & Visualisation
 #
-#	Author:			Alex Poon
-#	Date:		  	Sep 30, 2021
-#	Last update:  	Oct 29, 2021
+#   Author:         Alex Poon
+#   Create Date:    Sep 30, 2021
+#   Last update:    Oct 29, 2021
 #
 ##############################################
 
@@ -1131,5 +1131,5 @@ def logout():
 	return redirect('login')
 
 if __name__ == "__main__":
-	# Replace ssl_context with your SSL Certificate for HTTPS !!!!
+	# Replace below with app.run(host='0.0.0.0', port=5351) if you don't have a SSH Certificate !!!
 	app.run(host='0.0.0.0', port=5351, ssl_context=('_internal/cert.pem', '_internal/privkey.pem'))
