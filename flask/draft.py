@@ -322,6 +322,8 @@ def issuesView(owner, reponame):
 	#########################################################
 
 	for issue in issues:
+		if 'pull_request' in issue:
+			continue
 
 		issueIsNew = len(issue['labels']) == 0
 
