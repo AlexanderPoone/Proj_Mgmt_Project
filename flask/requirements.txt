@@ -3,4 +3,6 @@ flask-cors
 numpy
 spacy
 gensim
+pygments
+pymongo
 wordcloud
