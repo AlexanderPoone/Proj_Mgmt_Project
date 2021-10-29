@@ -438,12 +438,21 @@ def issuesView(owner, reponame):
 
 					collection = db['roles']
 
-					teamMembers = [x for x in collection.find({'role': maxCat.replace('software','developer').replace('performance','tester').replace('class:', '')})]
+					teamMembers = list(collection.find({'role': maxCat.replace('software','developer').replace('performance','tester').replace('class:', '')}))
 
+					collectionTasks = db['tasks']
 					if len(teamMembers) == 0:
-						assignee = 'DerWahrheitssucher'
+						print('This should not be shown!')
+
+						assignee = list(collection.find())[0]['collaborator']
 					else:
-						assignee = choice(teamMembers)['collaborator']
+						# Get the person w/ the least workload
+						countTasksByPerson = {}
+						
+						for x in teamMembers:
+							countTasksByPerson[x['collaborator']] = collectionTasks.count_documents({'assignee': x['collaborator']})
+						
+						assignee = min(countTasksByPerson, key=countTasksByPerson.get)
 
 					url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/assignees"
 
@@ -462,7 +471,6 @@ def issuesView(owner, reponame):
 					print(res.read())
 
 					issue['assignee'] = assignee
-					# issue['startDate'] = '2021-10-01'
 
 					#######################################
 					url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue["number"]}/comments'
@@ -502,7 +510,7 @@ def issuesView(owner, reponame):
 					print(res.read())
 		else:
 			print('Already a task: join database here')
-			collection = db['issues']
+			collection = db['tasks']
 
 			existingTask = list(collection.find({'githubIssueID': issue['number']}))
 			if len(existingTask) > 0:
@@ -530,13 +538,11 @@ def issuesView(owner, reponame):
 	try:
 		res = urlopen(req)
 		pullRequests = loads(res.read())
-
-		print(532, pullRequests)
 	except Exception as e:
 		print(str(e))
-
-
-	#print(526,[x['labels'] for x in issues])
+			
+	#################################################
+	# Render
 	return render_template('repo.html', 
 		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in x['labels'] and 'pull_request' not in x],
 		pullRequests=pullRequests,
@@ -560,13 +566,13 @@ def assignTeam(owner, reponame, collaborator, role):
 def confirm(owner, reponame, issue_number, assignee, numdays):
 	print('confirm', owner, reponame, issue_number, assignee, numdays)
 
-	collection = db['issues']
+	collection = db['tasks']
 	########################################
 	# TODO: Find issue MAX issues['to']
 	
 	print('Confirmed -> update the database')
 
-	collection = db['issues']
+	collection = db['tasks']
 	max_date = list(collection.find({}).sort([('to', -1)]).limit(1))[0]
 	print(max_date)
 	print('Parse the date... If nothing, set from date to tomorrow.')
@@ -662,7 +668,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 	
 	##############################################
 	# Mark issue as 'resolved' in MongoDB
-	collection = db['issues']
+	collection = db['tasks']
 	
 	query = { "githubIssueID": issue_number }
 	newvalues = { "$set": { "status": "resolved" } }
@@ -700,7 +706,7 @@ def delay(owner, reponame, issue_number):
 
 	# TODO TODO TODO TODO TODO
 
-	collection = db['issues']
+	collection = db['tasks']
 
 	query = { "githubIssueID": issue_number }
 	newvalues = { "$set": { "status": "delayed" } }
