@@ -301,11 +301,11 @@
 				</script>
 				{% for x in tasks %}
 				<tr>
-				<td><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
-				<td>{{x.title}}</td>
+				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
+				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{{x.title}}</td>
 				<td>{{x.body|safe}}</td>
-				<td class="d-none d-xl-table-cell">{{x.startdate}}</td>
-				<td class="d-none d-xl-table-cell">{{x.enddate}}</td>
+				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell">{% if x.startdate is defined %}{{x.startdate.strftime('%Y-%m-%d')}}{% endif %}</td>
+				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell">{% if x.enddate is defined %}{{x.enddate.strftime('%Y-%m-%d')}}{% endif %}</td>
 				<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
 								class="avatar img-fluid rounded mr-1" {% if x.startdate is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
 				<td>
