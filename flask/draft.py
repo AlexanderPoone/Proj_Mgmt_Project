@@ -533,6 +533,7 @@ def issuesView(owner, reponame):
 			if len(existingTask) > 0:
 				issue['startdate'] = existingTask[0]['startdate']
 				issue['enddate'] = existingTask[0]['enddate']
+				issue['status'] =  existingTask[0]['status']
 
 				databaseTasks.append({
 					'id': issue['number'],
@@ -733,14 +734,21 @@ def delay(owner, reponame, issue_number, delaydays):
 
 	query = { "githubIssueID": issue_number }
 
-	enddate = list(collection.find(query))[0]['enddate']
+	findres = list(collection.find(query))[0]
 
-	newvalues = { "$set": { "status": "delayed", "enddate": enddate + timedelta(delaydays), "originalenddate": enddate } }
+	enddate = findres['enddate']
+	newdate = enddate + timedelta(delaydays)
+
+	if 'originalenddate' in findres:
+		newvalues = { "$set": { "status": "delayed", "enddate": newdate, "originalenddate": enddate } }
+	else:
+		newvalues = { "$set": { "status": "delayed", "enddate": newdate } }
+
 	collection.update_one(query, newvalues)
 
 	# TODO TODO TODO TODO TODO
 
-	return f'<strong>Task marked as delayed!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
+	return jsonify([f'<strong>Task marked as delayed!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>', f'{newdate.strftime("%Y-%m-%d")} <span style="color: red;">(DELAYED)</span>'])
 
 
 # Generate UML Class Diagram (JUST FOR FUN)
