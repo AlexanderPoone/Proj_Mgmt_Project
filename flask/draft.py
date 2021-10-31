@@ -530,9 +530,9 @@ def issuesView(owner, reponame):
 
 			existingTask = list(collection.find({'githubIssueID': issue['number']}))
 			if len(existingTask) > 0:
-				issue['startDate'] = existingTask[0]['startDate']
-				issue['endDate'] = existingTask[0]['endDate']
-			#issue['startDate'] = '2021-10-01'
+				issue['startdate'] = existingTask[0]['startdate']
+				issue['enddate'] = existingTask[0]['enddate']
+			#issue['startdate'] = '2021-10-01'
 						
 	#################################################
 	# Get all PRs

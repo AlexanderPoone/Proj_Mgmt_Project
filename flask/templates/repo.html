@@ -304,12 +304,12 @@
 				<td><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
 				<td>{{x.title}}</td>
 				<td>{{x.body|safe}}</td>
-				<td class="d-none d-xl-table-cell">{{x.startDate}}</td>
-				<td class="d-none d-xl-table-cell">{{x.endDate}}</td>
+				<td class="d-none d-xl-table-cell">{{x.startdate}}</td>
+				<td class="d-none d-xl-table-cell">{{x.enddate}}</td>
 				<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
-								class="avatar img-fluid rounded mr-1" {% if x.startDate is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
+								class="avatar img-fluid rounded mr-1" {% if x.startdate is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
 				<td>
-				{% if x.startDate is not defined %}
+				{% if x.startdate is not defined %}
                 <span id="block_{{x.number}}" style="display: flex;">
                 <span style="width: 50%;">
                 <label for="numdays_{{x.number}}" class="col-form-label">Num of days allocated:</label><input id="numdays_{{x.number}}" class="form-control" type="number" value="7"><br>
