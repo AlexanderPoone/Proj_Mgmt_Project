@@ -278,6 +278,21 @@ def repoDetail(owner, reponame):
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame, codeFileName=codeFileName,
 		parsed = parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
 
+def generateBurnDownChart():
+	#Local database
+
+	collection = db['issues']
+	totalTasks = collection.count_documents({})
+	#total = sum([(x['enddate'] - x['startdate']).days + 1 for x in rows])
+
+	'''
+	
+	group by end date, count tasks
+
+	collection.count_documents({'enddate': { ''}})
+	
+	'''
+
 # REPO MAIN PAGE
 @app.route('/repo/<string:owner>/<string:reponame>', methods = ['GET'])
 def issuesView(owner, reponame):
@@ -550,8 +565,7 @@ def issuesView(owner, reponame):
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
-		contributors = contributors, contributorRoles = contributorRoles)
-
+		contributors = contributors, contributorRoles = contributorRoles, databaseTasks=[])
 
 # Assign a collaborator to a team
 @app.route('/assign_team/<string:owner>/<string:reponame>/<string:collaborator>/<string:role>', methods = ['GET'])
@@ -585,9 +599,9 @@ def confirm(owner, reponame, issue_number, assignee, numdays):
 		 'owner': owner,
 		 'reponame': reponame,
 		 'githubIssueID': issue_number,
-		 'from': startdate,												# TODO
-		 'to': enddate,													# TODO: Default to a week for now
-		 'assignee': assignee,											# assignee['collaborator'],
+		 'from': startdate,												
+		 'to': enddate,
+		 'assignee': assignee,
 		 'status': 'normal'
 		}
 	collection.insert(mylist)
@@ -642,7 +656,7 @@ def reject(owner, reponame, issue_number):
 
 	return f'<strong>Issue closed and marked as invalid sucessfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
-# Task finished
+# Task finished: Select pull req. Feedback to user. Close issue.
 @app.route('/resolve/<string:owner>/<string:reponame>/<int:issue_number>/<int:pull_request_number>', methods = ['GET'])
 def resolve(owner, reponame, issue_number, pull_request_number):
 	print('resolve', owner, reponame, issue_number, pull_request_number)
@@ -700,7 +714,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 	return f'<strong>Task resolved successfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
 
-# Task delayed
+# Task delayed: create backlog, reassign time frame
 @app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
 def delay(owner, reponame, issue_number):
 	print('delay', owner, reponame, issue_number)
