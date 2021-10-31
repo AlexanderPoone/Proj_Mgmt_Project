@@ -79,7 +79,7 @@ Collection `roles`
 | str | str | str | 'developer'\|'documentation'\|'support' |
 
 Collection `tasks`
-| owner | reponame | githubIssueID | startdate | enddate | originaldate | assignee | status |
+| owner | reponame | githubIssueID | startdate | enddate | originalenddate | assignee | status |
 |-----|-----|-----|-----|-----|-----|-----|-----|
 | str | str | int | date | date | date (optional) | str | 'normal'\|'delayed' |
 
