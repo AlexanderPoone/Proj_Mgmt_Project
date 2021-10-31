@@ -522,28 +522,33 @@
 
             var temp = ['SoftFeta','DerWahrheitssucher','BerndRoseau','SergeiGainsboro','aurum1337','Eixample'];
 
-            for (var i = 0; i < laneCount; i++) {
-                var dt = new Date(2012, startMonth, startDay);
-                for (var j = 0; j < totalWorkItems; j++) {
+            // for (var i = 0; i < laneCount; i++) {
+            //     var dt = new Date(2012, startMonth, startDay);
+            //     for (var j = 0; j < totalWorkItems; j++) {
                     
-                    var dtS = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + randomNumber(1,5), randomNumber(8, 16), 0, 0);
+            //         var dtS = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + randomNumber(1,5), randomNumber(8, 16), 0, 0);
 
-                    var dateOffset =  randomNumber(0,7);
-                    var dt = new Date(dtS.getFullYear(), dtS.getMonth(), dtS.getDate() + dateOffset, randomNumber(dateOffset === 0 ? dtS.getHours() + 2 : 8, 18), 0, 0);
+            //         var dateOffset =  randomNumber(0,7);
+            //         var dt = new Date(dtS.getFullYear(), dtS.getMonth(), dtS.getDate() + dateOffset, randomNumber(dateOffset === 0 ? dtS.getHours() + 2 : 8, 18), 0, 0);
 
-                    var workItem = {
-                        id: i * totalWorkItems + j,
-                        name: 'Task #' + j,
-                        lane: temp[i],
-                        start: dtS,
-                        end: dt,
-                        desc: 'This is a description.'
-                    };
+            //         var workItem = {
+            //             id: i * totalWorkItems + j,
+            //             name: 'Task #' + j,
+            //             lane: temp[i],
+            //             start: dtS,
+            //             end: dt,
+            //             desc: 'This is a description.'
+            //         };
 
-                    data.push(workItem);
-                }
-            }
-
+            //         data.push(workItem);
+            //     }
+            // }
+            //     console.log(data);
+                    data = {{databaseTasks|safe}};
+                    for (let x of data) {
+                        x.start = new Date(x.start);
+                        x.end = new Date(x.end);
+                    }
                     return data;
                 };
 

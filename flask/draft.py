@@ -335,6 +335,7 @@ def issuesView(owner, reponame):
 	issues = loads(res.read())
 
 	#########################################################
+	databaseTasks = []
 
 	for issue in issues:
 		if 'pull_request' in issue:
@@ -532,6 +533,15 @@ def issuesView(owner, reponame):
 			if len(existingTask) > 0:
 				issue['startdate'] = existingTask[0]['startdate']
 				issue['enddate'] = existingTask[0]['enddate']
+
+				databaseTasks.append({
+					'id': issue['number'],
+					'name': f'Task #{issue["number"]}',
+					'lane': issue['assignee']['login'],
+					'start': issue['startdate'].strftime('%Y-%m-%d'),	# JavaScript Date object
+					'end': issue['enddate'].strftime('%Y-%m-%d'),	# JavaScript Date object
+					'desc': issue['body']
+				})
 			#issue['startdate'] = '2021-10-01'
 						
 	#################################################
@@ -565,16 +575,7 @@ def issuesView(owner, reponame):
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
-		contributors = contributors, contributorRoles = contributorRoles, databaseTasks=[
-					{
-						'id': 1,
-						'name': 'Task #1',
-						'lane': 1,
-						'start': '2021-10-01',	# JavaScript Date object
-						'end': '2021-10-01',	# JavaScript Date object
-						'desc': 'This is a description.'
-					}
-		])
+		contributors = contributors, contributorRoles = contributorRoles, databaseTasks=databaseTasks)
 
 # Assign a collaborator to a team
 @app.route('/assign_team/<string:owner>/<string:reponame>/<string:collaborator>/<string:role>', methods = ['GET'])
