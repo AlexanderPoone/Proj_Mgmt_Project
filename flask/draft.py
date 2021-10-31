@@ -532,7 +532,7 @@ def issuesView(owner, reponame):
 			if len(existingTask) > 0:
 				issue['startDate'] = existingTask[0]['startDate']
 				issue['endDate'] = existingTask[0]['endDate']
-			issue['startDate'] = '2021-10-01'
+			#issue['startDate'] = '2021-10-01'
 						
 	#################################################
 	# Get all PRs
@@ -565,7 +565,16 @@ def issuesView(owner, reponame):
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
-		contributors = contributors, contributorRoles = contributorRoles, databaseTasks=[])
+		contributors = contributors, contributorRoles = contributorRoles, databaseTasks=[
+					{
+						'id': 1,
+						'name': 'Task #1',
+						'lane': 1,
+						'start': '2021-10-01',	# JavaScript Date object
+						'end': '2021-10-01',	# JavaScript Date object
+						'desc': 'This is a description.'
+					}
+		])
 
 # Assign a collaborator to a team
 @app.route('/assign_team/<string:owner>/<string:reponame>/<string:collaborator>/<string:role>', methods = ['GET'])
@@ -582,20 +591,16 @@ def confirm(owner, reponame, issue_number, assignee, numdays):
 	print('confirm', owner, reponame, issue_number, assignee, numdays)
 
 	collection = db['tasks']
-	########################################
-	# TODO: Find issue MAX issues['to']
-	
+	########################################	
 	print('Confirmed -> update the database')
+	# max_date = list(collection.find({}).sort([('to', -1)]).limit(1))[0]
+	# print(max_date)
+	# print('Parse the date... If nothing, set from date to tomorrow.')
 
-	collection = db['tasks']
-	max_date = list(collection.find({}).sort([('to', -1)]).limit(1))[0]
-	print(max_date)
-	print('Parse the date... If nothing, set from date to tomorrow.')
-
-	startdate = datetime.today() + 1
+	startdate = datetime.today()
 	enddate = startdate + timedelta(days=numdays)
 
-	mylist = {
+	newtask = {
 		 'owner': owner,
 		 'reponame': reponame,
 		 'githubIssueID': issue_number,
@@ -604,7 +609,9 @@ def confirm(owner, reponame, issue_number, assignee, numdays):
 		 'assignee': assignee,
 		 'status': 'normal'
 		}
-	collection.insert(mylist)
+
+	print(newtask)
+	collection.insert(newtask)
 
 	return f'<strong>Task created sucessfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
 
