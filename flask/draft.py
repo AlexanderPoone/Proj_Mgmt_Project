@@ -723,17 +723,19 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 
 # Task delayed: create backlog, reassign time frame
-@app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
-def delay(owner, reponame, issue_number):
-	print('delay', owner, reponame, issue_number)
+@app.route('/delay/<string:owner>/<string:reponame>/<int:issue_number>/<int:delaydays>', methods = ['GET'])
+def delay(owner, reponame, issue_number, delaydays):
+	print('delay', owner, reponame, issue_number, delaydays)
 
 	# TODO TODO TODO TODO TODO
 
 	collection = db['tasks']
 
 	query = { "githubIssueID": issue_number }
-	newvalues = { "$set": { "status": "delayed" } }
 
+	enddate = list(collection.find(query))[0]['enddate']
+
+	newvalues = { "$set": { "status": "delayed", "enddate": enddate + timedelta(delaydays), "originalenddate": enddate } }
 	collection.update_one(query, newvalues)
 
 	# TODO TODO TODO TODO TODO

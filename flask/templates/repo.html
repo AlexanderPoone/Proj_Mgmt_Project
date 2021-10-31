@@ -307,8 +307,9 @@
                  // fetch(`/resolve/{{repoowner}}/{{reponame}}/${issueNumber}?pull_request_id=${pull_request_id}`).then(res=>{});
 				}
 				function delay(issueNumber) {
+                 let delaydays = Number(document.querySelector(`#delaydays_${issueNumber}`).value);
 				 let reason= encodeURI(document.querySelector('#inpDelayReason').value);
-				 fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}?reason=${reason}`).then(res=>res.text()).then(res=>{console.log(res);
+				 fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}/${delaydays}?reason=${reason}`).then(res=>res.text()).then(res=>{console.log(res);
                     document.querySelector(`#block_${issueNumber}`).innerHTML = res;
                  });
 				}
@@ -331,8 +332,8 @@
 				</span>
                 {% else %}
                 <span id="block_{{x.number}}" style="display: flex;">
-				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">Pick a pull request</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><button type="button" onclick="resolve({{x.number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
-				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><span style="display: inline-flex;"><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"></span><br><br><button type="button" onclick="delay({{x.number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span></span>
+				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">Pick a pull request</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><br><br><br><br><button type="button" onclick="resolve({{x.number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
+				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><label for="delaydays_{{x.number}}" class="col-form-label">Num of additional days:</label><input id="delaydays_{{x.number}}" class="form-control" type="number" value="3"><br><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"><br><br><button type="button" onclick="delay({{x.number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span></span>
 				{% endif %}
 				</td>
 				</tr>
