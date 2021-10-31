@@ -281,7 +281,7 @@ def repoDetail(owner, reponame):
 def generateBurnDownChart():
 	#Local database
 
-	collection = db['issues']
+	collection = db['tasks']
 	totalTasks = collection.count_documents({})
 	#total = sum([(x['enddate'] - x['startdate']).days + 1 for x in rows])
 
@@ -604,8 +604,8 @@ def confirm(owner, reponame, issue_number, assignee, numdays):
 		 'owner': owner,
 		 'reponame': reponame,
 		 'githubIssueID': issue_number,
-		 'from': startdate,												
-		 'to': enddate,
+		 'startdate': startdate,												
+		 'enddate': enddate,
 		 'assignee': assignee,
 		 'status': 'normal'
 		}
