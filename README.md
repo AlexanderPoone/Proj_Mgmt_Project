@@ -79,9 +79,9 @@ Collection `roles`
 | str | str | str | 'developer'\|'documentation'\|'support' |
 
 Collection `tasks`
-| owner | reponame | githubIssueID | from | to | assignee | status |
-|-----|-----|-----|-----|-----|-----|-----|
-| str | str | int | date | date | str | 'normal'\|'delayed' |
+| owner | reponame | githubIssueID | startdate | enddate | originaldate | assignee | status |
+|-----|-----|-----|-----|-----|-----|-----|-----|
+| str | str | int | date | date | date (optional) | str | 'normal'\|'delayed' |
 
 Collection `backlogs`
 | owner | reponame | githubIssueID | log |
