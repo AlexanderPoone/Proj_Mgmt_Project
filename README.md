@@ -81,7 +81,7 @@ Collection `roles`
 Collection `tasks`
 | owner | reponame | githubIssueID | startdate | enddate | originalenddate | assignee | status |
 |-----|-----|-----|-----|-----|-----|-----|-----|
-| str | str | int | date | date | date (optional) | str | 'normal'\|'delayed' |
+| str | str | int | date | date | date (absent if `'status' == 'normal'`) | str | 'normal'\|'resolved'\|'delayed' |
 
 Collection `backlogs`
 | owner | reponame | githubIssueID | log |
