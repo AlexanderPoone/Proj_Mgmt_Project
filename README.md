@@ -76,12 +76,12 @@ Everything GitHub supports is hosted by GitHub. Everything GitHub does not suppo
 Collection `roles`
 | owner | reponame | collaborator | role |
 |-----|-----|-----|-----|
-| str | str | str | 'developer'\|'documentation'\|'support' |
+| str | str | str | 'developer'\|'documentation'\|'tester'\|'support' |
 
 Collection `tasks`
 | owner | reponame | githubIssueID | startdate | enddate | originalenddate | assignee | status |
 |-----|-----|-----|-----|-----|-----|-----|-----|
-| str | str | int | date | date | date (optional) | str | 'normal'\|'delayed' |
+| str | str | int | date | date | date (absent if `'status' == 'normal'`) | str | 'normal'\|'resolved'\|'delayed' |
 
 Collection `backlogs`
 | owner | reponame | githubIssueID | log |
