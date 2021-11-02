@@ -282,7 +282,48 @@ def generateBurnDownChart():
 	#Local database   https://stackoverflow.com/questions/22031853/pymongo-group-by-datetime
 
 	collection = db['tasks']
-	totalTasks = collection.count_documents({})
+	totalTasks =  collection.aggregate([
+        {"$group": {
+             "_id":  { "$concat": [
+            {"$substr": [{"$year": "$enddate"}, 0, 4 ]},
+            "-",
+            {"$substr": [{"$month": "$enddate"}, 0, 2 ]},
+            "-",
+            {"$substr": [{"$dayOfMonth": "$enddate"}, 0, 2 ]},
+	        ]},
+             "count": {"$sum": 1}
+        }}
+       ])
+
+	burntTasks = collection.aggregate([
+		{"$match": {"status": "resolved"}},
+        {"$group": {
+             "_id":  { "$concat": [
+            {"$substr": [{"$year": "$enddate"}, 0, 4 ]},
+            "-",
+            {"$substr": [{"$month": "$enddate"}, 0, 2 ]},
+            "-",
+            {"$substr": [{"$dayOfMonth": "$enddate"}, 0, 2 ]},
+	        ]},
+             "count": {"$sum": 1}
+        }}
+       ])
+
+	addedTasks = collection.aggregate([
+        {"$group": {
+             "_id":  { "$concat": [
+            {"$substr": [{"$year": "$startdate"}, 0, 4 ]},
+            "-",
+            {"$substr": [{"$month": "$startdate"}, 0, 2 ]},
+            "-",
+            {"$substr": [{"$dayOfMonth": "$startdate"}, 0, 2 ]},
+	        ]},
+             "count": {"$sum": 1}
+        }}
+       ])
+	print([x for x in totalTasks])
+	print([x for x in burntTasks])
+	print([x for x in addedTasks])
 
 	#group by 'enddate'
 
