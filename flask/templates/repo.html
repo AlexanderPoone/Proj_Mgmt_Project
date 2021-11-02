@@ -222,7 +222,7 @@
 <!--                     </div>
                 </div>
             </div> -->
-            <div class="col-xl-3 col-xxl-3">
+            <div class="col-xl-6 col-xxl-6">
                 <div class="card flex-fill w-100">
                     <div class="card-header">
 
@@ -253,7 +253,7 @@
                 </div>
             </div> -->
 
-            <div class="col-xl-9 col-xxl-9">
+            <div class="col-xl-6 col-xxl-6">
                 <div class="card flex-fill w-100">
                     <div class="card-header">
 
@@ -1006,6 +1006,354 @@
         return result;
     }
 });
+</script>
+<script>
+    const config = {
+  container: '#burnDownDiv',
+  colors: {
+    target: '#F9779C',
+    points: '#90C7CC',
+    good: '#82B0A0',
+    bad: '#DC788F',
+    labels: '#113F59',
+  },
+  height: 500,
+  width: 800,
+  margins: {
+    top: 20,
+    right: 60,
+    bottom: 30,
+    left: 50,
+  },
+  startLabel: 'Start',
+  endLabel: '',
+  dateFormat: '%A',
+  shortDateFormat: '%d/%m',
+  xTitle: 'Scrum',
+  dotRadius: 4,
+  targetStrokeWidth: 2,
+  pointsStrokeWidth: 2,
+  goodSuffix: ' ❤️',
+  badSuffix: ' 👎',
+};
+
+function render(data) {
+  const [, last] = [data[0], data[data.length - 1]];
+  const initialNumberOfPoints = last.target;
+  const maxDone = d3.max(data, d => d.points || 0);
+  const chart = d3.select(config.container);
+
+  chart.select('*')
+    .remove();
+
+  const x = d3.scale.linear()
+    .domain([0, data.length])
+    .range([0, config.width]);
+
+  const y = d3.scale.linear()
+    .domain([Math.min(0, initialNumberOfPoints - maxDone), initialNumberOfPoints])
+    .range([config.height, 0]);
+
+  const targetLine = d3.svg.line()
+    .x((d, i) => x(i))
+    .y(d => y(initialNumberOfPoints - d.target));
+
+  const actualLine = d3.svg.line()
+    .x((d, i) => x(i))
+    .y(d => y(initialNumberOfPoints - d.points));
+
+  const xAxis = d3.svg.axis()
+  .scale(x)
+    .orient('bottom')
+    .ticks(data.length);
+
+  const yAxis = d3.svg.axis()
+        .scale(y)
+      .orient('left');
+    // .tickPadding(10)
+    // .tickSizeOuter(0)
+    // .tickFormat(d => d)
+    // .innerTickSize(-config.width);
+
+  const svg = chart.append('svg')
+    .attr('class', 'chart')
+    .attr('width', config.width + config.margins.left + config.margins.right)
+    .attr('height', config.height + config.margins.top + config.margins.bottom)
+    .append('g')
+    .attr('transform', `translate(${config.margins.left}, ${config.margins.top})`)
+    .attr('font-size', 'small');
+
+  // define the shape of an arrowhead
+  svg.append('defs')
+    .append('marker')
+    .attr('id', 'arrowhead')
+    .attr('markerWidth', '12')
+    .attr('markerHeight', '12')
+    .attr('viewBox', '-6 -6 12 12')
+    .attr('refX', '-2')
+    .attr('refY', '0')
+    .attr('markerUnits', 'strokeWidth')
+    .attr('orient', 'auto')
+    .append('polygon')
+    .attr('points', '-2,0 -5,5 5,0 -5,-5')
+    .attr('fill', config.colors.target)
+    .attr('stroke', '#666')
+    .attr('stroke-width', '1px');
+
+  const addArrowHead = (selection) => {
+    selection.selectAll('line')
+    // eslint-disable-next-line
+      .attr('marker-end', (d, i) => {
+        if (i === 0) { return 'url(#arrowhead)'; }
+      });
+  };
+
+  // eslint-disable-next-line
+  const drawLabels = (selection, axis, data, format, filter) => {
+    // eslint-disable-next-line
+    axis = axis.tickFormat((d, i) => {
+      if (!data[i]) { return null; }
+
+      if (config.startLabel && i === 0) {
+        return config.startLabel;
+      }
+      if (config.endLabel && i === data.length - 1) {
+        return config.endLabel;
+      }
+      if (!filter(d, i)) { return null; }
+
+      const dateFormat = d3.time.format(format);
+      return dateFormat(data[i].date);
+    });
+
+    axis(selection);
+  };
+
+  // eslint-disable-next-line
+  const adjustDaysLabels = (axis, selection) => {
+    // eslint-disable-next-line
+    const isLabelOverlaping = (selection, tickNumber, config) => {
+      const availableWidth = config.width / tickNumber;
+
+      const text = selection.selectAll('text');
+      let maxWidth = 0;
+
+      text.each(function setMaxWidth() {
+        const width = d3.select(this).node().getBBox().width;
+
+        if (width > maxWidth) {
+          maxWidth = width;
+        }
+      });
+
+      return maxWidth >= availableWidth;
+    };
+
+    if (isLabelOverlaping(selection, data.length, config)) {
+      drawLabels(selection, axis, data, config.shortDateFormat, () => true);
+    }
+
+    if (isLabelOverlaping(selection, data.length, config)) {
+      drawLabels(selection, axis, data, config.shortDateFormat, (d, i) => i % 2 !== 0);
+    }
+
+    selection.selectAll('text')
+      .attr('fill', config.colors.labels)
+      .attr('transform', 'translate(0, 6)');
+
+    if (isLabelOverlaping(selection, data.length / 2, config)) {
+      selection.selectAll('text')
+      .attr('transform', 'translate(-5, 6) rotate(-30)');
+    }
+  };
+
+  // display the x-axis
+  const selection = svg.append('g')
+    .attr('class', 'x axis')
+    .attr('transform', `translate(0, ${config.height})`);
+
+  drawLabels(selection, xAxis, data, config.dateFormat, () => true);
+
+  adjustDaysLabels(xAxis, selection);
+
+  selection
+    .append('text')
+    .attr('class', 'daily')
+    .attr('fill', config.colors.labels)
+    .attr('font-weight', 'bold')
+    .attr('transform', `translate(${config.width}, 25)`)
+    .attr('x', 20)
+    .style('text-anchor', 'end')
+    .text(config.xTitle);
+
+  // display the y-axis
+  svg.append('g')
+    .attr('class', 'y axis')
+    .call(yAxis)
+    .call(addArrowHead);
+
+  svg.selectAll('.axis path, .axis line')
+    .attr('fill', 'none')
+    .attr('stroke', 'rgba(0, 1, 0, 0.2)')
+    .attr('color', 'rgba(0, 1, 0, 0.5)')
+    .attr('shape-rendering', 'crispEdges');
+
+  // display the target line
+  svg.append('path')
+    .attr('class', 'target')
+    .attr('d', targetLine(data))
+    .attr('stroke', config.colors.target)
+    .attr('stroke-width', config.targetStrokeWidth)
+    .attr('stroke-dasharray', '10 5')
+    .attr('fill', 'none');
+
+  // display the actual line
+  svg.append('path')
+    .attr('class', 'points-line')
+    .attr('d', actualLine(data.filter(d => (
+      !(d.points === null || d.points === undefined)
+    ))))
+    .attr('stroke', config.colors.points)
+    .attr('stroke-width', config.pointsStrokeWidth)
+    .attr('fill', 'none');
+
+  // display target dots
+  svg.selectAll('circle .target-point')
+    .data(data)
+    .enter()
+    .append('circle')
+    .attr('class', 'target-point')
+    .attr('cx', (d, i) => x(i))
+    .attr('cy', d => y(initialNumberOfPoints - d.target))
+    .attr('r', config.dotRadius)
+    .attr('fill', config.colors.target);
+
+  // display points dots
+  svg.selectAll('circle .points-point')
+    .data(data.filter(d => !(d.points === null || d.points === undefined)))
+    .enter()
+    .append('circle')
+    .attr('class', 'points-point')
+    .attr('cx', (d, i) => x(i))
+    .attr('cy', d => y(initialNumberOfPoints - d.points))
+    .attr('r', config.dotRadius)
+    .attr('fill', config.colors.points);
+
+  // display difference
+  svg.selectAll('text .points-values')
+    .data(data)
+    .enter()
+    .append('text')
+    .attr('font-size', '16px')
+    .attr('class', (d, i) => {
+      if (d.points === null || d.points === undefined || i === 0) {
+        return null;
+      }
+
+      return (d.points - d.target >= 0) ? 'good points-values' : 'bad points-values';
+    })
+    .attr('x', (d, i) => x(i))
+    .attr('y', d => -10 + y(initialNumberOfPoints - Math.min(d.target, d.points)))
+    .attr('fill', (d, i) => {
+      if (d.points === null || d.points === undefined || i === 0) {
+        return null;
+      }
+      const diff = d.points - d.target;
+
+      return (diff >= 0) ? config.colors.good : config.colors.bad;
+    })
+    .attr('text-anchor', 'start')
+    .text((d, i) => {
+      if (d.points === null || d.points === undefined || i === 0) {
+        return null;
+      }
+      const diff = d.points - d.target;
+
+      return (diff >= 0)
+        ? `+${diff.toFixed(1)}${config.goodSuffix}`
+        : diff.toFixed(1) + config.badSuffix;
+    });
+}
+
+const data = [
+  {
+    date: new Date(2017, 9, 11),
+    target: 0,
+    points: 0,
+  },
+  {
+    date: new Date(2017, 9, 12),
+    target: 6,
+    points: 10,
+  },
+  {
+    date: new Date(2017, 9, 13),
+    target: 14,
+    points: 15,
+  },
+  {
+    date: new Date(2017, 9, 14),
+    target: 24,
+    points: 25,
+  },
+  {
+    date: new Date(2017, 9, 15),
+    target: 30,
+    points: 28,
+  },
+  {
+    date: new Date(2017, 9, 18),
+    target: 22,
+    points: 13,
+  },
+  {
+    date: new Date(2017, 9, 19),
+    target: 22,
+    points: 24,
+  },
+  {
+    date: new Date(2017, 9, 20),
+    target: 30,
+    points: 28,
+  },
+  {
+    date: new Date(2017, 9, 21),
+    target: 18,
+    points: 17,
+  },
+  {
+    date: new Date(2017, 9, 22),
+    target: 22,
+    points: 24,
+  },
+  {
+    date: new Date(2017, 9, 25),
+    target: 30,
+    points: 28,
+  },
+  {
+    date: new Date(2017, 9, 26),
+    target: 38,
+    points: 40,
+  },
+  {
+    date: new Date(2017, 9, 27),
+    target: 22,
+    points: 24,
+  },
+  {
+    date: new Date(2017, 9, 28),
+    target: 30,
+    points: 28,
+  },
+  {
+    date: new Date(2017, 9, 29),
+    target: 40,
+    points: null,
+  },
+];
+
+render(data);
 </script>
 <!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
