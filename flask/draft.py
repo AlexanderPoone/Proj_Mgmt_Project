@@ -366,7 +366,8 @@ def generateBurnDownChart():
 	burntTasks = [x for x in burntTasks]
 	addedTasks = [x for x in addedTasks]
 
-	tasksLeft = sum([x['count'] for x in totalTasks])
+	numTasksLeft = sum([x['count'] for x in totalTasks])
+	numTaskAdded = 0
 
 	print(totalTasks)
 	print(burntTasks)
@@ -379,10 +380,13 @@ def generateBurnDownChart():
 	delta = timedelta(days=1)
 	while dayEntry <= chartRightEdge:
 		dayEntryStr = dayEntry.strftime('%Y-%m-%d')
-		tasksLeft -= sum([x['count'] for x in burntTasks if x['_id'] == dayEntryStr])
+		numTasksLeft -= sum([x['count'] for x in burntTasks if x['_id'] == dayEntryStr])
+		numTaskAdded += sum([x['count'] for x in addedTasks if x['_id'] == dayEntryStr])
 
-		print(dayEntryStr, tasksLeft)
+		print(dayEntryStr, numTasksLeft, numTaskAdded)
 		dayEntry += delta
+
+
 
 
 	#group by 'enddate'
