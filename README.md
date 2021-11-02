@@ -1,4 +1,4 @@
-# CS5351 Project - Scrum Visualisation & Issue Management
+# CS5351 Project - Issue Management & Visualisation
 **Group 2**
 
 # Objective
@@ -71,17 +71,17 @@ We are using the **Flask** framework, since many functions can be added by direc
 ![image](https://user-images.githubusercontent.com/9071916/137674320-6294ccd5-51dc-46df-b276-46dc15244f1c.png)
 
 ## Schema design
-We keep the following data:
+Everything GitHub supports is hosted by GitHub. Everything GitHub does not support is hosted by our small database. We keep the following data:
 
 Collection `roles`
 | owner | reponame | collaborator | role |
 |-----|-----|-----|-----|
-| str | str | str | 'developer'\|'documentation'\|'support' |
+| str | str | str | 'developer'\|'documentation'\|'tester'\|'support' |
 
-Collection `issues`
-| owner | reponame | githubIssueID | from | to | assignee | status |
-|-----|-----|-----|-----|-----|-----|-----|
-| str | str | int | date | date | str | 'normal'\|'delayed' |
+Collection `tasks`
+| owner | reponame | githubIssueID | startdate | enddate | originalenddate | assignee | status |
+|-----|-----|-----|-----|-----|-----|-----|-----|
+| str | str | int | date | date | date (absent if `'status' == 'normal'`) | str | 'normal'\|'resolved'\|'delayed' |
 
 Collection `backlogs`
 | owner | reponame | githubIssueID | log |
