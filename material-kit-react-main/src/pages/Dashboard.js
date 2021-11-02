@@ -5,11 +5,22 @@ import Burndown from 'src/components/dashboard/Burndown';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import MileStones from 'src/components/dashboard/MileStones';
-import Issues from 'src/components/dashboard/Issues';
+import BigCalendar from 'src/components/dashboard/BigCalendar';
+import moment from "moment";
 
 const Dashboard = () => {
 
   const [value, onChange] = useState(new Date());
+
+  const events = [
+    {
+      start: moment().toDate(),
+      end: moment()
+        .add(1, "days")
+        .toDate(),
+      title: "Some title"
+    }
+  ];
 
 
   return (<>
@@ -30,10 +41,10 @@ const Dashboard = () => {
         >
           <Grid
             item
-            lg={8}
-            md={8}
-            xl={9}
-            xs={12}
+            lg={10}
+            md={10}
+            xl={10}
+            xs={10}
             spacing={3}
           >
 
@@ -41,13 +52,13 @@ const Dashboard = () => {
               width='100%'
               sx={{ mb: 3 }}
             >
-              <Burndown />
+              <BigCalendar events={events}/>
             </Box>
 
             <Box
               width='100%'
             >
-              <MileStones />
+              <MileStones/>
             </Box>
 
           </Grid>
@@ -88,7 +99,7 @@ const Dashboard = () => {
             <TotalProfit sx={{ height: '100%' }} />
           </Grid> */}
 
-          <Grid
+          {/* <Grid
             item
             lg={4}
             md={4}
@@ -100,12 +111,13 @@ const Dashboard = () => {
               width='100%'
               sx={{ mb: 2 }}
             >
-              {/* <TrafficByDevice sx={{ height: '100%' }} /> */}
               <Card>
                 <CardContent>
                   <Calendar
                     onChange={onChange}
+                    events={[]}
                     value={value}
+                    // style={{ height: 120 }}
                   />
                 </CardContent>
               </Card>
@@ -124,15 +136,6 @@ const Dashboard = () => {
             </Box>
 
 
-          </Grid>
-          {/* <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <LatestProducts sx={{ height: '100%' }} />
           </Grid> */}
         </Grid>
       </Container>

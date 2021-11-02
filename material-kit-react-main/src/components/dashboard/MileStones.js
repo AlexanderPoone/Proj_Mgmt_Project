@@ -81,84 +81,87 @@ const orders = [
   }
 ];
 
-const MileStones = (props) => (
-  <Card {...props}>
-    <CardHeader title="MileStones" />
-    <Divider />
-    <PerfectScrollbar>
-      <Box sx={{ minWidth: 800 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                Order Ref
-              </TableCell>
-              <TableCell>
-                Customer
-              </TableCell>
-              <TableCell sortDirection="desc">
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
+const MileStones = (props) => {
+
+  return (
+    <Card {...props}>
+      <CardHeader title="MileStones" />
+      <Divider />
+      <PerfectScrollbar>
+        <Box sx={{ minWidth: 800 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  Order Ref
+                </TableCell>
+                <TableCell>
+                  Customer
+                </TableCell>
+                <TableCell sortDirection="desc">
+                  <Tooltip
+                    enterDelay={300}
+                    title="Sort"
                   >
-                    Date
-                  </TableSortLabel>
-                </Tooltip>
-              </TableCell>
-              <TableCell>
-                Status
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orders.map((order) => (
-              <TableRow
-                hover
-                key={order.id}
-              >
-                <TableCell>
-                  {order.ref}
+                    <TableSortLabel
+                      active
+                      direction="desc"
+                    >
+                      Date
+                    </TableSortLabel>
+                  </Tooltip>
                 </TableCell>
                 <TableCell>
-                  {order.customer.name}
-                </TableCell>
-                <TableCell>
-                  {moment(order.createdAt).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell>
-                  <Chip
-                    color="primary"
-                    label={order.status}
-                    size="small"
-                  />
+                  Status
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Box>
-    </PerfectScrollbar>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
-      <Button
-        color="primary"
-        endIcon={<ArrowRightIcon />}
-        size="small"
-        variant="text"
+            </TableHead>
+            <TableBody>
+              {orders.map((order) => (
+                <TableRow
+                  hover
+                  key={order.id}
+                >
+                  <TableCell>
+                    {order.ref}
+                  </TableCell>
+                  <TableCell>
+                    {order.customer.name}
+                  </TableCell>
+                  <TableCell>
+                    {moment(order.createdAt).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    <Chip
+                      color="primary"
+                      label={order.status}
+                      size="small"
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </PerfectScrollbar>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          p: 2
+        }}
       >
-        View all
-      </Button>
-    </Box>
-  </Card>
-);
+        <Button
+          color="primary"
+          endIcon={<ArrowRightIcon />}
+          size="small"
+          variant="text"
+        >
+          View all
+        </Button>
+      </Box>
+    </Card>
+  );
+}
 
 export default MileStones;

@@ -3,8 +3,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { Provider } from 'react-redux';
 import { configureAppStore } from './store';
+import rootReducer from './reducers';
+import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureAppStore();
+console.log('App Store:', JSON.stringify(store));
 
 ReactDOM.render(
   (

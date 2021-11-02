@@ -11,35 +11,44 @@ import {
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
+
 
 const Burndown = (props) => {
   const theme = useTheme();
+  const localizer = momentLocalizer(moment);
 
+
+  const rand = () => Math.round(Math.random() * 100 - 50);
   const data = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.2)',
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [130, 122, 115, 80, 70, 13, 11],
-        label: 'Milestone 1',
-        maxBarThickness: 10
+        type: 'line',
+        label: 'Dataset 1',
+        borderColor: 'rgb(54, 162, 235)',
+        borderWidth: 2,
+        fill: false,
+        data: [rand(), rand(), rand(), rand(), rand(), rand()],
       },
-      // {
-      //   backgroundColor: colors.grey[200],
-      //   barPercentage: 0.5,
-      //   barThickness: 12,
-      //   borderRadius: 4,
-      //   categoryPercentage: 0.5,
-      //   data: [11, 20, 12, 29, 30, 25, 13],
-      //   label: 'Last year',
-      //   maxBarThickness: 10
-      // }
+      {
+        type: 'bar',
+        label: 'Dataset 2',
+        backgroundColor: 'rgb(255, 99, 132)',
+        data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+        borderColor: 'white',
+        borderWidth: 2,
+      },
+      {
+        type: 'bar',
+        label: 'Dataset 3',
+        backgroundColor: 'rgb(75, 192, 192)',
+        data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+      },
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 Aug']
   };
 
   const options = {
@@ -93,6 +102,18 @@ const Burndown = (props) => {
     }
   };
 
+  const state = {
+    events: [
+      // {
+      //   start: moment().toDate(),
+      //   end: moment()
+      //     .add(1, "days")
+      //     .toDate(),
+      //   title: "Some title"
+      // }
+    ]
+  };
+
   return (
     <Card {...props}>
       <CardHeader
@@ -111,14 +132,15 @@ const Burndown = (props) => {
       <CardContent>
         <Box
           sx={{
-            height: 400,
             position: 'relative'
           }}
         >
-          <Line
+          {/* <Line
             data={data}
             options={options}
-          />
+          /> */}
+
+          <Bar data={data}/>
         </Box>
       </CardContent>
       {/* <Divider /> */}

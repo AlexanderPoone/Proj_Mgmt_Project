@@ -15,9 +15,25 @@ import {
 } from '@material-ui/core';
 import FacebookIcon from '../icons/Facebook';
 import GoogleIcon from '../icons/Google';
+import { useSelector, useDispatch } from "react-redux";
+import { githubLoginAsyc, loginProducts } from 'src/reducers/LoginReducer';
+import { useEffect } from 'react';
+import ConfigData from '../config.json';
+import LoginGithub from 'react-login-github';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const { login, loading, error } = useSelector(loginProducts);
+  const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   dispatch(githubLoginAsyc());
+  // }, [dispatch]);
+
+  console.log('Github Login Res:', JSON.stringify(login));
+  const onSuccess = response => console.log(response);
+  const onFailure = response => console.error(response);
 
   return (
     <>
@@ -45,7 +61,7 @@ const Login = () => {
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={() => {
-              navigate('/repos', { replace: true });
+              // navigate('/repos', { replace: true });
             }}
           >
             {({
@@ -80,15 +96,18 @@ const Login = () => {
                       </Typography>
                     </Box>
                     <Button
-                        color="primary"
-                        disabled={isSubmitting}
-                        fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained"
-                      >
-                        Sign in now
-                      </Button>
+                      color="primary"
+                      // disabled={isSubmitting}
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                      onClick={()=>{
+                        dispatch(githubLoginAsyc());
+                      }}
+                    >
+                      Sign in now
+                    </Button>
                   </CardContent>
 
                 </Card>
