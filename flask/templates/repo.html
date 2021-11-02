@@ -279,6 +279,7 @@
                             <tr>
                                 <th>Issue number</th>
                                 <th>Issue</th>
+                                <th>Status</th>
                                 <th style="width: 24%;">Description</th>
                                 <th class="d-none d-xl-table-cell">Start Date</th>
                                 <th class="d-none d-xl-table-cell">End Date</th>
@@ -319,6 +320,7 @@
 				<tr>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{{x.title}}</td>
+                <td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{% if x.status is defined %}{{x.status|capitalize}}{% else %}Ready to add{% endif %}</td>
 				<td>{{x.body|safe}}</td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell">{% if x.startdate is defined %}{{x.startdate.strftime('%Y-%m-%d')}}{% endif %}</td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell" id="enddate_{{x.number}}">{% if x.enddate is defined %}{{x.enddate.strftime('%Y-%m-%d')}} {% if x.status == 'delayed' %}<span style="color: red;">(DELAYED)</span>{% endif %}{% endif %}</td>
