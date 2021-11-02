@@ -4,9 +4,9 @@
 #
 #   Issue Management & Visualisation
 #
-#   Author:         Alex Poon
-#   Create Date:    Sep 30, 2021
-#   Last update:    Oct 29, 2021
+#   Author:		 Alex Poon
+#   Create Date:	Sep 30, 2021
+#   Last update:	Oct 29, 2021
 #
 ##############################################
 
@@ -283,47 +283,107 @@ def generateBurnDownChart():
 
 	collection = db['tasks']
 	totalTasks =  collection.aggregate([
-        {"$group": {
-             "_id":  { "$concat": [
-            {"$substr": [{"$year": "$enddate"}, 0, 4 ]},
-            "-",
-            {"$substr": [{"$month": "$enddate"}, 0, 2 ]},
-            "-",
-            {"$substr": [{"$dayOfMonth": "$enddate"}, 0, 2 ]},
-	        ]},
-             "count": {"$sum": 1}
-        }}
-       ])
+		{"$group": {
+			 "_id":  { "$concat": [
+			{"$substr": [{"$year": "$startdate"}, 0, 4 ]},
+			"-",
+			{ "$cond": [
+			{ "$lte": [ { "$month": "$startdate" }, 9 ] },
+			{ "$concat": [
+				"0", { "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			]},
+			{ "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			]},
+			"-",
+			{ "$cond": [
+			{ "$lte": [ { "$dayOfMonth": "$startdate" }, 9 ] },
+			{ "$concat": [
+				"0", { "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			]},
+			{ "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			]}
+			]},
+			 "count": {"$sum": 1},
+		}},
+		{"$sort": { "_id": 1 }}
+	   ])
 
 	burntTasks = collection.aggregate([
 		{"$match": {"status": "resolved"}},
-        {"$group": {
-             "_id":  { "$concat": [
-            {"$substr": [{"$year": "$enddate"}, 0, 4 ]},
-            "-",
-            {"$substr": [{"$month": "$enddate"}, 0, 2 ]},
-            "-",
-            {"$substr": [{"$dayOfMonth": "$enddate"}, 0, 2 ]},
-	        ]},
-             "count": {"$sum": 1}
-        }}
-       ])
+		{"$group": {
+			 "_id":  { "$concat": [
+			{"$substr": [{"$year": "$startdate"}, 0, 4 ]},
+			"-",
+			{ "$cond": [
+			{ "$lte": [ { "$month": "$startdate" }, 9 ] },
+			{ "$concat": [
+				"0", { "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			]},
+			{ "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			]},
+			"-",
+			{ "$cond": [
+			{ "$lte": [ { "$dayOfMonth": "$startdate" }, 9 ] },
+			{ "$concat": [
+				"0", { "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			]},
+			{ "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			]}
+			]},
+			 "count": {"$sum": 1}
+		}},
+		{"$sort": { "_id": 1 }}
+	   ])
 
 	addedTasks = collection.aggregate([
-        {"$group": {
-             "_id":  { "$concat": [
-            {"$substr": [{"$year": "$startdate"}, 0, 4 ]},
-            "-",
-            {"$substr": [{"$month": "$startdate"}, 0, 2 ]},
-            "-",
-            {"$substr": [{"$dayOfMonth": "$startdate"}, 0, 2 ]},
-	        ]},
-             "count": {"$sum": 1}
-        }}
-       ])
-	print([x for x in totalTasks])
-	print([x for x in burntTasks])
-	print([x for x in addedTasks])
+		{"$group": {
+			 "_id":  { "$concat": [
+			{"$substr": [{"$year": "$startdate"}, 0, 4 ]},
+			"-",
+			{ "$cond": [
+			{ "$lte": [ { "$month": "$startdate" }, 9 ] },
+			{ "$concat": [
+				"0", { "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			]},
+			{ "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			]},
+			"-",
+			{ "$cond": [
+			{ "$lte": [ { "$dayOfMonth": "$startdate" }, 9 ] },
+			{ "$concat": [
+				"0", { "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			]},
+			{ "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			]}
+			]},
+			 "count": {"$sum": 1}
+		}},
+		{"$sort": { "_id": 1 }}
+	   ])
+
+
+	totalTasks = [x for x in totalTasks]
+	burntTasks = [x for x in burntTasks]
+	addedTasks = [x for x in addedTasks]
+
+	tasksLeft = sum([x['count'] for x in totalTasks])
+
+	print(totalTasks)
+	print(burntTasks)
+	print(addedTasks)
+
+	chartLeftEdge = datetime.strptime(addedTasks[0]['_id'], '%Y-%m-%d')
+	chartRightEdge = datetime.strptime(totalTasks[-1]['_id'], '%Y-%m-%d')
+	dayEntry = chartLeftEdge
+
+	delta = timedelta(days=1)
+	while dayEntry <= chartRightEdge:
+		dayEntryStr = dayEntry.strftime('%Y-%m-%d')
+		tasksLeft -= sum([x['count'] for x in burntTasks if x['_id'] == dayEntryStr])
+
+		print(dayEntryStr, tasksLeft)
+		dayEntry += delta
+
 
 	#group by 'enddate'
 
