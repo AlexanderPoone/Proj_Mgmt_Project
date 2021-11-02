@@ -101,7 +101,6 @@ def login():
 	if 'code' not in request.args:
 		query = {
 			'client_id': '34ed33a5c053d0c8e014',
-			'redirect_uri': 'https://dord.mynetgear.com:5351/login',
 			'allow_signup': False
 		}
 		return redirect(f'https://github.com/login/oauth/authorize?{urlencode(query)}&scope=repo')
@@ -278,11 +277,15 @@ def repoDetail(owner, reponame):
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame, codeFileName=codeFileName,
 		parsed = parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
 
+@app.route('/test/generateBurnDownChart', methods = ['GET'])
 def generateBurnDownChart():
-	#Local database
+	#Local database   https://stackoverflow.com/questions/22031853/pymongo-group-by-datetime
 
 	collection = db['tasks']
 	totalTasks = collection.count_documents({})
+
+	#group by 'enddate'
+
 	#total = sum([(x['enddate'] - x['startdate']).days + 1 for x in rows])
 
 	'''
@@ -695,7 +698,11 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 	collection = db['tasks']
 	
 	query = { "githubIssueID": issue_number }
-	newvalues = { "$set": { "status": "resolved" } }
+	findres = list(collection.find(query))[0]
+
+	enddate = findres['enddate']
+
+	newvalues = { "$set": { "status": "resolved", "enddate": datetime.today() , "originalenddate": enddate } }
 
 	collection.update_one(query, newvalues)
 
