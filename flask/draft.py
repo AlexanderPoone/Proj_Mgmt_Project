@@ -277,10 +277,10 @@ def repoDetail(owner, reponame):
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame, codeFileName=codeFileName,
 		parsed = parsedHtml, contributors = contributors, contributorRoles = contributorRoles)
 
+
+# Get chart data from local mongodb
 @app.route('/test/generateBurnDownChart', methods = ['GET'])
 def generateBurnDownChart():
-	#Local database   https://stackoverflow.com/questions/22031853/pymongo-group-by-datetime
-
 	collection = db['tasks']
 	totalTasks =  collection.aggregate([
 		{"$group": {
@@ -361,7 +361,6 @@ def generateBurnDownChart():
 		{"$sort": { "_id": 1 }}
 	   ])
 
-
 	totalTasks = [x for x in totalTasks]
 	burntTasks = [x for x in burntTasks]
 	addedTasks = [x for x in addedTasks]
@@ -376,6 +375,8 @@ def generateBurnDownChart():
 	chartRightEdge = datetime.strptime(totalTasks[-1]['_id'], '%Y-%m-%d')
 	dayEntry = chartLeftEdge
 
+	chartData = []
+
 	delta = timedelta(days=1)
 	while dayEntry <= chartRightEdge:
 		dayEntryStr = dayEntry.strftime('%Y-%m-%d')
@@ -383,23 +384,17 @@ def generateBurnDownChart():
 		numTasksExpected -= sum([x['count'] for x in totalTasks if x['_id'] == dayEntryStr])
 		numTaskAdded = sum([x['count'] for x in addedTasks if x['_id'] == dayEntryStr])
 
-		print(dayEntryStr, numTasksLeft, numTasksExpected, numTaskAdded)
+		chartData.push({
+			'date': dayEntry,
+			'numTasksLeft': numTasksLeft,
+			'numTasksExpected': numTasksExpected,
+			'numTaskAdded': numTaskAdded
+		})
+
+		#print(dayEntryStr, numTasksLeft, numTasksExpected, numTaskAdded)
 		dayEntry += delta
+	print(chartData)
 
-
-
-
-	#group by 'enddate'
-
-	#total = sum([(x['enddate'] - x['startdate']).days + 1 for x in rows])
-
-	'''
-	
-	group by end date, count tasks
-
-	collection.count_documents({'enddate': { ''}})
-	
-	'''
 
 # REPO MAIN PAGE
 @app.route('/repo/<string:owner>/<string:reponame>', methods = ['GET'])

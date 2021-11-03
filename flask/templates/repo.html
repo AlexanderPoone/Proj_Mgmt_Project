@@ -1227,7 +1227,7 @@ function render(data) {
     .attr('r', config.dotRadius)
     .attr('fill', config.colors.target);
 
-  // display points dots
+  // display actual dots
   svg.selectAll('circle .points-point')
     .data(data.filter(d => !(d.points === null || d.points === undefined)))
     .enter()
