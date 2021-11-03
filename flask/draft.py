@@ -285,22 +285,22 @@ def generateBurnDownChart():
 	totalTasks =  collection.aggregate([
 		{"$group": {
 			 "_id":  { "$concat": [
-			{"$substr": [{"$year": "$startdate"}, 0, 4 ]},
+			{"$substr": [{"$year": "$enddate"}, 0, 4 ]},
 			"-",
 			{ "$cond": [
-			{ "$lte": [ { "$month": "$startdate" }, 9 ] },
+			{ "$lte": [ { "$month": "$enddate" }, 9 ] },
 			{ "$concat": [
-				"0", { "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+				"0", { "$substr": [ { "$month": "$enddate" }, 0, 2 ] }
 			]},
-			{ "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			{ "$substr": [ { "$month": "$enddate" }, 0, 2 ] }
 			]},
 			"-",
 			{ "$cond": [
-			{ "$lte": [ { "$dayOfMonth": "$startdate" }, 9 ] },
+			{ "$lte": [ { "$dayOfMonth": "$enddate" }, 9 ] },
 			{ "$concat": [
-				"0", { "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+				"0", { "$substr": [ { "$dayOfMonth": "$enddate" }, 0, 2 ] }
 			]},
-			{ "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			{ "$substr": [ { "$dayOfMonth": "$enddate" }, 0, 2 ] }
 			]}
 			]},
 			 "count": {"$sum": 1},
@@ -312,22 +312,22 @@ def generateBurnDownChart():
 		{"$match": {"status": "resolved"}},
 		{"$group": {
 			 "_id":  { "$concat": [
-			{"$substr": [{"$year": "$startdate"}, 0, 4 ]},
+			{"$substr": [{"$year": "$enddate"}, 0, 4 ]},
 			"-",
 			{ "$cond": [
-			{ "$lte": [ { "$month": "$startdate" }, 9 ] },
+			{ "$lte": [ { "$month": "$enddate" }, 9 ] },
 			{ "$concat": [
-				"0", { "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+				"0", { "$substr": [ { "$month": "$enddate" }, 0, 2 ] }
 			]},
-			{ "$substr": [ { "$month": "$startdate" }, 0, 2 ] }
+			{ "$substr": [ { "$month": "$enddate" }, 0, 2 ] }
 			]},
 			"-",
 			{ "$cond": [
-			{ "$lte": [ { "$dayOfMonth": "$startdate" }, 9 ] },
+			{ "$lte": [ { "$dayOfMonth": "$enddate" }, 9 ] },
 			{ "$concat": [
-				"0", { "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+				"0", { "$substr": [ { "$dayOfMonth": "$enddate" }, 0, 2 ] }
 			]},
-			{ "$substr": [ { "$dayOfMonth": "$startdate" }, 0, 2 ] }
+			{ "$substr": [ { "$dayOfMonth": "$enddate" }, 0, 2 ] }
 			]}
 			]},
 			 "count": {"$sum": 1}
@@ -367,6 +367,7 @@ def generateBurnDownChart():
 	addedTasks = [x for x in addedTasks]
 
 	numTasksLeft = sum([x['count'] for x in totalTasks])
+	numTasksExpected = sum([x['count'] for x in totalTasks])
 	numTaskAdded = 0
 
 	print(totalTasks)
@@ -381,9 +382,10 @@ def generateBurnDownChart():
 	while dayEntry <= chartRightEdge:
 		dayEntryStr = dayEntry.strftime('%Y-%m-%d')
 		numTasksLeft -= sum([x['count'] for x in burntTasks if x['_id'] == dayEntryStr])
+		numTasksExpected -= sum([x['count'] for x in totalTasks if x['_id'] == dayEntryStr])
 		numTaskAdded += sum([x['count'] for x in addedTasks if x['_id'] == dayEntryStr])
 
-		print(dayEntryStr, numTasksLeft, numTaskAdded)
+		print(dayEntryStr, numTasksLeft, numTasksExpected, numTaskAdded)
 		dayEntry += delta
 
 
