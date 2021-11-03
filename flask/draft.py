@@ -393,7 +393,7 @@ def generateBurnDownChart():
 
 		#print(dayEntryStr, numTasksLeft, numTasksExpected, numTaskAdded)
 		dayEntry += delta
-	print(chartData)
+	print(jsonify(chartData))
 
 
 # REPO MAIN PAGE
