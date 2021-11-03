@@ -385,7 +385,7 @@ def generateBurnDownChart():
 		numTaskAdded = sum([x['count'] for x in addedTasks if x['_id'] == dayEntryStr])
 
 		chartData.append({
-			'date': dayEntry,
+			'date': dayEntryStr,
 			'numTasksLeft': numTasksLeft,
 			'numTasksExpected': numTasksExpected,
 			'numTaskAdded': numTaskAdded
