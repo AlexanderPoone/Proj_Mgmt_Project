@@ -368,11 +368,9 @@ def generateBurnDownChart():
 
 	numTasksLeft = sum([x['count'] for x in totalTasks])
 	numTasksExpected = sum([x['count'] for x in totalTasks])
-	numTaskAdded = 0
 
 	print(totalTasks)
 	print(burntTasks)
-	print(addedTasks)
 
 	chartLeftEdge = datetime.strptime(addedTasks[0]['_id'], '%Y-%m-%d')
 	chartRightEdge = datetime.strptime(totalTasks[-1]['_id'], '%Y-%m-%d')
@@ -383,7 +381,7 @@ def generateBurnDownChart():
 		dayEntryStr = dayEntry.strftime('%Y-%m-%d')
 		numTasksLeft -= sum([x['count'] for x in burntTasks if x['_id'] == dayEntryStr])
 		numTasksExpected -= sum([x['count'] for x in totalTasks if x['_id'] == dayEntryStr])
-		numTaskAdded += sum([x['count'] for x in addedTasks if x['_id'] == dayEntryStr])
+		numTaskAdded = sum([x['count'] for x in addedTasks if x['_id'] == dayEntryStr])
 
 		print(dayEntryStr, numTasksLeft, numTasksExpected, numTaskAdded)
 		dayEntry += delta
