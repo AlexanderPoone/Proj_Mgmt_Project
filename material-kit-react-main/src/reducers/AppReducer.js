@@ -20,35 +20,38 @@ import Api from '../remotes/Api'
 // )
 
 const initialState = {
-    loading: 'idle',
-    githubLoginRes: {},
-    error: '',
+    accessToken: ''
 }
 
-const loginSlice = createSlice({
-    name: 'login',
+const appSlice = createSlice({
+    name: 'app',
     initialState,
-    reducers: {},
+    reducers: {
+        setAccessToken: (state, action) => {
+            state.accessToken = action.payload;
+        }
+    },
     // extraReducers: (builder) => {
     //     builder.addCase(githubLoginAsyc.pending, (state, action) => {
-    //         state.loading = 'loading'
+    //         state.loading = true
     //         state.githubLoginRes = {}
     //     }).addCase(githubLoginAsyc.fulfilled, (state, { payload }) => {
-    //         state.loading = 'loaded'
+    //         state.loading = false
     //         state.githubLoginRes = payload
     //     }).addCase(githubLoginAsyc.rejected, (state, action) => {
-    //         state.loading = "error";
+    //         state.loading = false;
     //         state.error = action.error.message;
     //     })
     // },
 })
 
-export const loginProducts = createSelector(
-    (state) => ({
-       login: state.login,
-       loading: state.login.loading,
-       error: state.login.error,
-    }), (state) =>  state
-  );
 
-export default loginSlice.reducer;
+export const { setAccessToken } = appSlice.actions;
+
+export const appProducts = createSelector(
+    (state) => ({
+        app: state.app
+    }), (state) => state
+);
+
+export default appSlice.reducer;

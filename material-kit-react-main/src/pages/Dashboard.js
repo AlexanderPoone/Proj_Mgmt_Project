@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Box, Container, Grid, Card, CardContent, } from '@material-ui/core';
 import Burndown from 'src/components/dashboard/Burndown';
@@ -7,9 +7,11 @@ import 'react-calendar/dist/Calendar.css';
 import MileStones from 'src/components/dashboard/MileStones';
 import BigCalendar from 'src/components/dashboard/BigCalendar';
 import moment from "moment";
+import { useNavigate } from 'react-router';
+import Cookies from 'js-cookie';
 
 const Dashboard = () => {
-
+  const navigate = useNavigate();
   const [value, onChange] = useState(new Date());
 
   const events = [
@@ -21,6 +23,14 @@ const Dashboard = () => {
       title: "Some title"
     }
   ];
+
+  //REMARK: return to login if the access_token is undefined
+
+  // const accessToken = Cookies.get('access_token');
+  // if(accessToken == null){
+  //   console.log('accessToken:', accessToken);
+  //   setTimeout(()=>{navigate('/login', { replace: true });}, 500);
+  // }
 
 
   return (<>

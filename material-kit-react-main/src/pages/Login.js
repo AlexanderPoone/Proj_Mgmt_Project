@@ -1,4 +1,4 @@
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -7,7 +7,6 @@ import {
   Button,
   Container,
   Grid,
-  Link,
   TextField,
   Typography,
   CardContent,
@@ -20,16 +19,19 @@ import { githubLoginAsyc, loginProducts } from 'src/reducers/LoginReducer';
 import { useEffect } from 'react';
 import ConfigData from '../config.json';
 import LoginGithub from 'react-login-github';
+import { appProducts, setAccessToken } from 'src/reducers/AppReducer';
 
 const Login = () => {
   const navigate = useNavigate();
 
   const { login, loading, error } = useSelector(loginProducts);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { app } = useSelector(appProducts);
 
-  // useEffect(() => {
-  //   dispatch(githubLoginAsyc());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(setAccessToken('test'));
+  }, [dispatch]);
+  console.log('AccessToken:', app.accessToken);
 
   console.log('Github Login Res:', JSON.stringify(login));
   const onSuccess = response => console.log(response);
@@ -61,7 +63,7 @@ const Login = () => {
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={() => {
-              // navigate('/repos', { replace: true });
+              navigate('/repos', { replace: true });
             }}
           >
             {({
@@ -102,9 +104,10 @@ const Login = () => {
                       size="large"
                       type="submit"
                       variant="contained"
-                      onClick={()=>{
-                        dispatch(githubLoginAsyc());
-                      }}
+                      // target="_blank" 
+                      // href= {`https://github.com/login/oauth/authorize?client_id=${ConfigData.GITHUB_CLIENT_ID}&redirect_uri=${ConfigData.REDIRECT_URI}`}
+                      component={Link}
+                      to='/repos'
                     >
                       Sign in now
                     </Button>
