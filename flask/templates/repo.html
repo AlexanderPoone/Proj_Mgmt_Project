@@ -371,9 +371,9 @@
                     {% for x in resolvedTasks %}
                         <td style="font-weight: bold;"><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.githubIssueID}}" target="_blank">{{x.githubIssueID}}</a></td>
                         <td>Resolved</td>
-                        <td>{{x.startdate}}</td>
-                        <td>{{x.enddate}}</td>
-                        <td>{{x.originalenddate}}</td>
+                        <td>{{x.startdate.strftime('%Y-%m-%d')}}</td>
+                        <td>{{x.enddate.strftime('%Y-%m-%d')}}</td>
+                        <td>{{x.originalenddate.strftime('%Y-%m-%d')}}</td>
                         <td>{{x.assignee}}</td>
                     {% endfor %}
                     </tr>
