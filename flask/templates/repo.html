@@ -330,7 +330,7 @@
 				{% if x.startdate is not defined %}
                 <span id="block_{{x.number}}" style="display: flex;">
                 <span style="width: 50%;">
-                <label for="startdate_{{x.number}}" class="col-form-label">Start date:</label><input id="startdate_{{x.number}}" class="form-control" type="date">
+                <label for="startdate_{{x.number}}" class="col-form-label">Start date:</label><input id="startdate_{{x.number}}" class="inputDate form-control" type="date">
                 <label for="numdays_{{x.number}}" class="col-form-label">Num of days allocated:</label><input id="numdays_{{x.number}}" class="form-control" type="number" value="7"><br>
 				<button type="button" onclick="confirm({{x.number}}, '{{ x.assignee.login }}');" class="btn btn-primary"><i class="fad fa-check-circle"></i> Create task</button></span><span style="width: 50%;display: flex;align-items: center;"><button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 100%;"><i class="fad fa-trash-alt"></i> Invalid issue</button></span>
 				</span>
@@ -468,6 +468,16 @@
 {% block javascripts %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
+
+document.querySelectorAll('.inputDate').forEach(function(e) {
+    e.value = new Date().toDateInputValue();
+});
 
 
 (function() {
@@ -614,74 +624,74 @@
 
         ///////////////////////////////////////////////////////////////////////////////////
 
-        var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
-        var gradient = ctx.createLinearGradient(0, 0, 0, 225);
-        gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
-        gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
-        // Line chart
-        new Chart(document.getElementById("chartjs-dashboard-line"), {
-            type: "line",
-            data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-                    "Dec"
-                ],
-                datasets: [{
-                    label: "Sales ($)",
-                    fill: true,
-                    backgroundColor: gradient,
-                    borderColor: window.theme.primary,
-                    data: [
-                        2115,
-                        1562,
-                        1584,
-                        1892,
-                        1587,
-                        1923,
-                        2566,
-                        2448,
-                        2805,
-                        3438,
-                        2917,
-                        3327
-                    ]
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    intersect: false
-                },
-                hover: {
-                    intersect: true
-                },
-                plugins: {
-                    filler: {
-                        propagate: false
-                    }
-                },
-                scales: {
-                    xAxes: [{
-                        reverse: true,
-                        gridLines: {
-                            color: "rgba(0,0,0,0.0)"
-                        }
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            stepSize: 1000
-                        },
-                        display: true,
-                        borderDash: [3, 3],
-                        gridLines: {
-                            color: "rgba(0,0,0,0.0)"
-                        }
-                    }]
-                }
-            }
-        });
+        // var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
+        // var gradient = ctx.createLinearGradient(0, 0, 0, 225);
+        // gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
+        // gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
+        // // Line chart
+        // new Chart(document.getElementById("chartjs-dashboard-line"), {
+        //     type: "line",
+        //     data: {
+        //         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
+        //             "Dec"
+        //         ],
+        //         datasets: [{
+        //             label: "Sales ($)",
+        //             fill: true,
+        //             backgroundColor: gradient,
+        //             borderColor: window.theme.primary,
+        //             data: [
+        //                 2115,
+        //                 1562,
+        //                 1584,
+        //                 1892,
+        //                 1587,
+        //                 1923,
+        //                 2566,
+        //                 2448,
+        //                 2805,
+        //                 3438,
+        //                 2917,
+        //                 3327
+        //             ]
+        //         }]
+        //     },
+        //     options: {
+        //         maintainAspectRatio: false,
+        //         legend: {
+        //             display: false
+        //         },
+        //         tooltips: {
+        //             intersect: false
+        //         },
+        //         hover: {
+        //             intersect: true
+        //         },
+        //         plugins: {
+        //             filler: {
+        //                 propagate: false
+        //             }
+        //         },
+        //         scales: {
+        //             xAxes: [{
+        //                 reverse: true,
+        //                 gridLines: {
+        //                     color: "rgba(0,0,0,0.0)"
+        //                 }
+        //             }],
+        //             yAxes: [{
+        //                 ticks: {
+        //                     stepSize: 1000
+        //                 },
+        //                 display: true,
+        //                 borderDash: [3, 3],
+        //                 gridLines: {
+        //                     color: "rgba(0,0,0,0.0)"
+        //                 }
+        //             }]
+        //         }
+        //     }
+        // });
     });
 </script>
 <script type="text/javascript">
