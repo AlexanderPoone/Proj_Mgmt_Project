@@ -712,6 +712,7 @@ def confirm(owner, reponame, issue_number, assignee, numdays):
 		 'githubIssueID': issue_number,
 		 'startdate': startdate,												
 		 'enddate': enddate,
+		 'originalenddate': enddate,
 		 'assignee': assignee,
 		 'status': 'normal'
 		}
@@ -801,9 +802,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 	query = { "githubIssueID": issue_number }
 	findres = list(collection.find(query))[0]
 
-	enddate = findres['enddate']
-
-	newvalues = { "$set": { "status": "resolved", "enddate": datetime.today() , "originalenddate": enddate } }
+	newvalues = { "$set": { "status": "resolved", "enddate": datetime.today() } }
 
 	collection.update_one(query, newvalues)
 
@@ -847,10 +846,7 @@ def delay(owner, reponame, issue_number, delaydays):
 	enddate = findres['enddate']
 	newdate = enddate + timedelta(delaydays)
 
-	if 'originalenddate' in findres:
-		newvalues = { "$set": { "status": "delayed", "enddate": newdate, "originalenddate": enddate } }
-	else:
-		newvalues = { "$set": { "status": "delayed", "enddate": newdate } }
+	newvalues = { "$set": { "status": "delayed", "enddate": newdate } }
 
 	collection.update_one(query, newvalues)
 
