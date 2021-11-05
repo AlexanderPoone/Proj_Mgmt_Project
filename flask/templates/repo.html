@@ -359,15 +359,25 @@
                 <thead>
                     <tr>
                         <th>Issue number</th>
-                        <th>Issue</th>
                         <th>Status</th>
-                        <th style="width: 24%;">Description</th>
                         <th class="d-none d-xl-table-cell">Start Date</th>
                         <th class="d-none d-xl-table-cell">End Date</th>
+                        <th class="d-none d-xl-table-cell">Original End Date</th>
                         <th class="d-none d-md-table-cell">Assignee</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr>
+                    {% for x in resolvedTasks %}
+                        <td style="font-weight: bold;"><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.githubIssueID}}" target="_blank">{{x.githubIssueID}}</a></td>
+                        <td>Resolved</td>
+                        <td>{{x.startdate}}</td>
+                        <td>{{x.enddate}}</td>
+                        <td>{{x.originalenddate}}</td>
+                        <td>{{x.assignee}}</td>
+                    {% endfor %}
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -601,7 +611,7 @@ document.querySelectorAll('.inputDate').forEach(function(e) {
             //     }
             // }
             //     console.log(data);
-                    data = {{databaseTasks|safe}};
+                    data = {{currentTasks|safe}};
                     for (let x of data) {
                         x.start = new Date(x.start);
                         x.end = new Date(x.end);

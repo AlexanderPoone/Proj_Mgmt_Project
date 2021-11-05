@@ -439,7 +439,7 @@ def issuesView(owner, reponame):
 	issues = loads(res.read())
 
 	#########################################################
-	databaseTasks = []
+	currentTasks = []
 
 	for issue in issues:
 		if 'pull_request' in issue:
@@ -639,7 +639,7 @@ def issuesView(owner, reponame):
 				issue['enddate'] = existingTask[0]['enddate']
 				issue['status'] =  existingTask[0]['status']
 
-				databaseTasks.append({
+				currentTasks.append({
 					'id': issue['number'],
 					'name': f'Task #{issue["number"]}',
 					'lane': issue['assignee']['login'],
@@ -671,6 +671,9 @@ def issuesView(owner, reponame):
 		pullRequests = loads(res.read())
 	except Exception as e:
 		print(str(e))
+
+	collection = db['tasks']
+	resolvedTasks = list(collection.find({'status': 'resolved'}))
 			
 	#################################################
 	# Render
@@ -680,7 +683,7 @@ def issuesView(owner, reponame):
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
-		contributors = contributors, contributorRoles = contributorRoles, databaseTasks=databaseTasks)
+		contributors = contributors, contributorRoles = contributorRoles, currentTasks=currentTasks, resolvedTasks=resolvedTasks)
 
 # Assign a collaborator to a team
 @app.route('/assign_team/<string:owner>/<string:reponame>/<string:collaborator>/<string:role>', methods = ['GET'])
