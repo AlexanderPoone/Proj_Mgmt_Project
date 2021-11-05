@@ -1,17 +1,13 @@
 import axios from "axios";
-import configData from "../config.json";
+import ConfigData from "../config.json";
 
-export const axiosInstance = axios.create({
+export const githubAPI = axios.create({
+    baseURL: ConfigData.GITHUB_API_ENDPOINT,
     timeout: 5000
 });
 
-// const githubAuthorize = () => axiosInstance.get(`${configData.SEVER_ROOT}/github/authorize`,
-//     {
-//         'client_id': configData.GITHUB_CLIENTID,
-//         'redirect_uri': configData.REDIRECT_URI,
-//         'allow_signup': false
-//     });
+const fetchGithubUser = () => githubAPI.get('/user');
 
 // const githubLogin = () => axiosInstance.get(`${configData.SEVER_ROOT}/github/authorize`);
 
-export default { };
+export default {fetchGithubUser};

@@ -20,15 +20,21 @@ import Api from '../remotes/Api'
 // )
 
 const initialState = {
-    accessToken: null
+    issues: [],
+    issue: null,
+    loading: false,
+    error: null
 }
 
-const appSlice = createSlice({
-    name: 'app',
+const issueSlice = createSlice({
+    name: 'issue',
     initialState,
     reducers: {
-        setAccessToken: (state, action) => {
-            state.accessToken = action.payload;
+        setIssues: (state, action) => {
+            state.issues = action.payload;
+        },
+        setIssue: (state, action) => {
+            state.issue = action.payload;
         }
     },
     // extraReducers: (builder) => {
@@ -46,12 +52,15 @@ const appSlice = createSlice({
 })
 
 
-export const { setAccessToken } = appSlice.actions;
+export const { setIssue, setIssues } = issueSlice.actions;
 
-export const appProducts = createSelector(
+export const issueProducts = createSelector(
     (state) => ({
-        app: state.app
+        issues: state.issue.issues,
+        issue: state.issue.issue,
+        issueLoading: state.issue.loading,
+        issueError: state.issue.error,
     }), (state) => state
 );
 
-export default appSlice.reducer;
+export default issueSlice.reducer;

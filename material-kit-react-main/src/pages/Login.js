@@ -18,24 +18,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { githubLoginAsyc, loginProducts } from 'src/reducers/LoginReducer';
 import { useEffect } from 'react';
 import ConfigData from '../config.json';
-import LoginGithub from 'react-login-github';
 import { appProducts, setAccessToken } from 'src/reducers/AppReducer';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const { login, loading, error } = useSelector(loginProducts);
   const dispatch = useDispatch();
   const { app } = useSelector(appProducts);
 
-  useEffect(() => {
-    dispatch(setAccessToken('test'));
-  }, [dispatch]);
-  console.log('AccessToken:', app.accessToken);
+  // useEffect(() => {
+  //   dispatch(setAccessToken( Cookies.get('github_access_token')));
+  // }, [dispatch]);
 
-  console.log('Github Login Res:', JSON.stringify(login));
-  const onSuccess = response => console.log(response);
-  const onFailure = response => console.error(response);
+  // console.log('AccessToken:', app.accessToken);
 
   return (
     <>
@@ -105,9 +101,9 @@ const Login = () => {
                       type="submit"
                       variant="contained"
                       // target="_blank" 
-                      // href= {`https://github.com/login/oauth/authorize?client_id=${ConfigData.GITHUB_CLIENT_ID}&redirect_uri=${ConfigData.REDIRECT_URI}`}
-                      component={Link}
-                      to='/repos'
+                      href= {`https://github.com/login/oauth/authorize?client_id=${ConfigData.GITHUB_CLIENT_ID}&redirect_uri=${ConfigData.REDIRECT_URI}`}
+                      // component={Link}
+                      // to='/repos'
                     >
                       Sign in now
                     </Button>

@@ -20,15 +20,21 @@ import Api from '../remotes/Api'
 // )
 
 const initialState = {
-    accessToken: null
+    milestones: [],
+    milestone: null,
+    loading: false,
+    error: null
 }
 
-const appSlice = createSlice({
-    name: 'app',
+const milestoneSlice = createSlice({
+    name: 'milestone',
     initialState,
     reducers: {
-        setAccessToken: (state, action) => {
-            state.accessToken = action.payload;
+        setMileStones: (state, action) => {
+            state.milestones = action.payload;
+        },
+        setMileStone: (state, action) => {
+            state.milestone = action.payload;
         }
     },
     // extraReducers: (builder) => {
@@ -45,13 +51,15 @@ const appSlice = createSlice({
     // },
 })
 
+export const { setMileStones, setMileStone } = milestoneSlice.actions;
 
-export const { setAccessToken } = appSlice.actions;
-
-export const appProducts = createSelector(
+export const milestoneProducts = createSelector(
     (state) => ({
-        app: state.app
+        milestones: state.milestone.milestones,
+        milestone: state.milestone.milestone,
+        milestoneLoading: state.milestone.loading,
+        milestoneError: state.milestone.error,
     }), (state) => state
 );
 
-export default appSlice.reducer;
+export default milestoneSlice.reducer;
