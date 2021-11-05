@@ -692,9 +692,9 @@ def assignTeam(owner, reponame, collaborator, role):
 	return redirect(f'/repo/{owner}/{reponame}')
 
 # Convert GitHub Issue to Task (Put into database)
-@app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>/<string:assignee>/<int:numdays>', methods = ['GET'])
-def confirm(owner, reponame, issue_number, assignee, numdays):
-	print('confirm', owner, reponame, issue_number, assignee, numdays)
+@app.route('/confirm/<string:owner>/<string:reponame>/<int:issue_number>/<string:assignee>/<string:startdate>/<int:numdays>', methods = ['GET'])
+def confirm(owner, reponame, issue_number, assignee, startdate, numdays):
+	print('confirm', owner, reponame, issue_number, assignee, startdate, numdays)
 
 	collection = db['tasks']
 	########################################	
@@ -703,7 +703,7 @@ def confirm(owner, reponame, issue_number, assignee, numdays):
 	# print(max_date)
 	# print('Parse the date... If nothing, set from date to tomorrow.')
 
-	startdate = datetime.today()
+	startdate = datetime.strptime(startdate, '%Y-%m-%d')
 	enddate = startdate + timedelta(days=numdays)
 
 	newtask = {

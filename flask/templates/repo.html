@@ -289,8 +289,9 @@
                         <tbody>
 				<script>
 				function confirm(issueNumber,assignee) {
+                 let startdate = document.querySelector(`#startdate_${issueNumber}`).value;
                  let numdays = Number(document.querySelector(`#numdays_${issueNumber}`).value);
-				 fetch(`/confirm/{{repoowner}}/{{reponame}}/${issueNumber}/${assignee}/${numdays}`).then(res=>res.text()).then(res=>{console.log(res);
+				 fetch(`/confirm/{{repoowner}}/{{reponame}}/${issueNumber}/${assignee}/${startdate}/${numdays}`).then(res=>res.text()).then(res=>{console.log(res);
                     document.querySelector(`#block_${issueNumber}`).innerHTML = res;
                  });
 				}
@@ -329,6 +330,7 @@
 				{% if x.startdate is not defined %}
                 <span id="block_{{x.number}}" style="display: flex;">
                 <span style="width: 50%;">
+                <label for="startdate_{{x.number}}" class="col-form-label">Start date:</label><input id="startdate_{{x.number}}" class="form-control" type="date">
                 <label for="numdays_{{x.number}}" class="col-form-label">Num of days allocated:</label><input id="numdays_{{x.number}}" class="form-control" type="number" value="7"><br>
 				<button type="button" onclick="confirm({{x.number}}, '{{ x.assignee.login }}');" class="btn btn-primary"><i class="fad fa-check-circle"></i> Create task</button></span><span style="width: 50%;display: flex;align-items: center;"><button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 100%;"><i class="fad fa-trash-alt"></i> Invalid issue</button></span>
 				</span>
