@@ -285,22 +285,22 @@ def generateBurnDownChart():
 	totalTasks =  collection.aggregate([
 		{"$group": {
 			 "_id":  { "$concat": [
-			{"$substr": [{"$year": "$enddate"}, 0, 4 ]},
+			{"$substr": [{"$year": "$originalenddate"}, 0, 4 ]},
 			"-",
 			{ "$cond": [
-			{ "$lte": [ { "$month": "$enddate" }, 9 ] },
+			{ "$lte": [ { "$month": "$originalenddate" }, 9 ] },
 			{ "$concat": [
-				"0", { "$substr": [ { "$month": "$enddate" }, 0, 2 ] }
+				"0", { "$substr": [ { "$month": "$originalenddate" }, 0, 2 ] }
 			]},
-			{ "$substr": [ { "$month": "$enddate" }, 0, 2 ] }
+			{ "$substr": [ { "$month": "$originalenddate" }, 0, 2 ] }
 			]},
 			"-",
 			{ "$cond": [
-			{ "$lte": [ { "$dayOfMonth": "$enddate" }, 9 ] },
+			{ "$lte": [ { "$dayOfMonth": "$originalenddate" }, 9 ] },
 			{ "$concat": [
-				"0", { "$substr": [ { "$dayOfMonth": "$enddate" }, 0, 2 ] }
+				"0", { "$substr": [ { "$dayOfMonth": "$originalenddate" }, 0, 2 ] }
 			]},
-			{ "$substr": [ { "$dayOfMonth": "$enddate" }, 0, 2 ] }
+			{ "$substr": [ { "$dayOfMonth": "$originalenddate" }, 0, 2 ] }
 			]}
 			]},
 			 "count": {"$sum": 1},
