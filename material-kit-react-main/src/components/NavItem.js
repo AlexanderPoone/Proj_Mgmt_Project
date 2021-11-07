@@ -5,6 +5,9 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button, ListItem } from '@material-ui/core';
+import Cookies from 'js-cookie';
+import ConfigData from '../config.json';
+import { useNavigate } from 'react-router-dom';
 
 const NavItem = ({
   href,
@@ -13,6 +16,7 @@ const NavItem = ({
   ...rest
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const active = href ? !!matchPath({
     path: href,
@@ -28,6 +32,38 @@ const NavItem = ({
       }}
       {...rest}
     >
+      {title === 'Logout' ? 
+      <Button
+      // component={RouterLink}
+      sx={{
+        color: 'text.secondary',
+        fontWeight: 'medium',
+        justifyContent: 'flex-start',
+        letterSpacing: 0,
+        py: 1.25,
+        textTransform: 'none',
+        width: '100%',
+        ...(active && {
+          color: 'primary.main'
+        }),
+        '& svg': {
+          mr: 1
+        }
+      }}
+      // to={href}
+      onClick={()=>{
+        console.log('Logout Button Clicked');
+        Cookies.remove(ConfigData.GITHUB_COOOKIE_NAME);
+        navigate('/login', { replace: true });
+      }}
+    >
+      {Icon && (
+        <Icon size="20" />
+      )}
+      <span>
+        {title}
+      </span>
+    </Button> :
       <Button
         component={RouterLink}
         sx={{
@@ -53,7 +89,7 @@ const NavItem = ({
         <span>
           {title}
         </span>
-      </Button>
+      </Button>}
     </ListItem>
   );
 };

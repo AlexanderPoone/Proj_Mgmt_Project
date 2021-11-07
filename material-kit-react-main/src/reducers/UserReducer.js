@@ -36,15 +36,17 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchGithubUserAsync.pending, (state, action) => {
-            state.loading = true
-            state.user = null
+            state.loading = true;
+            state.user = null;
+            state.error = null;
         }).addCase(fetchGithubUserAsync.fulfilled, (state, { payload }) => {
-            state.loading = false
-            state.user = payload
+            state.loading = false;
+            state.user = payload;
+            state.error = null;
         }).addCase(fetchGithubUserAsync.rejected, (state, action) => {
             state.loading = false;
             console.log('action.error:', action.error);
-            state.error = action.error.message;
+            state.error = action.payload;
         })
     },
 })

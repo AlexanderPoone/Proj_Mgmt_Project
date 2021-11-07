@@ -2,12 +2,13 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { Provider } from 'react-redux';
-import { configureAppStore } from './store';
-import rootReducer from './reducers';
-import { configureStore } from '@reduxjs/toolkit';
+import { store } from './store';
 
-const store = configureAppStore();
 console.log('App Store:', JSON.stringify(store));
+
+store.subscribe(()=>{
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
 
 ReactDOM.render(
   (

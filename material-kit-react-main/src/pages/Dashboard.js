@@ -9,10 +9,17 @@ import BigCalendar from 'src/components/dashboard/BigCalendar';
 import moment from "moment";
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
+import { reposProducts } from 'src/reducers/RepoReducer';
+import { store } from 'src/store';
+import Issues from 'src/components/dashboard/Issues';
+import { useDispatch } from 'react-redux';
+import { fetchGithubUserRepoIssuesAsync } from 'src/reducers/IssueReducer';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [value, onChange] = useState(new Date());
+  const repo = reposProducts(store.getState());
 
   const events = [
     {
@@ -23,6 +30,14 @@ const Dashboard = () => {
       title: "Some title"
     }
   ];
+
+  if(repo.repo == null){
+    navigate('/repos', { replace: true });
+  }
+
+  useEffect(()=>{
+    dispatch(fetchGithubUserRepoIssuesAsync({repoFullName: repo.repo.full_name}));
+  },[dispatch]);
 
   //REMARK: return to login if the access_token is undefined
 
@@ -68,7 +83,7 @@ const Dashboard = () => {
             <Box
               width='100%'
             >
-              <MileStones/>
+              <Issues/>
             </Box>
 
           </Grid>

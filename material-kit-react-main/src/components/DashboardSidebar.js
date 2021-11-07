@@ -22,12 +22,10 @@ import {
   Users as UsersIcon
 } from 'react-feather';
 import NavItem from './NavItem';
+import { useSelector } from 'react-redux';
+import { userProducts } from 'src/reducers/UserReducer';
+import { store } from 'src/store';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
-};
 
 const items = [
   {
@@ -74,6 +72,9 @@ const items = [
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const userObj = userProducts(store.getState()).user;
+
+  console.log('User State:', JSON.stringify(userObj));
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -97,28 +98,23 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           p: 2
         }}
       >
-        <Avatar
+        {userObj != undefined && userObj.avatar_url != undefined && <Avatar
           component={RouterLink}
-          src={user.avatar}
+          src={userObj.avatar_url}
           sx={{
             cursor: 'pointer',
             width: 64,
-            height: 64
+            height: 64,
+            marginBottom: 1
           }}
           to="/app/account"
-        />
-        <Typography
-          color="textPrimary"
-          variant="h5"
-        >
-          {user.name}
-        </Typography>
-        <Typography
+        />}
+        {userObj != undefined && userObj.login != undefined && <Typography
           color="textSecondary"
           variant="body2"
         >
-          {user.jobTitle}
-        </Typography>
+          {userObj.login}
+        </Typography>}
       </Box>
       <Divider />
       <Box sx={{ p: 2 }}>
@@ -134,7 +130,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
         </List>
       </Box>
       <Box sx={{ flexGrow: 1 }} />
-     
+
     </Box>
   );
 

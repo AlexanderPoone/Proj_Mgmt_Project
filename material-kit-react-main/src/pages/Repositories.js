@@ -17,25 +17,32 @@ import {
 import FacebookIcon from '../icons/Facebook';
 import GoogleIcon from '../icons/Google';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import { fetchGithubUserReposAsync, reposProducts, setRepo } from 'src/reducers/RepoReducer';
+import { store } from 'src/store';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import RepoGridCell from 'src/components/dashboard/RepoGridCell';
 
 const Repositories = () => {
   const navigate = useNavigate();
+  const repo = reposProducts(store.getState());
+  const dispatch = useDispatch();
+
+
+  console.log('Sekected Repo:', JSON.stringify(repo.repo));
 
   const Item = () => {
     return (
-      <Card sx={{ height: 180 }} onClick={()=>{
+      <RepoGridCell onClick={() => {
         console.log('card view clicked');
-        navigate('/app/dashboard', { replace: true });
-      }}>
-
-        <CardContent>
-          1
-        </CardContent>
-
-
-      </Card>
+        // navigate('/app/dashboard', { replace: true });
+      }} />
     )
   }
+
+  useEffect(() => {
+    dispatch(fetchGithubUserReposAsync());
+  }, []);
   return (
     <>
       <Helmet>
@@ -65,19 +72,17 @@ const Repositories = () => {
                   Please select Repository
                 </Typography>
               </Box>
-              <Grid container spacing={2} columns={16}>
-                <Grid item xs={4}>
-                  <Item>xs=8</Item>
-                </Grid>
-                <Grid item xs={4}>
-                  <Item>xs=4</Item>
-                </Grid>
-                <Grid item xs={4}>
-                  <Item>xs=4</Item>
-                </Grid>
-                <Grid item xs={4}>
-                  <Item>xs=8</Item>
-                </Grid>
+              <Grid container spacing={2} columns={16} direction={"row"}>
+                {repo.repos.map(i => (<Grid item xs={4}>
+                  <RepoGridCell 
+                  // sx={{height: 180}}
+                   item ={i} 
+                   onClick={(repo) => {
+                    console.log('Selected Repo:', JSON.stringify(repo));
+                    dispatch(setRepo(repo));
+                    navigate('/app/dashboard', { replace: true });
+                  }} />
+                </Grid>))}
               </Grid>
             </CardContent>
 

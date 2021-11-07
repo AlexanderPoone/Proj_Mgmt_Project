@@ -50,7 +50,7 @@ export const { setAccessToken } = appSlice.actions;
 
 export const appProducts = createSelector(
     (state) => ({
-        app: state.app
+        accessToken: state.app.accessToken
     }), (state) => state
 );
 

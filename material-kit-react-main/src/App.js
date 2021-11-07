@@ -10,27 +10,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { githubAPI } from './remotes/Api';
 import { fetchGithubUserAsync } from './reducers/UserReducer';
+import ConfigData from './config.json';
+import { store } from './store';
 
 
 const App = () => {
   const content = useRoutes(routes);
   const dispatch = useDispatch();
-  const { app } = useSelector(appProducts);
+  const { accessToken } = useSelector(appProducts);
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchGithubUserAsync());
   }, [dispatch]);
 
-  console.log('AccessToken:', app.accessToken);
+  console.log('AccessToken:', accessToken);
 
   // Add a request interceptor
   githubAPI.interceptors.request.use(function (config) {
     // Do something before request is sent
+
+    console.log('Api Request Config:', JSON.stringify(config));
     return {
       ...config, headers: {
-        // Authorization: `Bearer ${Cookies.get('github_access_token')}`,
-        Authorization: 'Bearer xxxxxxxxxxx',
+        // Authorization: `Bearer ${Cookies.get(ConfigData.GITHUB_COOOKIE_NAME)}`,
+        Authorization: 'Bearer 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',
       },
     };
   }, function (error) {
@@ -40,7 +44,7 @@ const App = () => {
 
   // Add a response interceptor
   githubAPI.interceptors.response.use(function (response) {
-    response.status
+    console.log('Api Response:', JSON.stringify(response));
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;
@@ -51,13 +55,14 @@ const App = () => {
     console.log("Github Error:", error.response);
 
     if (error.response.status != undefined && (error.response.status == 401 || error.response.status == 403)) {
-      Cookies.remove('github_access_token', { path: '' });
+      Cookies.remove(Cookies.get(ConfigData.GITHUB_COOOKIE_NAME));
       dispatch(setAccessToken(undefined));
       navigate('/login', { replace: true });
     }
 
     return Promise.reject(error);
   });
+
 
   return (
     <StyledEngineProvider injectFirst>
