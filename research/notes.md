@@ -21,6 +21,8 @@ Sometimes, even if it is a bug report, it provides little useful information. Fo
 
 Yet, the reporters may not follow the rules (they may delete / alter part of the template), or be familiar with the tag system as there are too many. And the workload of team members is not taken into account.
 
+On top of this, most issue reports are for social interactions only, which constitutes a source of distraction.
+
 https://github.com/tensorflowbutler ("I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
 https://github.com/fastlane/fastlane/issues/18004
 
@@ -76,8 +78,5 @@ Written in Pygments + PyGraphViz
 
 * Spot violation of "low coupling, high cohesion"
 * Spot circular imports -->
-
-	
-Most issue reports are for social interactions only, which constitutes a source of distraction.
 
 The UML Class Diagram gives a high-level overview. Cannot distinguish whether the added file is a third-party dependency or written by user himself: needs to index the namespace for STEP ONE.
