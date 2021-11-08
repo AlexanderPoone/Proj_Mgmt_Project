@@ -20,7 +20,7 @@ const fetchGithubUserRepoMilestones = (props) => githubAPI.get(`/repos/${props.r
 
 const fetchGithubUserRepoMilestone = (props) => githubAPI.get(`/repos/${props.repoFullName}/milestones/${props.mileStoneNum}`);
 
-const fetchGithubUserMileStoneIssue = (props) => githubAPI.get(`/repos/${props.repoFullName}/issues`, {params: props.params});
+const fetchGithubUserMileStoneIssues = (props) => githubAPI.get(`/repos/${props.repoFullName}/issues`, {params: props.params});
 
 
 // const githubLogin = () => axiosInstance.get(`${configData.SEVER_ROOT}/github/authorize`);
@@ -33,5 +33,5 @@ export default {
     fetchGithubUserRepoIssue,
     fetchGithubUserRepoMilestones,
     fetchGithubUserRepoMilestone,
-    fetchGithubUserMileStoneIssue
+    fetchGithubUserMileStoneIssues
 };

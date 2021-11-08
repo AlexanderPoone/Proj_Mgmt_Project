@@ -1,23 +1,41 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import Api from '../remotes/Api'
 
-// export const githubLoginAsyc = createAsyncThunk(
-//     'login/githubLogin',
-//     async (_, { rejectWithValue }) => {
-//         try {
-//             // const { id, ...fields } = props
-//             const response = await Api.githubLogin()
-//             return response.data.code
-//         } catch (err) {
-//             let error = err // cast the error for access
-//             if (!error.response) {
-//                 throw err
-//             }
-//             // We got validation errors, let's return those so we can reference in our component and set form errors
-//             return rejectWithValue(error.response.data)
-//         }
-//     }
-// )
+export const fetchGithubUserRepoMilestonesAsync = createAsyncThunk(
+    'milestone/fetchGithubUserRepoMilestones',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.fetchGithubUserRepoMilestones(props);
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const fetchGithubUserRepoMilestoneAsync = createAsyncThunk(
+    'milestone/fetchGithubUserRepoMilestone',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.fetchGithubUserRepoMilestone(props);
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 
 const initialState = {
     milestones: [],
@@ -37,18 +55,33 @@ const milestoneSlice = createSlice({
             state.milestone = action.payload;
         }
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase(githubLoginAsyc.pending, (state, action) => {
-    //         state.loading = true
-    //         state.githubLoginRes = {}
-    //     }).addCase(githubLoginAsyc.fulfilled, (state, { payload }) => {
-    //         state.loading = false
-    //         state.githubLoginRes = payload
-    //     }).addCase(githubLoginAsyc.rejected, (state, action) => {
-    //         state.loading = false;
-    //         state.error = action.error.message;
-    //     })
-    // },
+    extraReducers: (builder) => {
+        builder.addCase(fetchGithubUserRepoMilestonesAsync.pending, (state, action) => {
+            state.loading = true;
+            state.milestones = [];
+            state.error = null;
+        }).addCase(fetchGithubUserRepoMilestonesAsync.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.milestones = payload;
+            state.error = null;
+        }).addCase(fetchGithubUserRepoMilestonesAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.milestones = [];
+            state.error = action.payload;
+        }).addCase(fetchGithubUserRepoMilestoneAsync.pending, (state, action) => {
+            state.loading = true;
+            state.milestone = null;
+            state.error = null;
+        }).addCase(fetchGithubUserRepoMilestoneAsync.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.milestone = payload;
+            state.error = null;
+        }).addCase(fetchGithubUserRepoMilestoneAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.milestone = null;
+            state.error = action.payload;
+        })
+    },
 })
 
 export const { setMileStones, setMileStone } = milestoneSlice.actions;
