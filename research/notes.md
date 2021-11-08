@@ -23,6 +23,8 @@ Yet, the reporters may not follow the rules (they may delete / alter part of the
 
 On top of this, most issue reports are for social interactions only, which constitutes a source of distraction.
 
+##### Case study
+
 https://github.com/tensorflowbutler ("I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
 https://github.com/fastlane/fastlane/issues/18004
 
