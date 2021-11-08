@@ -52,7 +52,8 @@ DOI： 10.1109/TCSS.2020.3017501
 
 * We did a simplified, generic version:
 	- Assumption: 1 GitHub account per task.
-
+* Method used:
+	- Small English CNN model from spacy
 
 But you may say, code and images from the issue report will go into NLP, which will affect the result!
 
@@ -70,3 +71,8 @@ Written in Pygments + PyGraphViz
 
 * Spot violation of "low coupling, high cohesion"
 * Spot circular imports -->
+
+	
+Most issue reports are for social interactions only, which constitutes a source of distraction.
+
+The UML Class Diagram gives a high-level overview. Cannot distinguish whether the added file is a third-party dependency or written by user himself: needs to index the namespace for STEP ONE.
