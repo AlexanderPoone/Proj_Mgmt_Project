@@ -54,6 +54,11 @@ Triaging is the name given for confirming, prioritizing, and organizing issue re
 
 * We did a simplified, generic version:
 	* Assumption: 1 GitHub account per task.
+	* Automated half of the job:
+		1. remove invalid
+		2. classification
+		3. respond to reporter
+		4. suggest assignee with the lowest workload (balance workload)
 * Method used:
 	* Small English CNN model from spacy
 
@@ -62,8 +67,6 @@ But you may say, code and images from the issue report will go into NLP, which w
 Actually it won't. Method: Markdown -----markdown Python library-----> HTML ------> extract text only.
 
 #### Task list
-* Automated half of the job: 1. remove invalid; 2. classification; 3. respond to reporter; 4. suggest assignee with the lowest workload (balance workload)
-
 * Users (issue reporters) love fast feedback: AJAX - Click 'create task/invalid issue/resolve task/delay task' without refreshing
 
 
