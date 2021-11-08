@@ -81,4 +81,6 @@ Written in Pygments + PyGraphViz
 * Spot violation of "low coupling, high cohesion"
 * Spot circular imports -->
 
+--------------------------------------------
+	
 The UML Class Diagram gives a high-level overview. Cannot distinguish whether the added file is a third-party dependency or written by user himself: needs to index the namespace for STEP ONE.
