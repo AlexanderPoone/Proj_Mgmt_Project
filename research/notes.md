@@ -24,7 +24,8 @@ Yet, the reporters may not follow the rules (they may delete / alter part of the
 https://github.com/tensorflowbutler ("I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
 https://github.com/fastlane/fastlane/issues/18004
 
-For internal changes, we also do our best to make sure each check-in appears as a single git commit, and includes the author’s GitHub account and a comment explaining the change. We have a special “tensorflow-gardener” account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it’s been migrated to GitHub here.
+According to the development team of Tensorflow:
+> For internal changes, we also do our best to make sure each check-in appears as a single git commit, and includes the author’s GitHub account and a comment explaining the change. We have a special “tensorflow-gardener” account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it’s been migrated to GitHub here.
 https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/
 
 #### Automated bug triage
