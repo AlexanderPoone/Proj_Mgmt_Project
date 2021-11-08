@@ -92,7 +92,7 @@ Written in Pygments + PyGraphViz
 --------------------------------------------
 --------------------------------------------
 
-# Bonus: Generation of Class UML Diagram from Codebase
+##### Bonus: Generation of Class UML Diagram from Codebase
 * Language-specific: Java is used for this version
 * Purpose of Class UML:
 1. Gives a high-level overview: you can see if the 'high cohesion, low coupling' principle is violated; and check if there are circular imports.
