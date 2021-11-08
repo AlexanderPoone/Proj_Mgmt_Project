@@ -2,24 +2,26 @@
 
 ## Introduction
 
-Most time of the software cycle is spent on maintenance instead of planning, designing, implementation etc. The informality of Modern Code Review has it upsides and downsides. One of the challenges is to keep MCR manageable for a large project.'Issues' is a vague term that actually encompasses many things. Not all reports are bona fide. There are many ways to classify issues. Here we present one way:
+Most time of the software cycle is spent on maintenance instead of planning, designing, implementation etc. The informality of Modern Code Review has its upsides and downsides. One of the challenges is to keep MCR manageable for a large project.
+‘Issues' is a vague term that actually encompasses many things. Not all reports are bona fide. There are many ways to classify issues. Here we present one way:
 1. software bug report (Action: Assign issue to developer team.)
-2. documentation errors (e.g. broken links, not clear, typos. Action: Assign issue to documentation team.)
-3. performance issues (e.g. slow, huge memory consumption. Action: Assign issue to tester team to feedback to developer team.)
-4. question/technical support (e.g. how to ..., cannot install. Action: Direct the users to user manual or the ops team.)
+2. documentation errors (e.g., broken links, not clear, typos. Action: Assign issue to documentation team.)
+3. performance issues (e.g., slow, huge memory consumption. Action: Assign issue to tester team to feedback to developer team.)
+4. question/technical support (e.g., how to ..., cannot install. Action: Direct the users to user manual or the ops team.)
 5. feature requests (save for later, when there is time capacity and resources)
 6. invalid/spam (Action: the issue should be closed immediately)
 
-We do supervised learning to classify these issues. The output confidence percentage that the issue belonging to categories, not the category itself. Tag only if confidence percentage is high!With such classifications, it is also easier to find duplicate issues. Pull requests can also be classified in such way (except #4).
+We do supervised learning to classify these issues. The output confidence percentage that the issue belonging to categories, not the category itself. Tag only if confidence percentage is high!
+With such classifications, it is also easier to find duplicate issues. Pull requests can also be classified in such way (except #4).
 
-(The tensorflow GitHub repo seems to agree with this six categories, they use ['type:bug', 'type:docs-bug', 'type:performance', 'type:support', 'type:feature', 'invalid']) We also need to make a URL list of public GitHub repositories with these issue labels, and use them for training.
+(The `tensorflow` GitHub repo seems to agree with these six categories, they use ['type:bug', 'type:docs-bug', 'type:performance', 'type:support', 'type:feature', 'invalid']) We also need to make a URL list of public GitHub repositories with these issue labels, and use them for training.
 
 #### Automated issue filtering
-GitHub issues, by default, are free-form and unstructured. Therefore, it is probable there there are unconstructive issues like questions (should read the user manual instead of posting on GitHub), spam, or even gibberish. In some occasions, the team is too occupied to care about feature requests.
+GitHub issues, by default, are free-form and unstructured. Therefore, it is probable there are unconstructive issues like questions (should read the user manual instead of posting on GitHub), spam, or even gibberish. On some occasions, the team is too occupied to care about feature requests.
 
 Sometimes, even if it is a bug report, it provides little useful information. For example, the version with the bug or log messages are not provided. How some GitHub projects tackle the issue is to limit the format of bug reports (GitHub has no restriction, but there is a GitHub feature to give users a bug template: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository)
 
-Yet, the reporters may not follow the rules (they may delete / alter part of the template), or be familiar with the tag system as there are too many. And the workload of team members is not taken into account.
+Yet, the reporters may not follow the rules (they may delete / alter part of the template) or be familiar with the tag system as there are too many. And the workload of team members is not considered.
 
 On top of this, most issue reports are for social interactions only, which constitutes a source of distraction.
 
@@ -29,11 +31,11 @@ https://github.com/tensorflowbutler ("I'm a bot that helps maintain the TensorFl
 https://github.com/fastlane/fastlane/issues/18004
 
 According to the development team of Tensorflow:
-> For internal changes, we also do our best to make sure each check-in appears as a single git commit, and includes the author’s GitHub account and a comment explaining the change. We have a special “tensorflow-gardener” account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it’s been migrated to GitHub here.
+> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author’s GitHub account and a comment explaining the change. We have a special “tensorflow-gardener” account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it’s been migrated to GitHub here.
 https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/
 
 #### Automated bug triage
-Automated bug triage by adding a custom severity tag to the issue. In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers have to determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
+Automated bug triage by adding a custom severity tag to the issue. In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
 	
 Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
 
@@ -68,7 +70,7 @@ Triaging is the name given for confirming, prioritizing, and organizing issue re
 
 But you may say, code and images from the issue report will go into NLP, which will affect the result!
 
-Actually it won't. Method: Markdown -----markdown Python library-----> HTML ------> extract text only.
+Actually, it won't. Method: Markdown -----markdown Python library-----> HTML ------> extract text only.
 
 #### Task list
 * Users (issue reporters) love fast feedback: AJAX - Click 'create task/invalid issue/resolve task/delay task' without refreshing
