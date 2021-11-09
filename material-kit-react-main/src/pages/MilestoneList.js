@@ -7,22 +7,42 @@ import Burndown from 'src/components/dashboard/Burndown';
 import { fetchGithubUserRepoMilestonesAsync, milestoneProducts } from 'src/reducers/MileStoneReducer';
 import { store } from 'src/store';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { reposProducts } from 'src/reducers/RepoReducer';
 import { userProducts } from 'src/reducers/UserReducer';
+import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const MilestoneList = () => {
 
   const dispatch = useDispatch();
   const milestone = milestoneProducts(store.getState());
+  const navigate = useNavigate();
   const repo = reposProducts(store.getState());
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
   console.log('Milestones:', JSON.stringify(milestone.milestones));
 
   useEffect(()=>{
     dispatch(fetchGithubUserRepoMilestonesAsync({repoFullName: repo.repo.full_name, params:{
-      page: 0
+      page: page,
+      per_page: limit
     }}));
-  }, [dispatch])
+  }, [dispatch]);
+
+  const handleLimitChange = (event) => {
+    console.log("LimitChange", event.target.value);
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    console.log("PageChange", newPage);
+    setPage(newPage);
+  };
+
+  const handleRowClick = (event, milestone) => {
+    console.log("Selected milestone", JSON.stringify(milestone));
+    navigate('/app/milestone', { replace: false });
+  };
 
   return (
 
@@ -63,7 +83,14 @@ const MilestoneList = () => {
           </Grid>
           {/* <MilestoneListToolbar /> */}
           <Box sx={{ pt: 3 }}>
-            <MilestoneListResults customers={customers} />
+            <MilestoneListResults 
+            milestones={milestone.milestones} 
+            handleLimitChange={handleLimitChange}
+            handlePageChange={handlePageChange}
+            handleRowClick={handleRowClick}
+            page={page - 1}
+            limit={limit}
+            />
           </Box>
         </Container>
       </Box>

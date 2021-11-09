@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import getInitials from '../../utils/getInitials';
 
-const MilestoneListResults = ({ customers, ...rest }) => {
+const MilestoneListResults = ({ milestones, ...props }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -26,7 +26,7 @@ const MilestoneListResults = ({ customers, ...rest }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedCustomerIds = milestones.map((milestone) => milestone.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -63,7 +63,7 @@ const MilestoneListResults = ({ customers, ...rest }) => {
   };
 
   return (
-    <Card {...rest}>
+    <Card {...props}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -81,28 +81,31 @@ const MilestoneListResults = ({ customers, ...rest }) => {
                   />
                 </TableCell> */}
                 <TableCell>
-                  MileStone
+                  MileStone #
                 </TableCell>
                 <TableCell>
-                  Assign To
+                  Title
                 </TableCell>
                 <TableCell>
-                  Created By
+                  Open Issues
                 </TableCell>
                 <TableCell>
-                  Created At
+                  State
                 </TableCell>
                 <TableCell>
-                  Updated At
+                  End day
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {milestones.map((milestone) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={milestone.id}
+                  selected={selectedCustomerIds.indexOf(milestone.id) !== -1}
+                  onClick={(event)=>{
+                    props.handleRowClick(event, milestone);
+                  }}
                 >
                   {/* <TableCell padding="checkbox">
                     <Checkbox
@@ -112,37 +115,19 @@ const MilestoneListResults = ({ customers, ...rest }) => {
                     />
                   </TableCell> */}
                   <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      {/* <Avatar
-                        src={customer.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar> */}
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
-                    </Box>
+                    {milestone.number}
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {milestone.title}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    {milestone.open_issues}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {milestone.state}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {moment('2021-11-22').format('DD/MM/YYYY')}
                   </TableCell>
                 </TableRow>
               ))}
@@ -152,11 +137,11 @@ const MilestoneListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
+        count={milestones.length}
+        onPageChange={props.handlePageChange}
+        onRowsPerPageChange={props.handleLimitChange}
+        page={props.page}
+        rowsPerPage={props.limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>
@@ -164,7 +149,7 @@ const MilestoneListResults = ({ customers, ...rest }) => {
 };
 
 MilestoneListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  milestones: PropTypes.array.isRequired
 };
 
 export default MilestoneListResults;

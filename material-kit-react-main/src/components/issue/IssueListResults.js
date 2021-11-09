@@ -17,16 +17,14 @@ import {
 } from '@material-ui/core';
 import getInitials from '../../utils/getInitials';
 
-const IssueListResults = ({ customers, ...rest }) => {
+const IssueListResults = ({ issues, ...props }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedCustomerIds = issues.map((issue) => issue.id);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -54,16 +52,20 @@ const IssueListResults = ({ customers, ...rest }) => {
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
+  // const handleLimitChange = (event) => {
+  //   setLimit(event.target.value);
+  // };
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
+  // const handlePageChange = (event, newPage) => {
+  //   setPage(newPage);
+  // };
+
+  // const handleRowClick = (event, issue) => {
+  //   console.log("Selected Issue", JSON.stringify(issue));
+  // };
 
   return (
-    <Card {...rest}>
+    <Card {...props}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -81,28 +83,29 @@ const IssueListResults = ({ customers, ...rest }) => {
                   />
                 </TableCell> */}
                 <TableCell>
-                  Issue
+                  Issue #
                 </TableCell>
                 <TableCell>
-                  Assign To
+                  Title
                 </TableCell>
                 <TableCell>
-                  Created By
+                  State
+                </TableCell>
+                <TableCell>
+                  Assignee
                 </TableCell>
                 <TableCell>
                   Created At
                 </TableCell>
-                <TableCell>
-                  Updated At
-                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {issues.map((issue) => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={issue.id}
+                  selected={selectedCustomerIds.indexOf(issue.id) !== -1}
+                  onClick={event =>{ props.handleRowClick(event, issue)}}
                 >
                   {/* <TableCell padding="checkbox">
                     <Checkbox
@@ -128,21 +131,21 @@ const IssueListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {issue.number}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {issue.title}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    {issue.state}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {issue.assignee?.login}
                   </TableCell>
                   <TableCell>
-                    {moment(customer.createdAt).format('DD/MM/YYYY')}
+                    {moment(issue.created_at).format('DD/MM/YYYY')}
                   </TableCell>
                 </TableRow>
               ))}
@@ -152,11 +155,11 @@ const IssueListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
+        count={issues.length}
+        onPageChange={props.handlePageChange}
+        onRowsPerPageChange={props.handleLimitChange}
+        page={props.page}
+        rowsPerPage={props.limit}
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>

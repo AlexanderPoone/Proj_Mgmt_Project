@@ -51,7 +51,7 @@ from re import sub
 app = Flask(__name__)
 CORS(app)
 
-nlp = spacy.load('basic_triage_small5')
+nlp = spacy.load('en_core_web_sm')
 
 myclient = MongoClient("mongodb://localhost:27017/") 
 db = myclient["project"]
