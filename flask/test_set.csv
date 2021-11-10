@@ -1,0 +1,43 @@
+,title,body,ground_truth
+0,Laggy animations.,The frame rate drops to 12 fps on my phone.,class:performance
+1,Huge lag rendering graphics.,The frame rate decreases to 8 fps on my laptop with a Nvidia graphic card.,class:performance
+2,How to make this run on Windows 11?,It's my first time using this. I wonder if the software is compatible with Window 11? Could someone help me please?,class:support
+3,Does this run on Ubuntu?,I cannot find on the software from Ubuntu Software Centre. Could you provide me the Debian package?,class:support
+4,Speed things up and decrease latency when switching songs.,Benchmark scores below,class:performance
+5,Can I translate this software?,I would like to seek permission to translate this software and redistribute it. It is for non-commercial use. I would be grateful.,class:support
+6,High latency between disk block reads.,It can definitely be better.,class:performance
+7,I am a Nigerian prince who want to invest in your company.,Get rich quick! Pls email me at,class:invalid
+8,Invitation to join our awesome project!,I just cAme across your GitHub profile and find this repo interesting. We are a group of tech enthusiasts who recently developed a bitcoin mining application. Could you join us?,class:invalid
+9,Free bitcoin!,We are giving away free bitcoins! Click me click me click me Limited offer only going on for 30 days! Enjoy!,class:invalid
+10,The latency is unbearable.,The fps sometimes drops to single digit on my gtx 2060 graphic card.,class:performance
+11,Build failed,Compiler returns syntax error at Line 13,class:software
+12,Build on Windows 11 failed,Compiler returns syntax error at Line 101: Variable 'x' referenced before assignment,class:software
+13,Build on Windows 11 failed,Compiler returns syntax error at Line 1: import not found,class:software
+14,Build on Mac OS X failed,Compiler returns syntax error at Line 101: Variable 'x' referenced before assignment,class:software
+15,Build on Ubuntu failed,Compiler returns syntax error at Line 1: import 'pygraphviz' not found,class:software
+16,More examples,Could you provide more examples in the online docs? I find the instructions there confusing.,class:documentation
+17,Download links of Windows Binaries?,Sorry for asking a stupid question but where can I get the download links of Windows Binaries?,class:support
+18,Typo on Page 13 of the User Guide,Typo on Page 13 of the User Guide,class:documentation
+19,Instructions from the docs concerning installation are a bit vague.,Instructions from the docs concerning installation are a bit vague.,class:documentation
+20,Cannot run sample code.,I followed the Hello World program instructions online but can't get it working.,class:documentation
+21,Example outdated,The examples from the online manual does not reflect the changes in the new version.,class:documentation
+22,User manual not enough examples,User manual not enough examples ><,class:documentation
+23,Program uses a lot of disk space,Program uses a lot of disk space,class:performance
+24,Animations laggy loading page,Animations laggy loading page,class:performance
+25,Excruciatingly slow on OpenGL Mode,"According to the speed benchmark, it ranked low",class:performance
+26,Can you provide a Debian Package?,Sorry for asking a stupid question. Where can I get the download links of the debian package?,class:support
+27,You guys are shit.,Crappy crap go fuck yourselves loser,class:invalid
+28,Memory exhausted,Memory exhausted while having the transparency effects turned on,class:performance
+29,"This is the shittiest, crappiest abandonware I have ever seen!",Close this repo for god's sake.,class:invalid
+30,There are many typos in the Albanian version of the user manual.,The word Albanian in Albanian is spelt Shqip not shpiq.,class:documentation
+31,Huge delays low frame rate.,I have a decent graphic card but the graphics are far from smooth.,class:performance
+32,Transition animations not smooth at all.,Transition animations not smooth at all.,class:performance
+33,Program uses a lot of disk space.,Memory overhead and I/O overhead can be reduced.,class:performance
+34,How can I change the language?,I can't find the locale option from settings.,class:support
+35,How do I open language settings?,Couldn't find it anywhere. Help me please!,class:support
+36,Where is the Personalisation Feature button in v.5.0.0 ?,After upgrading the software I could not find that button in the Control Panel pls help,class:support
+37,Question.,Does it run on Mac OS X? What are the minimal system requiements?,class:support
+38,Cannot find the settings button in the new version!,Where is the settings button? Help please ;-),class:support
+39,asdfghjkl qwerty qwertyuiop,asdfghjkl qwerty qwertyuiopqwertyuiopqwertyuiop,class:invalid
+40,free stuff,click here limited offer xxx free ebooks click to download,class:invalid
+41,How to make this run on Windows 10?,It's my first time using this. I wonder if the software is compatible with Window 10? Could someone help me please?,class:support

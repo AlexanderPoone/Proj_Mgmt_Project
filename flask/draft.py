@@ -174,8 +174,12 @@ def getContributors(owner, reponame):
 	for h in headers:
 		req.add_header(h, headers[h])
 
-	res = urlopen(req)
-	resJson = loads(res.read())
+	try:
+		res = urlopen(req)
+		resJson = loads(res.read())
+	except:
+		print('Error case: Empty repo')
+		return [], []
 
 	contributorRoles = []
 	collection = db['roles']
@@ -1278,6 +1282,70 @@ def logout():
 	print(res.read())
 
 	return redirect('login')
+
+###########################################################################
+#
+#
+#		UNIT TEST BEGINS
+#
+#
+###########################################################################
+
+
+'''
+https://dord.mynetgear.com:5351/test/bulkaddissues/SoftFeta/SWEnggUnitTest
+Creating real GitHub Issues using sample data.
+The app is rigorously tested by metamorphic testing using NLTK.
+'''
+@app.route('/test/bulkaddissues/<string:owner>/<string:reponame>', methods = ['GET'])
+def UT_BulkAddIssues(owner, reponame):
+	#  Actually, use pandas to load instead.
+	import pandas as pd
+	from time import sleep
+	#import nltk
+
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues'
+
+	tok = request.cookies.get('access_token')
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+
+	df = pd.read_csv('test_set.csv')
+
+	for index, row in df.iterrows():
+		body = {'title': row['title'],
+		 'body': row['body']
+		}
+
+		data = dumps(body).encode('utf-8')
+
+		req = Request(url, data=data)
+		for h in headers:
+			req.add_header(h, headers[h])
+
+		try:
+			res = urlopen(req)
+		except Exception as e:
+			print(e.read())
+		print(res.read())
+
+		sleep(5)
+
+	return jsonify(True)
+
+###########################################################################
+#
+#
+#		UNIT TEST ENDS
+#
+#
+###########################################################################
+
+
+
 
 if __name__ == "__main__":
 	# Replace below with app.run(host='0.0.0.0', port=5351) if you don't have a SSH Certificate !!!
