@@ -21,6 +21,7 @@
 4. Download Python from [https://www.python.org/downloads/](https://www.python.org/downloads/). Make sure to check **Add Python to PATH** in the installer. For other settings, just use the default ones. Open a Command Prompt, change directory by typing `cd flask`, and type `pip3 install -r requirements.txt` to install the additional Python libraries.
 5. Download MongoDB Community Server from [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community). Just use the default settings.
 6. Create an OAuth app on GitHub by going to **Settings > Developer Settings > OAuth app**, and replace all instances of `34ed33a5c053d0c8e014` and `446a323da8084af5dc13db5beed18bb85b778da2` in [flask/draft.py](https://github.com/SoftFeta/CS5351_Project/blob/alex/flask/draft.py) (https://github.com/SoftFeta/CS5351_Project/blob/alex/flask/draft.py) with **your Client ID** and **Client Secret** respectively.
+
 ![image](https://user-images.githubusercontent.com/9071916/141124700-160dd31b-d1f2-4b27-96dd-8916400550a6.png)
 
 ------------------------------
