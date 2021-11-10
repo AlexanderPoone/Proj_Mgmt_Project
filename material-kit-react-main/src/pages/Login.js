@@ -27,11 +27,9 @@ const Login = () => {
   const dispatch = useDispatch();
   const { app } = useSelector(appProducts);
 
-  // useEffect(() => {
-  //   dispatch(setAccessToken( Cookies.get('github_access_token')));
-  // }, [dispatch]);
-
-  // console.log('AccessToken:', app.accessToken);
+  if(Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != undefined && Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != null){
+    navigate('/repos', { replace: true });
+  }
 
   return (
     <>
