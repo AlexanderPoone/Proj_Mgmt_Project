@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Box, Container, Grid, Card, CardContent, } from '@material-ui/core';
 import Burndown from 'src/components/dashboard/Burndown';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+// import 'react-calendar/dist/Calendar.css';
 import MileStones from 'src/components/dashboard/MileStones';
 import BigCalendar from 'src/components/dashboard/BigCalendar';
 import moment from "moment";
@@ -13,23 +13,14 @@ import { reposProducts } from 'src/reducers/RepoReducer';
 import { store } from 'src/store';
 import Issues from 'src/components/dashboard/Issues';
 import { useDispatch } from 'react-redux';
-import { fetchGithubUserRepoIssuesAsync } from 'src/reducers/IssueReducer';
+import { fetchGithubUserRepoIssuesAsync, issueProducts } from 'src/reducers/IssueReducer';
+import IssueListResults from 'src/components/issue/IssueListResults';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [value, onChange] = useState(new Date());
-  const repo = reposProducts(store.getState());
-
-  const events = [
-    {
-      start: moment().toDate(),
-      end: moment()
-        .add(1, "days")
-        .toDate(),
-      title: "Some title"
-    }
-  ];
+  const issues = issueProducts(store.getState()).issues;
 
   // if(repo.repo == null){
   //   navigate('/repos', { replace: true });
@@ -46,6 +37,39 @@ const Dashboard = () => {
   //   console.log('accessToken:', accessToken);
   //   setTimeout(()=>{navigate('/login', { replace: true });}, 500);
   // }
+
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+
+  const handleLimitChange = (event) => {
+    console.log("LimitChange", event.target.value);
+    setLimit(event.target.value);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    console.log("PageChange", newPage);
+    setPage(newPage);
+  };
+
+  const handleRowClick = (event, issue) => {
+    console.log("Selected Issue", JSON.stringify(issue));
+    navigate('/app/issue', {
+      state: {
+        number: issue.number
+      },
+      replace: false
+    });
+  };
+
+  const handleOnSelectEvent = (event, e)=>{
+    console.log('Selected Event:', JSON.stringify(event));
+    navigate('/app/issue', {
+      state: {
+        number: event.resource.number
+      },
+      replace: false
+    });
+  }
 
 
   return (<>
@@ -77,13 +101,32 @@ const Dashboard = () => {
               width='100%'
               sx={{ mb: 3 }}
             >
-              <BigCalendar events={events}/>
+              <BigCalendar
+                // date={moment().toDate()}
+                views={['month']}
+                events={issues.map(issue => ({
+                  start: issue.created_at ? moment(issue.created_at).toDate() : moment().toDate(),
+                  end: issue.closed_at ? moment(issue.closed_at).toDate() : moment().add(1, "days").toDate(),
+                  title: issue.title,
+                  allDay: true,
+                  resource: issue
+                }))}
+                selectable={true}
+                onSelectEvent={handleOnSelectEvent}
+              />
             </Box>
 
             <Box
               width='100%'
             >
-              <Issues/>
+              <IssueListResults title={'Hot Issues'}
+                issues={issues}
+                handleLimitChange={handleLimitChange}
+                handlePageChange={handlePageChange}
+                handleRowClick={handleRowClick}
+                limit={limit}
+                page={page - 1}
+              />
             </Box>
 
           </Grid>

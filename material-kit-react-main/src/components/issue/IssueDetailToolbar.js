@@ -6,11 +6,12 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
-  Typography
+  IconButton
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
+import { ArrowBack, Delete } from '@material-ui/icons';
+import Colors from 'src/utils/colors';
 
-const IssueListToolbar = (props) => (
+const IssueDetailToolbar = (props) => (
   <Box {...props}>
     {/* <Box
       sx={{
@@ -52,7 +53,9 @@ const IssueListToolbar = (props) => (
               placeholder="Search customer"
               variant="outlined"
             /> */}
-            <Typography sx={{fontSize: 32}}>Issues</Typography>
+            <IconButton aria-label="arrow-back" onClick={props.onBackClick}>
+              <ArrowBack />
+            </IconButton>
           </Box>
         </CardContent>
       </Card>
@@ -60,4 +63,4 @@ const IssueListToolbar = (props) => (
   </Box>
 );
 
-export default IssueListToolbar;
+export default IssueDetailToolbar;

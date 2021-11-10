@@ -34,12 +34,12 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
               color="primary"
               variant="dot"
             >
-              <NotificationsIcon />
+              {/* <NotificationsIcon /> */}
             </Badge>
           </IconButton>
-          <IconButton color="inherit" size="large">
+          {/* <IconButton color="inherit" size="large">
             <InputIcon />
-          </IconButton>
+          </IconButton> */}
         </Hidden>
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onMobileNavOpen} size="large">

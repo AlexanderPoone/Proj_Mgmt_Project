@@ -7,7 +7,8 @@ import {
   InputAdornment,
   SvgIcon,
   CardHeader,
-  Divider
+  Divider,
+  Typography
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 
@@ -36,7 +37,7 @@ const MileStoneListToolbar = (props) => (
     <Box sx={{ mt: 3 }}>
       <Card>
         <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
+          {/* <Box sx={{ maxWidth: 500 }}>
             <TextField
               fullWidth
               InputProps={{
@@ -54,7 +55,8 @@ const MileStoneListToolbar = (props) => (
               placeholder="Search customer"
               variant="outlined"
             />
-          </Box>
+          </Box> */}
+          <Typography sx={{fontSize: 32}}>Milestones</Typography>
         </CardContent>
       </Card>
     </Box>

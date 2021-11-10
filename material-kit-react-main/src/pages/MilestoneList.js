@@ -22,11 +22,13 @@ const MilestoneList = () => {
   const [page, setPage] = useState(1);
   console.log('Milestones:', JSON.stringify(milestone.milestones));
 
-  useEffect(()=>{
-    dispatch(fetchGithubUserRepoMilestonesAsync({repoFullName: repo.repo.full_name, params:{
-      page: page,
-      per_page: limit
-    }}));
+  useEffect(() => {
+    dispatch(fetchGithubUserRepoMilestonesAsync({
+      repoFullName: repo.repo.full_name, params: {
+        page: page,
+        per_page: limit
+      }
+    }));
   }, [dispatch]);
 
   const handleLimitChange = (event) => {
@@ -41,7 +43,10 @@ const MilestoneList = () => {
 
   const handleRowClick = (event, milestone) => {
     console.log("Selected milestone", JSON.stringify(milestone));
-    navigate('/app/milestone', { replace: false });
+    navigate(`/app/milestone`, {
+      state: { number: milestone.number },
+      replace: false
+    });
   };
 
   return (
@@ -63,7 +68,7 @@ const MilestoneList = () => {
             spacing={3}
           >
 
-            <Grid
+            {/* <Grid
               item
               lg={10}
               md={10}
@@ -77,19 +82,19 @@ const MilestoneList = () => {
                 <Burndown />
               </Box>
 
-            </Grid>
+            </Grid> */}
 
 
           </Grid>
-          {/* <MilestoneListToolbar /> */}
+          <MilestoneListToolbar />
           <Box sx={{ pt: 3 }}>
-            <MilestoneListResults 
-            milestones={milestone.milestones} 
-            handleLimitChange={handleLimitChange}
-            handlePageChange={handlePageChange}
-            handleRowClick={handleRowClick}
-            page={page - 1}
-            limit={limit}
+            <MilestoneListResults
+              milestones={milestone.milestones}
+              handleLimitChange={handleLimitChange}
+              handlePageChange={handlePageChange}
+              handleRowClick={handleRowClick}
+              page={page - 1}
+              limit={limit}
             />
           </Box>
         </Container>

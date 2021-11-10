@@ -14,6 +14,7 @@ import MilestoneList from './pages/MilestoneList';
 import MilestoneDetail from './pages/MilestoneDetail';
 import IssueDetail from './pages/IssueDetail';
 import Repositories from './pages/Repositories';
+import Splash from './pages/Splash';
 
 const routes = [
   {
@@ -40,7 +41,7 @@ const routes = [
       { path: 'repos', element: <Repositories /> },
       { path: 'register', element: <Register /> },
       { path: '404', element: <NotFound /> },
-      { path: '/', element: <Navigate to="/login" /> },
+      { path: '/', element: <Splash /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   }

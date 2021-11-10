@@ -33,11 +33,15 @@ const BigCalendar = (props) => {
           }}
         >
           <Calendar
+            date={props.date}
             localizer={localizer}
+            views={props.views}
             events={props.events ?? []}
             startAccessor="start"
             endAccessor="end"
             style={{ height: '100%' }}
+            onSelectEvent={props.onSelectEvent}
+            selectable={props.selectable}
           />
         </Box>
       </CardContent>

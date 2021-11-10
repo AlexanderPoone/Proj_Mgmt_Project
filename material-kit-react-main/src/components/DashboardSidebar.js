@@ -48,16 +48,16 @@ const items = [
     icon: ShoppingBagIcon,
     title: 'Repositories'
   },
-  {
-    href: '/app/issue',
-    icon: AlertCircleIcon,
-    title: 'Issue Detail'
-  },
-  {
-    href: '/app/milestone',
-    icon: SettingsIcon,
-    title: 'MileStones Detail'
-  },
+  // {
+  //   href: '/app/issue',
+  //   icon: AlertCircleIcon,
+  //   title: 'Issue Detail'
+  // },
+  // {
+  //   href: '/app/milestone',
+  //   icon: SettingsIcon,
+  //   title: 'MileStones Detail'
+  // },
   {
     href: '/login',
     icon: LockIcon,

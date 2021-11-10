@@ -8,6 +8,10 @@ import {
   CardHeader,
   Chip,
   Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -81,36 +85,32 @@ const orders = [
   }
 ];
 
-const MilestoneBasicInfo = (props) => (
-  <Card {...props}>
-    <CardHeader title="MileStone Basic" />
-    <Divider />
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: 400,
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <Box>Basic Info</Box>
-    </Box>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
-      {/* <Button
-        color="primary"
-        endIcon={<ArrowRightIcon />}
-        size="small"
-        variant="text"
-      >
-        View all
-      </Button> */}
-    </Box>
-  </Card>
-);
+const MilestoneBasicInfo = (props) => {
+  const milestone = props.milestone;
+
+  return (
+    <Card {...props}>
+      <CardHeader title="Basic Info" />
+      <Divider />
+      <List>
+        <ListItem>
+          <ListItemText primary="Title" secondary={milestone?.title ?? '--'} />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Creator" secondary={milestone?.creator?.login ?? '--'} />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Start Date" secondary={milestone?.created_at != undefined ? moment(milestone?.created_at).format('DD/MM/YYYY'): '--'} />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="End Date" secondary={milestone?.created_at != undefined ? moment(milestone?.created_at).format('DD/MM/YYYY'): '--'} />
+        </ListItem>
+        {/* <ListItem>
+          <Button sx={{width: '100%'}} variant="contained">Save</Button>
+        </ListItem> */}
+      </List>
+    </Card>
+  )
+};
 
 export default MilestoneBasicInfo;

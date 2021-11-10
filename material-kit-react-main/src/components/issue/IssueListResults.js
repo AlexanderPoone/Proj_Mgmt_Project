@@ -6,7 +6,9 @@ import {
   Avatar,
   Box,
   Card,
+  CardHeader,
   Checkbox,
+  Divider,
   Table,
   TableBody,
   TableCell,
@@ -66,6 +68,8 @@ const IssueListResults = ({ issues, ...props }) => {
 
   return (
     <Card {...props}>
+      {props.title && <CardHeader title={props.title}/>}
+      {props.title && <Divider />}
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -105,7 +109,7 @@ const IssueListResults = ({ issues, ...props }) => {
                   hover
                   key={issue.id}
                   selected={selectedCustomerIds.indexOf(issue.id) !== -1}
-                  onClick={event =>{ props.handleRowClick(event, issue)}}
+                  onClick={event => { props.handleRowClick(event, issue) }}
                 >
                   {/* <TableCell padding="checkbox">
                     <Checkbox

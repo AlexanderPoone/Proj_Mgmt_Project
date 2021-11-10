@@ -8,11 +8,19 @@ import MileStones from 'src/components/dashboard/MileStones';
 import Issues from 'src/components/dashboard/Issues';
 import IssueBasicInfo from 'src/components/issue/IssueBasicInfo';
 import IssueDetailInfo from 'src/components/issue/IssueDetailInfo';
+import { useLocation, useNavigate } from 'react-router-dom';
+import IssueDetailToolbar from 'src/components/issue/IssueDetailToolbar';
 
 const IssueDetail = () => {
 
-  const [value, onChange] = useState(new Date());
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  console.log("Issue number:", location.state?.number);
+
+  const handleOnBackClick = () => {
+    navigate(-1);
+  }
 
   return (<>
     <Helmet>
@@ -33,16 +41,16 @@ const IssueDetail = () => {
 
           <Grid
             item
-            lg={8}
-            md={8}
-            xl={9}
+            lg={12}
+            md={12}
+            xl={12}
             xs={12}
           >
 
             <Box
               width='100%'
             >
-              <IssueBasicInfo />
+              <IssueDetailToolbar onBackClick={handleOnBackClick}/>
             </Box>
 
           </Grid>
@@ -51,7 +59,7 @@ const IssueDetail = () => {
             item
             lg={8}
             md={8}
-            xl={9}
+            xl={8}
             xs={12}
           >
 
@@ -59,6 +67,22 @@ const IssueDetail = () => {
               width='100%'
             >
               <IssueDetailInfo />
+            </Box>
+
+          </Grid>
+
+          <Grid
+            item
+            lg={4}
+            md={4}
+            xl={4}
+            xs={12}
+          >
+
+            <Box
+              width='100%'
+            >
+              <IssueBasicInfo />
             </Box>
 
           </Grid>
