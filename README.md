@@ -1,7 +1,7 @@
 # CS5351 Project - Issue Management & Visualisation
 **Group 2**
 
-# Test (for TA)
+# Test (for TA and Unit Test) - IMPORTANT!!!
 1. Create several Google accounts.
 2. Use the Google accounts to create several GitHub accounts.
 3. Create a repository using one of the GitHub account you have created. Public or private are both fine.
@@ -13,7 +13,7 @@
 9. Repeat Step 1~8 using your other accounts.
 10. Now your repository becomes operational on [https://dord.mynetgear.com:5351](https://dord.mynetgear.com:5351).
 
-# Installation (For Team)
+# Installation (For Team) - IMPORTANT!!!
 
 1. Download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads). Just use the default settings.
 2. Clone this repository. Open Command Prompt / Terminal, and type `git clone https://github.com/SoftFeta/CS5351_Project`.
