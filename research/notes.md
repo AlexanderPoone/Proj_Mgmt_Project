@@ -84,5 +84,18 @@ Written in Pygments + PyGraphViz
 * Spot circular imports -->
 
 --------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+--------------------------------------------
+
+##### Bonus: Generation of Class UML Diagram from Codebase
+* Language-specific: Java is used for this version
+* Purpose of Class UML:
+1. Gives a high-level overview: you can see if the 'high cohesion, low coupling' principle is violated; and check if there are circular imports.
+2. Easy to see whether the naming conventions are followed. For instance, there can be a rule where all class members starts with the letter m.
 	
-The UML Class Diagram gives a high-level overview. Cannot distinguish whether the added file is a third-party dependency or written by user himself: needs to index the namespace for STEP ONE.
+<!--The UML Class Diagram gives a high-level overview. Cannot distinguish whether the added file is a third-party dependency or written by user himself: needs to index the namespace for STEP ONE.-->
