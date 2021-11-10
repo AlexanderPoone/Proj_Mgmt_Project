@@ -1,23 +1,27 @@
 # CS5351 Project - Issue Management & Visualisation
 **Group 2**
 
-# Installation (IMPORTANT!!!)
+# Test (for TA)
+1. Create several Google accounts.
+2. Use the Google accounts to create several GitHub accounts.
+3. Create a repository using one of the GitHub account you have created. Public or private are both fine.
+4. **\*IMPORTANT\*** Create a README file in the repository.
+5. Under the GitHub repository, open **Settings**. Click **Manage Access**.
+6. Click **Add people** and type the usernames of your other GitHub accounts. After that, click the **Copy** button next to the invited account.
+7. Log on to your other account. Then, paste and go to the URL you have just copied. Accept the invitation.
+8. **\*IMPORTANT\*** After that, make an edit to the README file. (This is to ensure that the collaborator list gets updated.)
+9. Repeat Step 1~8 using your other accounts.
+10. Now your repository becomes operational on [https://dord.mynetgear.com:5351](https://dord.mynetgear.com:5351).
+
+# Installation (For Team)
 
 1. Download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads). Just use the default settings.
 2. Clone this repository. Open Command Prompt / Terminal, and type `git clone https://github.com/SoftFeta/CS5351_Project`.
 3. Switch the branch by typing `git checkout alex`.
-4. Download Python from [https://www.python.org/downloads/](https://www.python.org/downloads/). Make sure to check **Add Python to PATH** in the installer. For other settings, just use the default ones.
+4. Download Python from [https://www.python.org/downloads/](https://www.python.org/downloads/). Make sure to check **Add Python to PATH** in the installer. For other settings, just use the default ones. Open a Command Prompt and type `pip3 install -r requirements.txt` to install the additional Python libraries.
 5. Download MongoDB Community Server from [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community). Just use the default settings.
-6. Create several Google accounts.
-7. Use the Google accounts to create several GitHub accounts.
-8. Create a repository using one of the GitHub account you have created. Public or private are both fine.
-9. **\*IMPORTANT\*** Create a README file in the repository.
-10. Under the GitHub repository, open **Settings**. Click **Manage Access**.
-11. Click **Add people** and type the usernames of your other GitHub accounts. After that, click the **Copy** button next to the invited account.
-12. Log on to your other account. Then, paste and go to the URL you have just copied. Accept the invitation.
-13. **\*IMPORTANT\*** After that, make an edit to the README file. (This is to ensure that the collaborator list gets updated.)
-14. Repeat Step 10~13 using your other accounts.
-15. Now your repository becomes operational on [https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/).
+6. Create an OAuth app on GitHub by going to **Settings > Developer Settings > OAuth app**, and replace all instances of `34ed33a5c053d0c8e014` and `446a323da8084af5dc13db5beed18bb85b778da2` in [flask/draft.py](https://github.com/SoftFeta/CS5351_Project/blob/alex/flask/draft.py) (https://github.com/SoftFeta/CS5351_Project/blob/alex/flask/draft.py) with **your Client ID and Client Secret** respectively.
+![image](https://user-images.githubusercontent.com/9071916/141124700-160dd31b-d1f2-4b27-96dd-8916400550a6.png)
 
 ------------------------------
 
