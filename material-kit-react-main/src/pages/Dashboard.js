@@ -31,13 +31,13 @@ const Dashboard = () => {
     }
   ];
 
-  if(repo.repo == null){
-    navigate('/repos', { replace: true });
-  }
+  // if(repo.repo == null){
+  //   navigate('/repos', { replace: true });
+  // }
 
-  useEffect(()=>{
-    dispatch(fetchGithubUserRepoIssuesAsync({repoFullName: repo.repo.full_name}));
-  },[dispatch]);
+  // useEffect(()=>{
+  //   dispatch(fetchGithubUserRepoIssuesAsync({repoFullName: repo.repo.full_name}));
+  // },[dispatch]);
 
   //REMARK: return to login if the access_token is undefined
 

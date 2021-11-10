@@ -33,8 +33,8 @@ const App = () => {
     console.log('Api Request Config:', JSON.stringify(config));
     return {
       ...config, headers: {
-        // Authorization: `Bearer ${Cookies.get(ConfigData.GITHUB_COOOKIE_NAME)}`,
-        Authorization: 'Bearer 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',
+        Authorization: `Bearer ${Cookies.get(ConfigData.GITHUB_COOOKIE_NAME)}`,
+        // Authorization: 'Bearer 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',
       },
     };
   }, function (error) {
