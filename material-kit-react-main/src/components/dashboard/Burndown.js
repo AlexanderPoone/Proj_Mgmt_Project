@@ -24,29 +24,39 @@ const Burndown = (props) => {
 
   const rand = () => Math.round(Math.random() * 100 - 50);
   const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: ['11/11/2021', '12/11/2021', '13/11/2021', '13/11/2021', '14/11/2021', '15/11/2021', '16/11/2021'],
     datasets: [
       {
         type: 'line',
-        label: 'Dataset 1',
+        label: 'Ideal',
+        borderColor: 'rgb(134, 134, 134)',
+        borderWidth: 2,
+        backgroundColor: 'rgb(134, 134, 134)',
+        fill: false,
+        data: [10, 7, 5, 4, 3, 1, 0],
+      },
+      {
+        type: 'line',
+        label: 'Real',
         borderColor: 'rgb(54, 162, 235)',
         borderWidth: 2,
+        backgroundColor: 'rgb(54, 162, 235)',
         fill: false,
-        data: [rand(), rand(), rand(), rand(), rand(), rand()],
+        data: [10, 9, 8],
       },
       {
         type: 'bar',
-        label: 'Dataset 2',
-        backgroundColor: 'rgb(255, 99, 132)',
-        data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+        label: 'Positive',
+        backgroundColor: 'rgb(75, 192, 192)',
+        data: [1, 0, 1],
         borderColor: 'white',
         borderWidth: 2,
       },
       {
         type: 'bar',
-        label: 'Dataset 3',
-        backgroundColor: 'rgb(75, 192, 192)',
-        data: [rand(), rand(), rand(), rand(), rand(), rand(), rand()],
+        label: 'Negative',
+        backgroundColor: 'rgb(255, 99, 132)',
+        data: [0, -1, 0],
       },
     ],
   };
@@ -140,7 +150,7 @@ const Burndown = (props) => {
             options={options}
           /> */}
 
-          <Bar data={data}/>
+          <Bar data={data} />
         </Box>
       </CardContent>
       {/* <Divider /> */}

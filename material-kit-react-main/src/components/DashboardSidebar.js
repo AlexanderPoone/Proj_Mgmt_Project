@@ -34,14 +34,14 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/app/milestones',
+    href: '/app/contributors',
     icon: SettingsIcon,
-    title: 'MileStones'
+    title: 'Contributors'
   },
   {
     href: '/app/issues',
     icon: AlertCircleIcon,
-    title: 'Issues'
+    title: 'Tasks'
   },
   {
     href: '/repos',

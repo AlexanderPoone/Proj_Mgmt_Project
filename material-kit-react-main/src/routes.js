@@ -15,6 +15,10 @@ import MilestoneDetail from './pages/MilestoneDetail';
 import IssueDetail from './pages/IssueDetail';
 import Repositories from './pages/Repositories';
 import Splash from './pages/Splash';
+import RoleList from './pages/ContributorList';
+import RoleDetail from './pages/ContributorDetail';
+import ContributorDetail from './pages/ContributorDetail';
+import ContributorList from './pages/ContributorList';
 
 const routes = [
   {
@@ -29,6 +33,8 @@ const routes = [
       { path: 'milestones', element: <MilestoneList /> },
       { path: 'issues', element: <IssueList /> },
       { path: 'issue', element: <IssueDetail /> },
+      { path: 'contributors', element: <ContributorList /> },
+      { path: 'contributor', element: <ContributorDetail /> },
       { path: 'milestone', element: <MilestoneDetail /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

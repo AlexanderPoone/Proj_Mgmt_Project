@@ -27,7 +27,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const { app } = useSelector(appProducts);
 
-  if(Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != undefined && Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != null){
+  if (Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != undefined && Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != null) {
     navigate('/repos', { replace: true });
   }
 
@@ -47,70 +47,43 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <Formik
-            initialValues={{
-              email: 'demo@devias.io',
-              password: 'Password123'
-            }}
-            validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-              password: Yup.string().max(255).required('Password is required')
-            })}
-            onSubmit={() => {
-              navigate('/repos', { replace: true });
-            }}
-          >
-            {({
-              errors,
-              handleBlur,
-              handleChange,
-              handleSubmit,
-              isSubmitting,
-              touched,
-              values
-            }) => (
-              <form onSubmit={handleSubmit}>
+          <Card>
 
-                <Card>
+            <CardContent>
 
-                  <CardContent>
+              <Box sx={{ mb: 3 }}>
+                <Typography
+                  color="textPrimary"
+                  variant="h2"
+                  sx={{ mb: 1 }}
+                >
+                  CS5481 Project Sign In
+                </Typography>
+                <Typography
+                  color="textSecondary"
+                  gutterBottom
+                  variant="body2"
+                >
+                  Sign in with Github
+                </Typography>
+              </Box>
+              <Button
+                color="primary"
+                // disabled={isSubmitting}
+                fullWidth
+                size="large"
+                type="submit"
+                variant="contained"
+                // target="_blank" 
+                href={`https://github.com/login/oauth/authorize?client_id=${ConfigData.GITHUB_CLIENT_ID}&redirect_uri=${ConfigData.REDIRECT_URI}`}
+              // component={Link}
+              // to='/repos'
+              >
+                Sign in now
+              </Button>
+            </CardContent>
 
-                    <Box sx={{ mb: 3 }}>
-                      <Typography
-                        color="textPrimary"
-                        variant="h2"
-                        sx={{ mb: 1 }}
-                      >
-                        CS5481 Project Sign In
-                      </Typography>
-                      <Typography
-                        color="textSecondary"
-                        gutterBottom
-                        variant="body2"
-                      >
-                        Sign in with Github
-                      </Typography>
-                    </Box>
-                    <Button
-                      color="primary"
-                      // disabled={isSubmitting}
-                      fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                      // target="_blank" 
-                      href= {`https://github.com/login/oauth/authorize?client_id=${ConfigData.GITHUB_CLIENT_ID}&redirect_uri=${ConfigData.REDIRECT_URI}`}
-                      // component={Link}
-                      // to='/repos'
-                    >
-                      Sign in now
-                    </Button>
-                  </CardContent>
-
-                </Card>
-              </form>
-            )}
-          </Formik>
+          </Card>
         </Container>
       </Box>
     </>

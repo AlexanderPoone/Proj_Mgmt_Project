@@ -9,7 +9,7 @@ import BigCalendar from 'src/components/dashboard/BigCalendar';
 import moment from "moment";
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
-import { reposProducts } from 'src/reducers/RepoReducer';
+import { fetchRepoAsync, reposProducts } from 'src/reducers/RepoReducer';
 import { store } from 'src/store';
 import Issues from 'src/components/dashboard/Issues';
 import { useDispatch } from 'react-redux';
@@ -21,14 +21,16 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const [value, onChange] = useState(new Date());
   const issues = issueProducts(store.getState()).issues;
+  const repo = reposProducts(store.getState()).repo;
+  const tasksRepo = reposProducts(store.getState()).tasksRepo;
 
   // if(repo.repo == null){
   //   navigate('/repos', { replace: true });
   // }
 
-  // useEffect(()=>{
-  //   dispatch(fetchGithubUserRepoIssuesAsync({repoFullName: repo.repo.full_name}));
-  // },[dispatch]);
+  useEffect(() => {
+    dispatch(fetchRepoAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
+  }, [dispatch]);
 
   //REMARK: return to login if the access_token is undefined
 
@@ -61,7 +63,7 @@ const Dashboard = () => {
     });
   };
 
-  const handleOnSelectEvent = (event, e)=>{
+  const handleOnSelectEvent = (event, e) => {
     console.log('Selected Event:', JSON.stringify(event));
     navigate('/app/issue', {
       state: {
@@ -90,11 +92,10 @@ const Dashboard = () => {
         >
           <Grid
             item
-            lg={10}
-            md={10}
-            xl={10}
-            xs={10}
-            spacing={3}
+            lg={12}
+            md={12}
+            xl={12}
+            xs={12}
           >
 
             <Box
@@ -116,6 +117,31 @@ const Dashboard = () => {
               />
             </Box>
 
+          </Grid>
+
+          <Grid
+            item
+            lg={12}
+            md={12}
+            xl={12}
+            xs={12}
+          >
+
+            <Box
+              width='100%'
+            >
+              <Burndown />
+            </Box>
+
+          </Grid>
+
+          {/* <Grid
+            item
+            lg={12}
+            md={12}
+            xl={12}
+            xs={12}
+          >
             <Box
               width='100%'
             >
@@ -129,82 +155,8 @@ const Dashboard = () => {
               />
             </Box>
 
-          </Grid>
-          {/* <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <Budget />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalCustomers />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TasksProgress />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalProfit sx={{ height: '100%' }} />
           </Grid> */}
 
-          {/* <Grid
-            item
-            lg={4}
-            md={4}
-            xl={3}
-            xs={12}
-          >
-
-            <Box
-              width='100%'
-              sx={{ mb: 2 }}
-            >
-              <Card>
-                <CardContent>
-                  <Calendar
-                    onChange={onChange}
-                    events={[]}
-                    value={value}
-                    // style={{ height: 120 }}
-                  />
-                </CardContent>
-              </Card>
-
-            </Box>
-
-            <Box
-              width='100%'
-            >
-              <Card>
-                <CardContent>
-                  <Issues />
-                </CardContent>
-              </Card>
-
-            </Box>
-
-
-          </Grid> */}
         </Grid>
       </Container>
     </Box>

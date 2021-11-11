@@ -6,6 +6,12 @@ export const githubAPI = axios.create({
     timeout: 5000
 });
 
+export const API = axios.create({
+    baseURL: ConfigData.API_ENDPOINT,
+    timeout: 5000
+});
+
+//Github API
 const fetchGithubUser = () => githubAPI.get('/user');
 
 const fetchGithubUserRepos = () => githubAPI.get('/user/repos');
@@ -22,8 +28,17 @@ const fetchGithubUserRepoMilestone = (props) => githubAPI.get(`/repos/${props.re
 
 const fetchGithubUserMileStoneIssues = (props) => githubAPI.get(`/repos/${props.repoFullName}/issues`, {params: props.params});
 
+//API
+const fetchRepo = (props) => API.get(`/repo/${props.owner}/${props.reponame}`);
+const fetchContributors = (props) => API.get(`/contributors/${props.owner}/${props.reponame}`);
+const fetchMyInfo = (props) => API.get(`/me}`);
+const assignTeam = (props) => API.get(`/assignTeam/${props.owner}/${props.reponame}/${props.collaborator}/${props.role}}`);
+const confirmIssue = (props) => API.get(`/confirm/${props.owner}/${props.reponame}/${props.issueNum}/${props.assignee}/${props.numdays}}`);
+const rejectIssue = (props) => API.get(`/reject/${props.owner}/${props.reponame}/${props.issueNum}}`);
+const resolveIssue = (props) => API.get(`/assignTeam/${props.owner}/${props.reponame}/${props.issueNum}/${props.pullReqNum}}`);
+const delayIssue = (props) => API.get(`/assignTeam/${props.owner}/${props.reponame}/${props.issueNum}/${props.delaydays}}`);
+const initialLabel = (props) => API.get(`/initial/label/${props.owner}/${props.reponame}}`);
 
-// const githubLogin = () => axiosInstance.get(`${configData.SEVER_ROOT}/github/authorize`);
 
 export default {
     fetchGithubUser, 
@@ -33,5 +48,15 @@ export default {
     fetchGithubUserRepoIssue,
     fetchGithubUserRepoMilestones,
     fetchGithubUserRepoMilestone,
-    fetchGithubUserMileStoneIssues
+    fetchGithubUserMileStoneIssues,
+    //API
+    fetchRepo,
+    fetchContributors,
+    fetchMyInfo,
+    assignTeam,
+    confirmIssue,
+    rejectIssue,
+    resolveIssue,
+    delayIssue,
+    initialLabel
 };
