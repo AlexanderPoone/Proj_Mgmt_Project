@@ -7,16 +7,21 @@ import {
   Card,
   CardHeader,
   Chip,
+  Container,
   Divider,
+  Grid,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
   TableSortLabel,
-  Tooltip
+  TextField,
+  Tooltip,
+  Typography
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { useState } from 'react';
 
 const orders = [
   {
@@ -81,36 +86,163 @@ const orders = [
   }
 ];
 
-const IssueDetailInfo = (props) => (
-  <Card {...props}>
-    <CardHeader title="Issue Detail" />
-    <Divider />
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: 400,
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <Box>Detail</Box>
-    </Box>
-    <Box
-      sx={{
+
+const IssueDetailInfo = (props) => {
+
+  const [value, setValue] = useState(null);
+
+  return (
+    <Card {...props}>
+      <CardHeader title="Task Detail" />
+      <Divider />
+      <Box sx={{
         display: 'flex',
-        justifyContent: 'flex-end',
+        flexDirection: 'column',
+        // height: 400,
+        alignItems: 'flex-start',
         p: 2
-      }}
-    >
-      {/* <Button
-        color="primary"
-        endIcon={<ArrowRightIcon />}
-        size="small"
-        variant="text"
+      }}>
+        <Container maxWidth={false}>
+          <Grid
+            container
+            spacing={3}
+          >
+            <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Label</Typography>
+                <Box
+                  width='100%'
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    // height: 400,
+                    alignItems: 'flex-start',
+                  }}>
+                  <Typography variant='body2' color='rgb(255, 255, 255)' sx={{ bgcolor: 'rgb(148, 148, 148)', borderRadius: 3, mr: 1, px: 1 }}>Label1</Typography>
+                  <Typography variant='body2' color='rgb(255, 255, 255)' sx={{ bgcolor: '#5F2ED6', borderRadius: 3, mr: 1, px: 1 }}>Label2</Typography>
+                </Box>
+              </Box>
+
+            </Grid>
+
+            <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Title</Typography>
+                <Typography variant='body2' sx={{ mb: 1 }}>Task Name</Typography>
+              </Box>
+
+            </Grid>
+
+            <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Start Date</Typography>
+                <TextField id="outlined-basic" label="DD-MM-YYYY" variant="outlined" />
+              </Box>
+
+            </Grid>
+
+            <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Days</Typography>
+                <TextField id="outlined-basic" label="Days" variant="outlined" />
+              </Box>
+
+            </Grid>
+
+          </Grid>
+        </Container>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          p: 2
+        }}
       >
-        View all
-      </Button> */}
-    </Box>
-  </Card>
-);
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mr: 1 }}
+        >
+          Create
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          sx={{ mr: 1 }}
+        >
+          Approve
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          sx={{ mr: 1 }}
+        >
+          Delete
+        </Button>
+      </Box>
+    </Card>
+  );
+}
 
 export default IssueDetailInfo;

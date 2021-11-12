@@ -52,7 +52,7 @@ const IssueListToolbar = (props) => (
               placeholder="Search customer"
               variant="outlined"
             /> */}
-            <Typography sx={{fontSize: 32}}>Issues</Typography>
+            <Typography sx={{fontSize: 32}}>Tasks</Typography>
           </Box>
         </CardContent>
       </Card>

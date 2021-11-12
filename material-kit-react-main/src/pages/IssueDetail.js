@@ -57,9 +57,9 @@ const IssueDetail = () => {
 
           <Grid
             item
-            lg={8}
-            md={8}
-            xl={8}
+            lg={12}
+            md={12}
+            xl={12}
             xs={12}
           >
 
@@ -71,7 +71,7 @@ const IssueDetail = () => {
 
           </Grid>
 
-          <Grid
+          {/* <Grid
             item
             lg={4}
             md={4}
@@ -85,7 +85,7 @@ const IssueDetail = () => {
               <IssueBasicInfo />
             </Box>
 
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Box>

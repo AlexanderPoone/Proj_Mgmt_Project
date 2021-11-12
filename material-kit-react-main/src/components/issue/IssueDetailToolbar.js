@@ -6,7 +6,8 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
-  IconButton
+  IconButton,
+  Typography
 } from '@material-ui/core';
 import { ArrowBack, Delete } from '@material-ui/icons';
 import Colors from 'src/utils/colors';
@@ -35,7 +36,7 @@ const IssueDetailToolbar = (props) => (
     <Box sx={{ mt: 3 }}>
       <Card>
         <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
+          <Box sx={{ maxWidth: 500, display: 'flex', flexDirection:'row', alignItems:'center' }}>
             {/* <TextField
               fullWidth
               InputProps={{
@@ -53,9 +54,10 @@ const IssueDetailToolbar = (props) => (
               placeholder="Search customer"
               variant="outlined"
             /> */}
-            <IconButton aria-label="arrow-back" onClick={props.onBackClick}>
+            <IconButton aria-label="arrow-back" onClick={props.onBackClick} sx={{mr: 1}}>
               <ArrowBack />
             </IconButton>
+            <Typography variant='h1'>Task Title</Typography>
           </Box>
         </CardContent>
       </Card>

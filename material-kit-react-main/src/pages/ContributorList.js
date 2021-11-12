@@ -84,7 +84,7 @@ const ContributorList = () => {
   return (
     <>
       <Helmet>
-        <title>Issues</title>
+        <title>Contributors</title>
       </Helmet>
       <Box
         sx={{

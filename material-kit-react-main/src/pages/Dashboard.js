@@ -29,7 +29,8 @@ const Dashboard = () => {
   // }
 
   useEffect(() => {
-    dispatch(fetchRepoAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
+    dispatch(fetchGithubUserRepoIssuesAsync({ repoFullName: repo.full_name }));
+    // dispatch(fetchRepoAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
   }, [dispatch]);
 
   //REMARK: return to login if the access_token is undefined
