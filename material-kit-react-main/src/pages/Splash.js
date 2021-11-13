@@ -27,11 +27,13 @@ const Splash = () => {
   const dispatch = useDispatch();
   const { app } = useSelector(appProducts);
 
-  if (Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) == undefined || Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) == null) {
-    navigate('/login', { replace: true });
-  }else{
-    navigate('/repos', { replace: true });
-  }
+  useEffect(()=>{
+    if (Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) == undefined || Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) == null) {
+      navigate('/login', { replace: true });
+    }else{
+      navigate('/repos', { replace: true });
+    }
+  },[]);
   
   return (
     <>

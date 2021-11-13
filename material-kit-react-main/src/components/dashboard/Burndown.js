@@ -21,10 +21,33 @@ const Burndown = (props) => {
   const theme = useTheme();
   const localizer = momentLocalizer(moment);
 
+  const records = props.burndownChart;
+
+  console.log('BurndownChart:', JSON.stringify(records ?? []));
+
+  var _dates = [];
+  var _expectedTasks = [];
+  var _leftTasks = [];
+  var _positiveBalance = [];
+  var _negativeBalance = [];
+
+  records?.forEach(record => {
+    _dates.push(moment(record.date).format('DD/MM/YYYY'))
+    _expectedTasks.push(record.numTaskAdded + record.numTasksExpected)
+    _leftTasks.push(record.numTasksLeft)
+    if(record.numTasksExpected - record.numTasksLeft + record.numTaskAdded >= 0 ){
+      _positiveBalance.push(record.numTasksExpected - record.numTasksLeft + record.numTaskAdded)
+      _negativeBalance.push(0)
+    }else{
+      _positiveBalance.push(0)
+      _negativeBalance.push(record.numTasksExpected - record.numTasksLeft + record.numTaskAdded)
+    }
+  });
+
 
   const rand = () => Math.round(Math.random() * 100 - 50);
   const data = {
-    labels: ['11/11/2021', '12/11/2021', '13/11/2021', '13/11/2021', '14/11/2021', '15/11/2021', '16/11/2021'],
+    labels: _dates,
     datasets: [
       {
         type: 'line',
@@ -33,7 +56,7 @@ const Burndown = (props) => {
         borderWidth: 2,
         backgroundColor: 'rgb(134, 134, 134)',
         fill: false,
-        data: [10, 7, 5, 4, 3, 1, 0],
+        data: _expectedTasks,
       },
       {
         type: 'line',
@@ -42,21 +65,19 @@ const Burndown = (props) => {
         borderWidth: 2,
         backgroundColor: 'rgb(54, 162, 235)',
         fill: false,
-        data: [10, 9, 8],
+        data: _leftTasks,
       },
       {
         type: 'bar',
         label: 'Positive',
         backgroundColor: 'rgb(75, 192, 192)',
-        data: [1, 0, 1],
-        borderColor: 'white',
-        borderWidth: 2,
+        data: _positiveBalance,
       },
       {
         type: 'bar',
         label: 'Negative',
         backgroundColor: 'rgb(255, 99, 132)',
-        data: [0, -1, 0],
+        data: _negativeBalance,
       },
     ],
   };

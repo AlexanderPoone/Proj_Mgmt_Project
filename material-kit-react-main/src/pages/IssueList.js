@@ -7,7 +7,7 @@ import { fetchGithubUserRepoIssuesAsync, issueProducts } from 'src/reducers/Issu
 import { store } from 'src/store';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { reposProducts } from 'src/reducers/RepoReducer';
+import { fetchRepoAsync, reposProducts } from 'src/reducers/RepoReducer';
 import { milestoneProducts } from 'src/reducers/MileStoneReducer';
 import { useNavigate } from 'react-router-dom/umd/react-router-dom.development';
 
@@ -15,17 +15,18 @@ const IssueList = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const repo = reposProducts(store.getState());
-  const mileStone = milestoneProducts(store.getState());
-  const issue = issueProducts(store.getState());
-  console.log("Issues:", JSON.stringify(issue.issues));
+  const repo = reposProducts(store.getState()).repo;
+  const mileStone = milestoneProducts(store.getState()).milestone;
+  // const issue = issueProducts(store.getState());
+  const repoInfo = reposProducts(store.getState()).repoInfo;
 
   const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchGithubUserRepoIssuesAsync({ repoFullName: repo.repo.full_name, params: { mileStone: mileStone.number } }))
-  }, [dispatch, page, limit]);
+    // dispatch(fetchGithubUserRepoIssuesAsync({ repoFullName: repo.repo.full_name, params: { mileStone: mileStone.number } }))
+    dispatch(fetchRepoAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
+  }, [dispatch]);
 
 
   const handleLimitChange = (event) => {
@@ -40,8 +41,31 @@ const IssueList = () => {
 
   const handleRowClick = (event, issue) => {
     console.log("Selected Issue", JSON.stringify(issue));
-    navigate('/app/issue', { replace: false });
+    navigate('/app/issue', { state:{ task: issue}, replace: false });
   };
+
+  const tasks = repoInfo?.tasks?.map((task, index) => {
+    const openIndex = repoInfo?.currentTasks?.findIndex(e => e.id == task.number);
+    const reesolvedIndex = repoInfo?.resolvedTasks?.findIndex(e => e.githubIssueID == task.number);
+
+    var _state = 'open';
+    var _task = task;
+    if(openIndex > -1){
+      _state = 'open';
+      _task = {...task, ...repoInfo?.currentTasks[openIndex]};
+    }else if(reesolvedIndex > -1){
+      _state = 'resolved';
+      _task = {...task, ...repoInfo?.reesolvedIndex[reesolvedIndex]};
+    }else{
+      if(task.state == 'close'){
+        _state = 'close';
+      }else{
+        _state = 'pending';
+      }
+    }
+
+    return {..._task, state: _state};
+  })
 
   return (
     <>
@@ -59,12 +83,12 @@ const IssueList = () => {
           <IssueListToolbar />
           <Box sx={{ pt: 3 }}>
             <IssueListResults
-              issues={issue.issues}
+              issues={tasks ?? []}
               handleLimitChange={handleLimitChange}
               handlePageChange={handlePageChange}
               handleRowClick={handleRowClick}
               limit={limit}
-              page={page - 1}
+              page={page}
             />
           </Box>
         </Container>

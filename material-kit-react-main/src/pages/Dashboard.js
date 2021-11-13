@@ -9,12 +9,14 @@ import BigCalendar from 'src/components/dashboard/BigCalendar';
 import moment from "moment";
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
-import { fetchRepoAsync, reposProducts } from 'src/reducers/RepoReducer';
+import { fetchBurnDownChartAsync, fetchRepoAsync, initialLabelAsync, reposProducts } from 'src/reducers/RepoReducer';
 import { store } from 'src/store';
 import Issues from 'src/components/dashboard/Issues';
 import { useDispatch } from 'react-redux';
 import { fetchGithubUserRepoIssuesAsync, issueProducts } from 'src/reducers/IssueReducer';
 import IssueListResults from 'src/components/issue/IssueListResults';
+import PendingTaskResults from 'src/components/issue/PendingTaskResults';
+import { fetchContributorObjAsync, userProducts } from 'src/reducers/UserReducer';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -22,16 +24,37 @@ const Dashboard = () => {
   const [value, onChange] = useState(new Date());
   const issues = issueProducts(store.getState()).issues;
   const repo = reposProducts(store.getState()).repo;
-  const tasksRepo = reposProducts(store.getState()).tasksRepo;
-
+  const repoInfo = reposProducts(store.getState()).repoInfo;
+  const burndownChart = reposProducts(store.getState()).burnDownChart;
   // if(repo.repo == null){
   //   navigate('/repos', { replace: true });
   // }
 
   useEffect(() => {
-    dispatch(fetchGithubUserRepoIssuesAsync({ repoFullName: repo.full_name }));
-    // dispatch(fetchRepoAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
+    // dispatch(fetchGithubUserRepoIssuesAsync({ repoFullName: repo.full_name }));
+    dispatch(fetchRepoAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
+    dispatch(fetchContributorObjAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
+    dispatch(initialLabelAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
+    dispatch(fetchBurnDownChartAsync({ owner: repo?.owner?.login, reponame: repo?.name }));
   }, [dispatch]);
+
+  const currentTasks = [];
+  repoInfo?.tasks?.forEach((task) => {
+    const index = repoInfo?.currentTasks?.findIndex(e => e.id == task.number)
+    if (index > -1) {
+      const newTask = { ...task, ...repoInfo?.currentTasks[index] };
+      currentTasks.push(newTask);
+    }
+  });
+  console.log('CurrentTasks:', JSON.stringify(currentTasks));
+
+  const pendingTasks = [];
+  repoInfo?.tasks?.forEach((task) => {
+    if (repoInfo?.currentTasks?.findIndex(e => e.id == task.number) < 0) {
+      pendingTasks.push({ ...task, state: 'pending' });
+    }
+  });
+  console.log('CurrentTasks:', JSON.stringify(pendingTasks));
 
   //REMARK: return to login if the access_token is undefined
 
@@ -42,7 +65,7 @@ const Dashboard = () => {
   // }
 
   const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const handleLimitChange = (event) => {
     console.log("LimitChange", event.target.value);
@@ -58,7 +81,7 @@ const Dashboard = () => {
     console.log("Selected Issue", JSON.stringify(issue));
     navigate('/app/issue', {
       state: {
-        number: issue.number
+        task: issue
       },
       replace: false
     });
@@ -68,7 +91,7 @@ const Dashboard = () => {
     console.log('Selected Event:', JSON.stringify(event));
     navigate('/app/issue', {
       state: {
-        number: event.resource.number
+        task: event.resource
       },
       replace: false
     });
@@ -104,14 +127,15 @@ const Dashboard = () => {
               sx={{ mb: 3 }}
             >
               <BigCalendar
+                title='Opened Tasks'
                 // date={moment().toDate()}
                 views={['month']}
-                events={issues.map(issue => ({
-                  start: issue.created_at ? moment(issue.created_at).toDate() : moment().toDate(),
-                  end: issue.closed_at ? moment(issue.closed_at).toDate() : moment().add(1, "days").toDate(),
-                  title: issue.title,
+                events={currentTasks?.map(task => ({
+                  start: task.start ? moment(task.start).toDate() : moment().toDate(),
+                  end: task.end ? moment(task.end).add(1, "days").toDate() : moment().add(1, "days").toDate(),
+                  title: task.title,
                   allDay: true,
-                  resource: issue
+                  resource: task
                 }))}
                 selectable={true}
                 onSelectEvent={handleOnSelectEvent}
@@ -131,12 +155,12 @@ const Dashboard = () => {
             <Box
               width='100%'
             >
-              <Burndown />
+              <Burndown burndownChart={burndownChart}/>
             </Box>
 
           </Grid>
 
-          {/* <Grid
+          <Grid
             item
             lg={12}
             md={12}
@@ -146,17 +170,17 @@ const Dashboard = () => {
             <Box
               width='100%'
             >
-              <IssueListResults title={'Hot Issues'}
-                issues={issues}
+              {pendingTasks.length > 0 && <PendingTaskResults title={'Pending Tasks'}
+                issues={pendingTasks}
                 handleLimitChange={handleLimitChange}
                 handlePageChange={handlePageChange}
                 handleRowClick={handleRowClick}
                 limit={limit}
-                page={page - 1}
-              />
+                page={page}
+              />}
             </Box>
 
-          </Grid> */}
+          </Grid>
 
         </Grid>
       </Container>

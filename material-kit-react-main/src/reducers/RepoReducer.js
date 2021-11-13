@@ -21,7 +21,7 @@ export const fetchGithubUserReposAsync = createAsyncThunk(
 )
 
 export const fetchRepoAsync = createAsyncThunk(
-    'user/fetchRepoAsync',
+    'repo/fetchRepoAsync',
     async (props, { rejectWithValue }) => {
         try {
             // const { id, ...fields } = props
@@ -39,13 +39,53 @@ export const fetchRepoAsync = createAsyncThunk(
     }
 )
 
+export const initialLabelAsync = createAsyncThunk(
+    'repo/initialLabelAsync',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.initialLabel(props)
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            console.log('error.response.data:', error.response.data);
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const fetchBurnDownChartAsync = createAsyncThunk(
+    'repo/fetchBurnDownChartAsync',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.fetchBurnDownChart(props)
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            console.log('error.response.data:', error.response.data);
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 
 const initialState = {
     repos: [],
     repo: null,
+    labelObj: null,
     loading: false,
     error: null,
-    tasksRepo: null
+    repoInfo: null,
+    burnDownChart:[]
 }
 
 const reposSlice = createSlice({
@@ -60,6 +100,12 @@ const reposSlice = createSlice({
         },
         setTasksRepo: (state, action) => {
             state.tasksRepo = action.payload;
+        },
+        setLabelObj: (state, action) => {
+            state.labelObj = action.payload;
+        },
+        setBurnDownChart: (state, action) => {
+            state.burnDownChart = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -76,30 +122,56 @@ const reposSlice = createSlice({
             state.error = action.payload;
         }).addCase(fetchRepoAsync.pending, (state, action) => {
             state.loading = true;
-            state.tasksRepo = null;
+            state.repoInfo = null;
             state.error = null;
         }).addCase(fetchRepoAsync.fulfilled, (state, { payload }) => {
             state.loading = false
-            state.tasksRepo = payload;
+            state.repoInfo = payload;
             state.error = null;
         }).addCase(fetchRepoAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
-            state.tasksRepo = null;
+            state.repoInfo = null;
+        }).addCase(initialLabelAsync.pending, (state, action) => {
+            state.loading = true;
+            state.labelObj = null;
+            state.error = null;
+        }).addCase(initialLabelAsync.fulfilled, (state, { payload }) => {
+            state.loading = false
+            state.labelObj = payload;
+            state.error = null;
+        }).addCase(initialLabelAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+            state.labelObj = null;
+        }).addCase(fetchBurnDownChartAsync.pending, (state, action) => {
+            state.loading = true;
+            state.burnDownChart = [];
+            state.error = null;
+        }).addCase(fetchBurnDownChartAsync.fulfilled, (state, { payload }) => {
+            state.loading = false
+            state.burnDownChart = payload;
+            state.error = null;
+        }).addCase(fetchBurnDownChartAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+            state.burnDownChart = [];
         })
     },
 })
 
 
-export const { setRepos, setRepo } = reposSlice.actions;
+export const { setRepos, setRepo, setTasksRepo, setLabelObj } = reposSlice.actions;
 
 export const reposProducts = createSelector(
     (state) => ({
         repos: state.repo.repos,
         repo: state.repo.repo,
-        tasksRepo: state.repo.tasksRepo,
+        repoInfo: state.repo.repoInfo,
         reposLoading: state.repo.loading,
         reposError: state.repo.error,
+        labelObj: state.repo.labelObj,
+        burnDownChart: state.repo.burnDownChart
     }), (state) => state
 );
 

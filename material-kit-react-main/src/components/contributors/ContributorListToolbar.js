@@ -56,7 +56,10 @@ const ContributorListToolbar = (props) => (
               variant="outlined"
             />
           </Box> */}
-          <Typography sx={{fontSize: 32}}>Contributor</Typography>
+          <Typography color="textPrimary"
+            variant="h1">
+            Contributors
+          </Typography>
         </CardContent>
       </Card>
     </Box>

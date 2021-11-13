@@ -10,6 +10,7 @@ import {
   Container,
   Divider,
   Grid,
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -22,78 +23,20 @@ import {
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { useState } from 'react';
-
-const orders = [
-  {
-    id: uuid(),
-    ref: 'CDD1049',
-    amount: 30.5,
-    customer: {
-      name: 'Ekaterina Tankova'
-    },
-    createdAt: 1555016400000,
-    status: 'pending'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1048',
-    amount: 25.1,
-    customer: {
-      name: 'Cao Yu'
-    },
-    createdAt: 1555016400000,
-    status: 'delivered'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1047',
-    amount: 10.99,
-    customer: {
-      name: 'Alexa Richardson'
-    },
-    createdAt: 1554930000000,
-    status: 'refunded'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1046',
-    amount: 96.43,
-    customer: {
-      name: 'Anje Keizer'
-    },
-    createdAt: 1554757200000,
-    status: 'pending'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1045',
-    amount: 32.54,
-    customer: {
-      name: 'Clarke Gillebert'
-    },
-    createdAt: 1554670800000,
-    status: 'delivered'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1044',
-    amount: 16.76,
-    customer: {
-      name: 'Adam Denisov'
-    },
-    createdAt: 1554670800000,
-    status: 'delivered'
-  }
-];
-
+import { DatePicker, LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { useLocation } from 'react-router';
 
 const IssueDetailInfo = (props) => {
 
-  const [value, setValue] = useState(null);
+  const task = props.task;
+  const [startDate, setStartDate] = useState();
+  const [days, setDays] = useState();
+  const [delayDays, setDelayDays] = useState();
 
   return (
     <Card {...props}>
-      <CardHeader title="Task Detail" />
+      <CardHeader title={`Task Detail`} />
       <Divider />
       <Box sx={{
         display: 'flex',
@@ -107,7 +50,7 @@ const IssueDetailInfo = (props) => {
             container
             spacing={3}
           >
-            <Grid
+           {task?.labels?.length > 0 && <Grid
               item
               lg={12}
               md={12}
@@ -133,9 +76,31 @@ const IssueDetailInfo = (props) => {
                     // height: 400,
                     alignItems: 'flex-start',
                   }}>
-                  <Typography variant='body2' color='rgb(255, 255, 255)' sx={{ bgcolor: 'rgb(148, 148, 148)', borderRadius: 3, mr: 1, px: 1 }}>Label1</Typography>
-                  <Typography variant='body2' color='rgb(255, 255, 255)' sx={{ bgcolor: '#5F2ED6', borderRadius: 3, mr: 1, px: 1 }}>Label2</Typography>
+                  {task?.labels?.map(label => (<Typography variant='body2' color='rgb(255, 255, 255)' sx={{ bgcolor: `#${label.color}`, borderRadius: 3, mr: 1, px: 1 }}>{label.name}</Typography>))}
                 </Box>
+              </Box>
+
+            </Grid>}
+
+            <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Milestone</Typography>
+                <Typography variant='body2' sx={{ mb: 1 }}>{task?.milestone?.title ?? '--'}</Typography>
               </Box>
 
             </Grid>
@@ -157,13 +122,36 @@ const IssueDetailInfo = (props) => {
                   alignItems: 'flex-start',
                 }}
               >
-                <Typography variant='body1' sx={{ mb: 1 }}>Title</Typography>
-                <Typography variant='body2' sx={{ mb: 1 }}>Task Name</Typography>
+                <Typography variant='body1' sx={{ mb: 1 }}>Assignee</Typography>
+                <Typography variant='body2' sx={{ mb: 1 }}>{task?.assignee?.login ?? "--"}</Typography>
               </Box>
 
             </Grid>
 
             <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  // alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Description</Typography>
+                <Typography variant='body2' sx={{ mb: 1 }} style={{ wordWrap: "break-word" }}>{task.body}</Typography>
+              </Box>
+
+            </Grid>
+
+            {task.state == 'pending' && <Grid
               item
               lg={12}
               md={12}
@@ -181,10 +169,122 @@ const IssueDetailInfo = (props) => {
                 }}
               >
                 <Typography variant='body1' sx={{ mb: 1 }}>Start Date</Typography>
-                <TextField id="outlined-basic" label="DD-MM-YYYY" variant="outlined" />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="DD/MM/YYYY"
+                    value={startDate}
+                    onChange={(newValue) => {
+                      setStartDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                    inputFormat="dd/MM/yyyy"
+                  />
+                </LocalizationProvider>
               </Box>
 
-            </Grid>
+            </Grid>}
+
+            {task.state == 'open' && <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Start Date</Typography>
+                <Typography variant='body2' sx={{ mb: 1 }}>{task?.start ? moment(task?.start).format('DD/MM/YYYY') : "--"}</Typography>
+              </Box>
+
+            </Grid>}
+
+            {task.state == 'open' && <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>End Date</Typography>
+                <Typography variant='body2' sx={{ mb: 1 }}>{task.end ? moment(task?.end).format('DD/MM/YYYY') : "--"}</Typography>
+              </Box>
+
+            </Grid>}
+
+            {task.state == 'pending' && <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Days</Typography>
+                <TextField type="number" label="Days" variant="outlined"
+                  onChange={e => {
+                    console.log('Days:', e.target.value);
+                    setDays(e.target.value > 0 ? e.target.value : 0);
+                  }}
+                />
+              </Box>
+
+            </Grid>}
+
+            {task.state == 'open' && <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Delay Days</Typography>
+                <TextField id="outlined-basic" type="number" label="Days" variant="outlined"
+                  onChange={e => {
+                    console.log('Delay Days:', e.target.value);
+                    setDelayDays(e.target.value > 0 ? e.target.value : 0);
+                  }}
+                />
+              </Box>
+
+            </Grid>}
 
             <Grid
               item
@@ -203,11 +303,14 @@ const IssueDetailInfo = (props) => {
                   alignItems: 'flex-start',
                 }}
               >
-                <Typography variant='body1' sx={{ mb: 1 }}>Days</Typography>
-                <TextField id="outlined-basic" label="Days" variant="outlined" />
+                <Typography variant='body1' sx={{ mb: 1 }}>Github Link:</Typography>
+                <Link href={task?.html_url} target="_blank" variant="body2">
+                  {task?.html_url}
+                </Link>
               </Box>
 
             </Grid>
+
 
           </Grid>
         </Container>
@@ -219,27 +322,42 @@ const IssueDetailInfo = (props) => {
           p: 2
         }}
       >
-        <Button
+        {task?.state == 'pending' && <Button
           variant="contained"
           color="primary"
           sx={{ mr: 1 }}
+          onClick={() => {
+            props.onConfirm(startDate, days)
+          }}
         >
-          Create
-        </Button>
-        <Button
+          Confirm
+        </Button>}
+        {task?.state == 'open' && <Button
           variant="contained"
-          color="success"
+          color="primary"
           sx={{ mr: 1 }}
+          onClick={() => {
+            props.onDelay(delayDays)
+          }}
         >
-          Approve
-        </Button>
-        <Button
+          Delay
+        </Button>}
+        {task?.state == 'open' && <Button
           variant="contained"
           color="error"
           sx={{ mr: 1 }}
+          onClick={props.onReject}
         >
-          Delete
-        </Button>
+          Reject
+        </Button>}
+        {task?.state == 'open' && <Button
+          variant="contained"
+          color="success"
+          sx={{ mr: 1 }}
+          onClick={props.onResolve}
+        >
+          Resolve
+        </Button>}
       </Box>
     </Card>
   );

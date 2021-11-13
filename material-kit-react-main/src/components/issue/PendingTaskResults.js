@@ -19,7 +19,7 @@ import {
 } from '@material-ui/core';
 import getInitials from '../../utils/getInitials';
 
-const IssueListResults = ({ issues, ...props }) => {
+const PendingTaskResults = ({ issues, ...props }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
   const handleSelectAll = (event) => {
@@ -87,22 +87,19 @@ const IssueListResults = ({ issues, ...props }) => {
                   />
                 </TableCell> */}
                 <TableCell>
-                  Task #
+                  Issue #
                 </TableCell>
                 <TableCell>
                   Title
                 </TableCell>
                 <TableCell>
-                  State
+                  MileStone
                 </TableCell>
                 <TableCell>
                   Assignee
                 </TableCell>
                 <TableCell>
-                  Start Date
-                </TableCell>
-                <TableCell>
-                  End Date
+                  Created At
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -122,17 +119,30 @@ const IssueListResults = ({ issues, ...props }) => {
                     />
                   </TableCell> */}
                   <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
+                    <Box
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex'
+                      }}
                     >
-                      {issue.number}
-                    </Typography>
+                      {/* <Avatar
+                        src={customer.avatarUrl}
+                        sx={{ mr: 2 }}
+                      >
+                        {getInitials(customer.name)}
+                      </Avatar> */}
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {issue.number}
+                      </Typography>
+                    </Box>
                   </TableCell>
                   <TableCell>
                     <Typography
                       color="textPrimary"
-                      variant="body2"
+                      variant="body1"
                     >
                       {issue.title}
                     </Typography>
@@ -140,15 +150,15 @@ const IssueListResults = ({ issues, ...props }) => {
                   <TableCell>
                     <Typography
                       color="textPrimary"
-                      variant="body2"
+                      variant="body1"
                     >
-                      {issue.state}
+                      {issue.milestone?.number}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       color="textPrimary"
-                      variant="body2"
+                      variant="body1"
                     >
                       {issue.assignee?.login}
                     </Typography>
@@ -156,17 +166,9 @@ const IssueListResults = ({ issues, ...props }) => {
                   <TableCell>
                     <Typography
                       color="textPrimary"
-                      variant="body2"
+                      variant="body1"
                     >
-                      {issue.start ? moment(issue.start).format('DD/MM/YYYY') : "--"}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
-                    >
-                      {issue.end ? moment(issue.end).format('DD/MM/YYYY') : "--"}
+                      {moment(issue.created_at).format('DD/MM/YYYY')}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -182,14 +184,14 @@ const IssueListResults = ({ issues, ...props }) => {
         onRowsPerPageChange={props.handleLimitChange}
         page={props.page}
         rowsPerPage={props.limit}
-        rowsPerPageOptions={[10, 50, 100]}
+        rowsPerPageOptions={[10, 25, 100]}
       />
     </Card>
   );
 };
 
-IssueListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+PendingTaskResults.propTypes = {
+  tasks: PropTypes.array.isRequired
 };
 
-export default IssueListResults;
+export default PendingTaskResults;

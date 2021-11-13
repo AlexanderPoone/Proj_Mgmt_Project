@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import { start } from 'nprogress';
+import { store } from 'src/store';
 import Api from '../remotes/Api'
+import { fetchRepoAsync } from './RepoReducer';
 
 export const fetchGithubUserRepoIssuesAsync = createAsyncThunk(
     'issue/fetchGithubUserRepoIssues',
@@ -59,10 +61,94 @@ export const fetchGithubUserRepoIssueAsync = createAsyncThunk(
     }
 )
 
+export const confirmTaskAsync = createAsyncThunk(
+    'issue/confirmTaskAsync',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.confirmIssue(props);
+            // store.dispatch(fetchRepoAsync(props));
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            console.log('error.response.data:', error.response.data);
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const delayTaskAsync = createAsyncThunk(
+    'issue/delayTaskAsync',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.delayIssue(props);
+            // store.dispatch(fetchRepoAsync(props));
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            console.log('error.response.data:', error.response.data);
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const rejectTaskAsync = createAsyncThunk(
+    'issue/rejectTaskAsync',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.rejectIssue(props);
+            // store.dispatch(fetchRepoAsync(props));
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            console.log('error.response.data:', error.response.data);
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const resolveTaskAsync = createAsyncThunk(
+    'issue/resolveTaskAsync',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.resolveIssue(props);
+            // store.dispatch(fetchRepoAsync(props));
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            console.log('error.response.data:', error.response.data);
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 const initialState = {
     issues: [],
     issue: null,
     loading: false,
+    confirmTask: null,
+    delayTask: null,
+    rejectTask: null,
+    resolvedTask: null,
     error: null
 }
 
@@ -75,7 +161,19 @@ const issueSlice = createSlice({
         },
         setIssue: (state, action) => {
             state.issue = action.payload;
-        }
+        },
+        setConfirmTask: (state, action) => {
+            state.confirmTask = action.payload;
+        },
+        setDelayTask: (state, action) => {
+            state.delayTask = action.payload;
+        },
+        setRejectTask: (state, action) => {
+            state.rejectTask = action.payload;
+        },
+        setResolvedTask: (state, action) => {
+            state.resolvedTask = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchGithubUserRepoIssuesAsync.pending, (state, action) => {
@@ -114,6 +212,54 @@ const issueSlice = createSlice({
             state.loading = false;
             state.issue = null;
             state.error = action.payload;
+        }).addCase(confirmTaskAsync.pending, (state, action) => {
+            state.loading = true;
+            state.confirmTask = null;
+            state.error = null;
+        }).addCase(confirmTaskAsync.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.confirmTask = payload;
+            state.error = null;
+        }).addCase(confirmTaskAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.confirmTask = null;
+            state.error = action.payload;
+        }).addCase(delayTaskAsync.pending, (state, action) => {
+            state.loading = true;
+            state.delayTask = null;
+            state.error = null;
+        }).addCase(delayTaskAsync.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.delayTask = payload;
+            state.error = null;
+        }).addCase(delayTaskAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.delayTask = null;
+            state.error = action.payload;
+        }).addCase(rejectTaskAsync.pending, (state, action) => {
+            state.loading = true;
+            state.rejectTask = null;
+            state.error = null;
+        }).addCase(rejectTaskAsync.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.rejectTask = payload;
+            state.error = null;
+        }).addCase(rejectTaskAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.rejectTask = null;
+            state.error = action.payload;
+        }).addCase(resolveTaskAsync.pending, (state, action) => {
+            state.loading = true;
+            state.resolvedTask = null;
+            state.error = null;
+        }).addCase(resolveTaskAsync.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.resolvedTask = payload;
+            state.error = null;
+        }).addCase(resolveTaskAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.resolvedTask = null;
+            state.error = action.payload;
         })
 
 
@@ -121,12 +267,23 @@ const issueSlice = createSlice({
 })
 
 
-export const { setIssue, setIssues } = issueSlice.actions;
+export const {
+    setIssue,
+    setIssues,
+    setConfirmTask,
+    setDelayTask,
+    setResolvedTask,
+    setRejectTask
+} = issueSlice.actions;
 
 export const issueProducts = createSelector(
     (state) => ({
         issues: state.issue.issues,
         issue: state.issue.issue,
+        confirmTask: state.issue.confirmTask,
+        delayTask: state.issue.delayTask,
+        rejectTask: state.issue.rejectTask,
+        resolvedTask: state.issue.resolvedTask,
         issueLoading: state.issue.loading,
         issueError: state.issue.error,
     }), (state) => state

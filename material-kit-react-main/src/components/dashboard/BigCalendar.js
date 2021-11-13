@@ -22,7 +22,7 @@ const BigCalendar = (props) => {
   return (
     <Card {...props}>
       <CardHeader
-        title="Calendar"
+        title={props.title ?? "Calendar"}
       />
       <Divider />
       <CardContent>

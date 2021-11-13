@@ -11,27 +11,43 @@ import IssueDetailInfo from 'src/components/issue/IssueDetailInfo';
 import { useLocation, useNavigate } from 'react-router-dom';
 import IssueDetailToolbar from 'src/components/issue/IssueDetailToolbar';
 import { ArrowBack } from '@material-ui/icons';
+import { useDispatch } from 'react-redux';
+import { assignTeamAsync, userProducts } from 'src/reducers/UserReducer';
+import { reposProducts } from 'src/reducers/RepoReducer';
+import { store } from 'src/store';
 
 const ContributorDetail = () => {
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const [role, setRole] = React.useState('');
+  const contributor = location.state?.contributor;
+  const repo = reposProducts(store.getState()).repo;
+
+  console.log("Contributor:", JSON.stringify(contributor.login));
 
   const handleChange = (event) => {
     setRole(event.target.value);
+    // console.log(event.target.value);
   };
-
-  console.log("Issue number:", location.state?.number);
 
   const handleOnBackClick = () => {
     navigate(-1);
   }
 
+  const roleSchemes = [
+    { key: 'developer', value: 'Developer' },
+    { key: 'documentation', value: 'Documentation' },
+    { key: 'tester', value: 'Tester' },
+    { key: 'support', value: 'Support' }
+  ]
+
+  const [role, setRole] = React.useState(contributor?.roles[0] ?? '');
+
   return (
     <>
       <Helmet>
-        <title>Login | Material Kit</title>
+        <title>{`${contributor?.login} Role`}</title>
       </Helmet>
       <Box
         sx={{
@@ -48,7 +64,7 @@ const ContributorDetail = () => {
 
             <CardContent>
 
-              <Box sx={{ mb: 1, marginLeft:-1 }}>
+              <Box sx={{ mb: 1, marginLeft: -1 }}>
                 <IconButton aria-label="arrow-back" onClick={handleOnBackClick}>
                   <ArrowBack />
                 </IconButton>
@@ -61,7 +77,7 @@ const ContributorDetail = () => {
                   color="textPrimary"
                   variant="h2"
                 >
-                  User Role
+                  {`${contributor?.login} Role`}
                 </Typography>
               </Box>
               <FormControl sx={{ mb: 3 }}
@@ -74,8 +90,7 @@ const ContributorDetail = () => {
                   label="Age"
                   onChange={handleChange}
                 >
-                  <MenuItem value={'developer'}>Developer</MenuItem>
-                  <MenuItem value={'tester'}>Tester</MenuItem>
+                  {roleSchemes.map(e => (<MenuItem value={e.key}>{e.value}</MenuItem>))}
                 </Select>
               </FormControl>
               <Button
@@ -84,6 +99,9 @@ const ContributorDetail = () => {
                 size="large"
                 type="submit"
                 variant="contained"
+                onClick={()=>{
+                  dispatch(assignTeamAsync({owner: repo?.owner?.login, reponame: repo?.name, collaborator: contributor?.login, role: role}));
+                }}
               >
                 Save
               </Button>

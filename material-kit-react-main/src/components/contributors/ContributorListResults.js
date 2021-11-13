@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 import getInitials from '../../utils/getInitials';
 
-const ContributorListResults = ({contributors,  ...props }) => {
+const ContributorListResults = ({ contributors, ...props }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
   const handleSelectAll = (event) => {
@@ -66,6 +66,21 @@ const ContributorListResults = ({contributors,  ...props }) => {
   // const handleRowClick = (event, issue) => {
   //   console.log("Selected Issue", JSON.stringify(issue));
   // };
+
+  const getRoleValue = (key) => {
+    switch (key) {
+      case "developer":
+        return "Developer";
+      case "tester":
+        return "Tester";
+      case "documentation":
+        return "Documentation";
+      case "support":
+        return "Support";
+      default:
+        return "Developer";
+    }
+  }
 
   return (
     <Card {...props}>
@@ -172,7 +187,7 @@ const ContributorListResults = ({contributors,  ...props }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {contributor.roles[0] ?? 'Developer'}
+                        {getRoleValue(contributor.roles[0])}
                       </Typography>
                     </Box>
                   </TableCell>

@@ -20,19 +20,19 @@ const App = () => {
   const { accessToken } = useSelector(appProducts);
   const navigate = useNavigate();
 
-  // Cookies.set(ConfigData.GITHUB_COOOKIE_NAME, "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");
+  Cookies.set(ConfigData.GITHUB_COOOKIE_NAME, "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");
 
-  useEffect(() => {
-    dispatch(fetchGithubUserAsync());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchGithubUserAsync());
+  // }, [dispatch]);
 
-  console.log('AccessToken:', accessToken);
+  // console.log('AccessToken:', accessToken);
 
-  // Add a request interceptor
+  // // Add a request interceptor
   githubAPI.interceptors.request.use(function (config) {
     // Do something before request is sent
 
-    console.log('Api Request Config:', JSON.stringify(config));
+    console.log('githubAPI Request Config:', JSON.stringify(config));
     return {
       ...config, headers: {
         Authorization: `Bearer ${Cookies.get(ConfigData.GITHUB_COOOKIE_NAME)}`,
@@ -46,7 +46,7 @@ const App = () => {
 
   // Add a response interceptor
   githubAPI.interceptors.response.use(function (response) {
-    console.log('Api Response:', JSON.stringify(response));
+    console.log('githubAPI Response:', JSON.stringify(response));
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;
@@ -69,8 +69,13 @@ const App = () => {
   API.interceptors.request.use(function (config) {
     // Do something before request is sent
 
-    console.log('Api Request Config:', JSON.stringify(config));
-    return config;
+    console.log('API Request Config:', JSON.stringify(config));
+    return {
+      ...config, headers: {
+        token: Cookies.get(ConfigData.GITHUB_COOOKIE_NAME),
+        // Authorization: 'Bearer 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',
+      },
+    };
   }, function (error) {
     // Do something with request error
     return Promise.reject(error);
@@ -78,7 +83,7 @@ const App = () => {
 
   // Add a response interceptor
   API.interceptors.response.use(function (response) {
-    console.log('Api Response:', JSON.stringify(response));
+    console.log('API Response:', JSON.stringify(response));
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response;

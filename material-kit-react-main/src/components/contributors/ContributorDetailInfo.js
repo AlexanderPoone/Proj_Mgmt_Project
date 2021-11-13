@@ -81,6 +81,14 @@ const orders = [
   }
 ];
 
+const roleScheme = {
+	'developer': ('Developer Team', 'danger'),
+	'documentation': ('Documentation Team', 'success'),
+	'tester': ('Tester Team', 'warning'),
+	'support': ('Support Team', 'primary')	
+}
+
+
 const ContributorDetailInfo = (props) => (
   <Card {...props}>
     <CardHeader title="MileStone Detail" />
