@@ -5,13 +5,16 @@
 1. Create several Google accounts.
 2. Use the Google accounts to create several GitHub accounts.
 3. Create a repository using one of the GitHub account you have created. Public or private are both fine.
-4. **\*IMPORTANT\*** Create a README file in the repository.
-5. Under the GitHub repository, open **Settings**. Click **Manage Access**.
-6. Click **Add people** and type the usernames of your other GitHub accounts. After that, click the **Copy** button next to the invited account.
-7. Log on to your other account. Then, paste and go to the URL you have just copied. Accept the invitation.
-8. **\*IMPORTANT\*** After that, make an edit to the README file. (This is to ensure that the collaborator list gets updated.)
-9. Repeat Step 5~8 using your other accounts.
-10. Now your repository becomes operational on [https://dord.mynetgear.com:5351](https://dord.mynetgear.com:5351).
+
+**\*IMPORTANT\*** Create a README file in the repository.
+![image](https://user-images.githubusercontent.com/9071916/141675101-169e1b30-6e0c-40c0-a831-c08eac5229de.png)
+
+4. Under the GitHub repository, open **Settings**. Click **Manage Access**.
+5. Click **Add people** and type the usernames of your other GitHub accounts. After that, click the **Copy** button next to the invited account.
+6. Log on to your other account. Then, paste and go to the URL you have just copied. Accept the invitation.
+7. **\*IMPORTANT\*** After that, make an edit to the README file. (This is to ensure that the collaborator list gets updated.)
+8. Repeat Step 5~8 using your other accounts.
+9. Now your repository becomes operational on [https://dord.mynetgear.com:5351](https://dord.mynetgear.com:5351).
 
 # Installation (For Team) - IMPORTANT!!!
 
@@ -81,6 +84,8 @@ There are many ways to classify issues. **We override GitHub's default labelling
 We do supervised learning to classify these issues **using the `spacy` library's `en_core_web_sm` pipeline (includes the corpus, tagger, lemmatizer and a CNN model)**. As in multi-class classification, the output **confidence percentage** that the issue belonging to categories, not the category itself. The issue is tagged only if confidence percentage is high, above 50%.
 
 With such classifications, it is also easier to find duplicate issues. If the we continue to improve the application, pull requests can also be classified in such way (except "question/technical support").
+
+[**>> See our unit test here <<**](https://github.com/SoftFeta/SWEnggUnitTest/issues)
 
 ## Reference
 * [https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.698.9879&rep=rep1&type=pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.698.9879&rep=rep1&type=pdf) 
