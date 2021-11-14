@@ -1349,4 +1349,4 @@ def UT_BulkAddIssues(owner, reponame):
 
 if __name__ == "__main__":
 	# Replace below with app.run(host='0.0.0.0', port=5351) if you don't have a SSH Certificate !!!
-	app.run(host='0.0.0.0', port=5351 )
+	app.run(host='0.0.0.0', port=5351, ssl_context=('_internal/cert.pem', '_internal/privkey.pem'))
