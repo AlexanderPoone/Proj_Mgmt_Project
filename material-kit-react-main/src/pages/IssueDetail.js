@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Container, Grid, Card, CardContent, } from '@material-ui/core';
+import { Box, Container, Grid, Card, CardContent, Stack, Alert, Collapse, IconButton, } from '@material-ui/core';
 import Burndown from 'src/components/dashboard/Burndown';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -15,39 +15,69 @@ import { confirmTaskAsync, delayTaskAsync, issueProducts, rejectTaskAsync, resol
 import { reposProducts } from 'src/reducers/RepoReducer';
 import { store } from 'src/store';
 import moment from 'moment';
+import { Close } from '@material-ui/icons';
 
 const IssueDetail = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const task = location.state?.task;
+  var task = location.state?.task;
   const repo = reposProducts(store.getState()).repo;
   const confirmTask = issueProducts(store.getState()).confirmTask;
   const delayTask = issueProducts(store.getState()).delayTask;
   const rejectTask = issueProducts(store.getState()).rejectTask;
   const resolvedTask = issueProducts(store.getState()).resolvedTask;
+  const issueError = issueProducts(store.getState()).issueError;
+  const [open, setOpen] = useState(false);
 
   console.log("Select Task:", location.state?.task);
+  console.log("issueError:", JSON.stringify(issueError));
 
   const handleOnBackClick = () => {
     navigate(-1);
   }
 
-  useEffect(()=>{
-    if(confirmTask != null || delayTask != null || rejectTask != null || resolvedTask != null){
-      navigate(-1);
-    }
-  },[confirmTask, delayTask, rejectTask, resolvedTask]);
+  var _status = task?.status;
 
-  useEffect(()=>{
-   return () => {
-    dispatch(setConfirmTask(null));
-    dispatch(setDelayTask(null));
-    dispatch(setRejectTask(null));
-    dispatch(setResolvedTask(null));
-   }
-  },[]);
+  useEffect(() => {
+    if (confirmTask != null || delayTask != null || rejectTask != null || resolvedTask != null) {
+      navigate(-1);
+      // if (confirmTask != null) {
+      //   _status = confirmTask.status;
+      // }
+
+      // if (delayTask != null) {
+      //   // task = {...task, end: delayTask?.enddate}
+      //   _status = 'normal';
+      // }
+
+      // if (rejectTask != null) {
+      //   _status = rejectTask.status;
+      // }
+
+      // if (resolvedTask != null) {
+      //   _status = resolvedTask.status;
+      // }
+
+      // setOpen(true);
+    }
+  }, [confirmTask, delayTask, rejectTask, resolvedTask]);
+
+  useEffect(() => {
+    if (issueError != null) {
+      setOpen(true);
+    }
+  }, [issueError]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setConfirmTask(null));
+      dispatch(setDelayTask(null));
+      dispatch(setRejectTask(null));
+      dispatch(setResolvedTask(null));
+    }
+  }, []);
 
   const handleOnConfirm = (startDate, days) => {
     console.log("Start Date:", moment(startDate).format('YYYY-MM-DD'));
@@ -137,7 +167,7 @@ const IssueDetail = () => {
             <Box
               width='100%'
             >
-              <IssueDetailInfo task={task} onConfirm={handleOnConfirm} onDelay={handleOnDelay} onReject={handleOnReject} onResolve={handleOnResolve}/>
+              <IssueDetailInfo task={task} onConfirm={handleOnConfirm} onDelay={handleOnDelay} onReject={handleOnReject} onResolve={handleOnResolve} />
             </Box>
 
           </Grid>
@@ -158,6 +188,35 @@ const IssueDetail = () => {
 
           </Grid> */}
         </Grid>
+        <Collapse
+          in={open}
+          display="flex"
+          sx={{
+            width: '30%',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            mb: 5,
+            ml: 5,
+            zIndex: 'modal',
+          }}
+          spacing={2}>
+          <Alert
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <Close fontSize="inherit" />
+              </IconButton>
+            }
+            severity={issueError == null ? 'success' : 'error'}
+            sx={{ mb: 1 }}>{issueError == null ? 'Success' : 'Fail'}</Alert>
+        </Collapse>
       </Container>
     </Box>
   </>);

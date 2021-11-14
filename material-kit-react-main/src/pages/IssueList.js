@@ -48,23 +48,23 @@ const IssueList = () => {
     const openIndex = repoInfo?.currentTasks?.findIndex(e => e.id == task.number);
     const reesolvedIndex = repoInfo?.resolvedTasks?.findIndex(e => e.githubIssueID == task.number);
 
-    var _state = 'open';
+    var _status = 'pending';
     var _task = task;
     if(openIndex > -1){
-      _state = 'open';
+      _status = 'normal';
       _task = {...task, ...repoInfo?.currentTasks[openIndex]};
     }else if(reesolvedIndex > -1){
-      _state = 'resolved';
+      _status = 'resolved';
       _task = {...task, ...repoInfo?.reesolvedIndex[reesolvedIndex]};
     }else{
-      if(task.state == 'close'){
-        _state = 'close';
+      if(task.state == 'closed'){
+        _status = 'closed';
       }else{
-        _state = 'pending';
+        _status = 'pending';
       }
     }
 
-    return {..._task, state: _state};
+    return {..._task, status: _status};
   })
 
   return (

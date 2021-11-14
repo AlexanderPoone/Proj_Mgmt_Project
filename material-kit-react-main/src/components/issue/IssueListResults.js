@@ -107,70 +107,89 @@ const IssueListResults = ({ issues, ...props }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {issues.map((issue) => (
-                <TableRow
-                  hover
-                  key={issue.id}
-                  selected={selectedCustomerIds.indexOf(issue.id) !== -1}
-                  onClick={event => { props.handleRowClick(event, issue) }}
-                >
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
-                      value="true"
-                    />
-                  </TableCell> */}
-                  <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
-                    >
-                      {issue.number}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
-                    >
-                      {issue.title}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
-                    >
-                      {issue.state}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
-                    >
-                      {issue.assignee?.login}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
-                    >
-                      {issue.start ? moment(issue.start).format('DD/MM/YYYY') : "--"}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      color="textPrimary"
-                      variant="body2"
-                    >
-                      {issue.end ? moment(issue.end).format('DD/MM/YYYY') : "--"}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {issues.map((issue) => {
+
+                var stateStr = 'Pending';
+                switch (issue.status) {
+                  case "normal":
+                    stateStr = "Opening";
+                    break;
+                  case "resolved":
+                    stateStr = "Resolved";
+                    break;
+                  case "closed":
+                    stateStr = "Closed";
+                    break;
+                  case "pending":
+                    stateStr = "Pending";
+                    break;
+                }
+
+                return (
+                  <TableRow
+                    hover
+                    key={issue.id}
+                    selected={selectedCustomerIds.indexOf(issue.id) !== -1}
+                    onClick={event => { props.handleRowClick(event, issue) }}
+                  >
+                    {/* <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selectedCustomerIds.indexOf(customer.id) !== -1}
+                        onChange={(event) => handleSelectOne(event, customer.id)}
+                        value="true"
+                      />
+                    </TableCell> */}
+                    <TableCell>
+                      <Typography
+                        color="textPrimary"
+                        variant="body2"
+                      >
+                        {issue.number}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        color="textPrimary"
+                        variant="body2"
+                      >
+                        {issue.title}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        color="textPrimary"
+                        variant="body2"
+                      >
+                        {stateStr}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        color="textPrimary"
+                        variant="body2"
+                      >
+                        {issue.assignee?.login}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        color="textPrimary"
+                        variant="body2"
+                      >
+                        {issue.start ? moment(issue.start).format('DD/MM/YYYY') : "--"}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        color="textPrimary"
+                        variant="body2"
+                      >
+                        {issue.end ? moment(issue.end).format('DD/MM/YYYY') : "--"}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </Box>

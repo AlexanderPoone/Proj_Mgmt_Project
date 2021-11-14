@@ -14,6 +14,7 @@ import {
 import {
   AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
+  Folder,
   Lock as LockIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
@@ -25,6 +26,7 @@ import NavItem from './NavItem';
 import { useSelector } from 'react-redux';
 import { userProducts } from 'src/reducers/UserReducer';
 import { store } from 'src/store';
+import { AccountCircle, Logout, Task } from '@material-ui/icons';
 
 
 const items = [
@@ -35,17 +37,17 @@ const items = [
   },
   {
     href: '/app/contributors',
-    icon: SettingsIcon,
+    icon: AccountCircle,
     title: 'Contributors'
   },
   {
     href: '/app/issues',
-    icon: AlertCircleIcon,
+    icon: Task,
     title: 'Tasks'
   },
   {
     href: '/repos',
-    icon: ShoppingBagIcon,
+    icon: Folder,
     title: 'Repositories'
   },
   // {
@@ -60,7 +62,7 @@ const items = [
   // },
   {
     href: '/login',
-    icon: LockIcon,
+    icon: Logout,
     title: 'Logout'
   },
   // {

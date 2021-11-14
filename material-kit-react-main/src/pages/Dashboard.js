@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Box, Container, Grid, Card, CardContent, } from '@material-ui/core';
+import { Box, Container, Grid, Card, CardContent, CircularProgress, } from '@material-ui/core';
 import Burndown from 'src/components/dashboard/Burndown';
 import Calendar from 'react-calendar';
 // import 'react-calendar/dist/Calendar.css';
@@ -17,6 +17,7 @@ import { fetchGithubUserRepoIssuesAsync, issueProducts } from 'src/reducers/Issu
 import IssueListResults from 'src/components/issue/IssueListResults';
 import PendingTaskResults from 'src/components/issue/PendingTaskResults';
 import { fetchContributorObjAsync, userProducts } from 'src/reducers/UserReducer';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -26,9 +27,12 @@ const Dashboard = () => {
   const repo = reposProducts(store.getState()).repo;
   const repoInfo = reposProducts(store.getState()).repoInfo;
   const burndownChart = reposProducts(store.getState()).burnDownChart;
+  const reposLoading = reposProducts(store.getState()).reposLoading;
   // if(repo.repo == null){
   //   navigate('/repos', { replace: true });
   // }
+
+  console.log('reposLoading:', reposLoading);
 
   useEffect(() => {
     // dispatch(fetchGithubUserRepoIssuesAsync({ repoFullName: repo.full_name }));
@@ -42,7 +46,7 @@ const Dashboard = () => {
   repoInfo?.tasks?.forEach((task) => {
     const index = repoInfo?.currentTasks?.findIndex(e => e.id == task.number)
     if (index > -1) {
-      const newTask = { ...task, ...repoInfo?.currentTasks[index] };
+      const newTask = { ...task, ...repoInfo?.currentTasks[index], status: 'normal' };
       currentTasks.push(newTask);
     }
   });
@@ -155,7 +159,7 @@ const Dashboard = () => {
             <Box
               width='100%'
             >
-              <Burndown burndownChart={burndownChart}/>
+              <Burndown burndownChart={burndownChart} />
             </Box>
 
           </Grid>
@@ -185,6 +189,23 @@ const Dashboard = () => {
         </Grid>
       </Container>
     </Box>
+    {reposLoading &&
+      <Box
+        display="flex"
+        sx={{
+          height: '100%',
+          width: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          ml: 15,
+          zIndex: 'modal',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <CircularProgress />
+      </Box>}
   </>);
 }
 

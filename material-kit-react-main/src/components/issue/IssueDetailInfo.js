@@ -151,7 +151,7 @@ const IssueDetailInfo = (props) => {
 
             </Grid>
 
-            {task.state == 'pending' && <Grid
+            {task.status == 'pending' && <Grid
               item
               lg={12}
               md={12}
@@ -184,7 +184,7 @@ const IssueDetailInfo = (props) => {
 
             </Grid>}
 
-            {task.state == 'open' && <Grid
+            {task.status == 'normal' && <Grid
               item
               lg={12}
               md={12}
@@ -207,7 +207,7 @@ const IssueDetailInfo = (props) => {
 
             </Grid>}
 
-            {task.state == 'open' && <Grid
+            {task.status == 'normal' && <Grid
               item
               lg={12}
               md={12}
@@ -230,7 +230,7 @@ const IssueDetailInfo = (props) => {
 
             </Grid>}
 
-            {task.state == 'pending' && <Grid
+            {task.status == 'pending' && <Grid
               item
               lg={12}
               md={12}
@@ -258,7 +258,7 @@ const IssueDetailInfo = (props) => {
 
             </Grid>}
 
-            {task.state == 'open' && <Grid
+            {task.status == 'normal' && <Grid
               item
               lg={12}
               md={12}
@@ -322,7 +322,7 @@ const IssueDetailInfo = (props) => {
           p: 2
         }}
       >
-        {task?.state == 'pending' && <Button
+        {task?.status == 'pending' && <Button
           variant="contained"
           color="primary"
           sx={{ mr: 1 }}
@@ -332,7 +332,7 @@ const IssueDetailInfo = (props) => {
         >
           Confirm
         </Button>}
-        {task?.state == 'open' && <Button
+        {task?.status == 'normal' && <Button
           variant="contained"
           color="primary"
           sx={{ mr: 1 }}
@@ -342,7 +342,7 @@ const IssueDetailInfo = (props) => {
         >
           Delay
         </Button>}
-        {task?.state == 'open' && <Button
+        {task?.status == 'normal' && <Button
           variant="contained"
           color="error"
           sx={{ mr: 1 }}
@@ -350,7 +350,7 @@ const IssueDetailInfo = (props) => {
         >
           Reject
         </Button>}
-        {task?.state == 'open' && <Button
+        {task?.status == 'normal' && <Button
           variant="contained"
           color="success"
           sx={{ mr: 1 }}
