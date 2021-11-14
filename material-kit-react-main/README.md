@@ -6,7 +6,9 @@ CS5351 Project Dashboard
 ## Project Status
 Ready for test  
   
-** Please find `man_draft.py` file in root directory to rename it to `draft.py` and replace the alex's `draft.py` before testing
+** Please find `man_draft.py` file in root directory to rename it to `draft.py` and replace the alex's `draft.py` before testing.
+  
+** For Testing, Please replace your token `Cookies.set(ConfigData.GITHUB_COOOKIE_NAME, "YOUR ACCESS TOKEN");` in this App.js.
 
 
 ## Installation and Setup Instructions
