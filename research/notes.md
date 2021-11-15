@@ -3,7 +3,9 @@
 ## Introduction
 
 Most time of the software cycle is spent on maintenance instead of planning, designing, implementation etc. The informality of Modern Code Review has its upsides and downsides. One of the challenges is to keep MCR manageable for a large project.
+
 ‘Issues' is a vague term that actually encompasses many things. Not all reports are bona fide. There are many ways to classify issues. Here we present one way:
+
 1. software bug report (Action: Assign issue to developer team.)
 2. documentation errors (e.g., broken links, not clear, typos. Action: Assign issue to documentation team.)
 3. performance issues (e.g., slow, huge memory consumption. Action: Assign issue to tester team to feedback to developer team.)
@@ -12,6 +14,7 @@ Most time of the software cycle is spent on maintenance instead of planning, des
 6. invalid/spam (Action: the issue should be closed immediately)
 
 We do supervised learning to classify these issues. The output confidence percentage that the issue belonging to categories, not the category itself. Tag only if confidence percentage is high!
+
 With such classifications, it is also easier to find duplicate issues. Pull requests can also be classified in such way (except #4).
 
 (The `tensorflow` GitHub repo seems to agree with these six categories, they use ['type:bug', 'type:docs-bug', 'type:performance', 'type:support', 'type:feature', 'invalid']) We also need to make a URL list of public GitHub repositories with these issue labels, and use them for training.
