@@ -29,6 +29,11 @@ Yet, the reporters may not follow the rules (they may delete / alter part of the
 On top of this, most issue reports are for social interactions only, which constitutes a source of distraction.
 
 #### Automated bug triage
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/9071916/141791696-7c0b38ce-0a33-485b-8036-b494194948ab.png" alt="How to clear out the clutter in Modern Code Review?"/>
+	<br><em>How to clear out the clutter in Modern Code Review?</em>
+</p>
+
 Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification [2][3], graph theory methods [4], and clustering [5] have been proposed.
 
 Microsoft uses its own issue triage syetem extensively in its open-source projects, notably Visual Studio Code [6]. It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
