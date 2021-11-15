@@ -75,27 +75,5 @@ Actually, it won't. Method: Markdown -----markdown Python library-----> HTML ---
 #### Task list
 * Users (issue reporters) love fast feedback: AJAX - Click 'create task/invalid issue/resolve task/delay task' without refreshing
 
-
-
-<!-- ## Class UML for Java (for fun, fully automated from GitHub code)
-Written in Pygments + PyGraphViz
-
-* Spot violation of "low coupling, high cohesion"
-* Spot circular imports -->
-
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
---------------------------------------------
-
-##### Bonus: Generation of Class UML Diagram from Codebase
-* Language-specific: Java is used for this version
-* Purpose of Class UML:
-1. Gives a high-level overview: you can see if the 'high cohesion, low coupling' principle is violated; and check if there are circular imports.
-2. Easy to see whether the naming conventions are followed. For instance, there can be a rule where all class members starts with the letter m.
-	
-<!--The UML Class Diagram gives a high-level overview. Cannot distinguish whether the added file is a third-party dependency or written by user himself: needs to index the namespace for STEP ONE.-->
+# Citations
+[1] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
