@@ -25,15 +25,6 @@ Yet, the reporters may not follow the rules (they may delete / alter part of the
 
 On top of this, most issue reports are for social interactions only, which constitutes a source of distraction.
 
-##### Case study
-
-https://github.com/tensorflowbutler ("I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
-https://github.com/fastlane/fastlane/issues/18004
-
-According to the development team of Tensorflow:
-> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author’s GitHub account and a comment explaining the change. We have a special “tensorflow-gardener” account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it’s been migrated to GitHub here.
-https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/
-
 #### Automated bug triage
 Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification [2][3], graphical methods [4], and clustering [5] have been proposed.
 
@@ -56,11 +47,18 @@ Actually, it won't. Method: Markdown -----markdown Python library-----> HTML ---
 In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
 	
 Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
+	
+##### Case study
+
+https://github.com/tensorflowbutler ("I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
+https://github.com/fastlane/fastlane/issues/18004
+
+According to the development team of Tensorflow:
+> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author’s GitHub account and a comment explaining the change. We have a special “tensorflow-gardener” account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it’s been migrated to GitHub here.
+https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/
 
 #### Automated issue assignment
 Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
-
-
 
 
 #### Task list
@@ -68,7 +66,8 @@ Automatically assign the person-in-charge (assume there are more than one develo
 
 # Citations
 - [1] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
-- [2] Čubranić, D., &amp; Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&amp;rep=rep1&amp;type=pdf. 
+- [2] Čubranić, D., &amp; Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. University of British Columbia. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&amp;rep=rep1&amp;type=pdf. 
 - [3] Xuan, J., Jiang, H., Ren, Z., Yan, J., &amp; Luo, Z. (2017, April 16). Automatic Bug Triage Using Semi-supervised Text Classification. arXiv.org. Retrieved November 15, 2021, from https://arxiv.org/abs/1704.04769.
 - [4] I. Alazzam, A. Aleroud, Z. Al Latifah and G. Karabatis, "Automatic Bug Triage in Software Systems Using Graph Neighborhood Relations for Feature Augmentation," in IEEE Transactions on Computational Social Systems, vol. 7, no. 5, pp. 1288-1303, Oct. 2020, doi: 10.1109/TCSS.2020.3017501.
-- [5] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf.
+- [5] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. North Dakota State University. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf. 
+- [6] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/. 
