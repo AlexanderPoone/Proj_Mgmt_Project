@@ -50,11 +50,14 @@ Microsoft uses its own issue triage syetem extensively in its open-source projec
 * Method used:
 	* 'Small' English CNN (convolutional neural network) model from the **spacy** Python library. This 'small' network is chosen because of its speed. Its English corpus is based upon *WordNet 3.0* by Princeton University, its named entity recogniser is taken from *OntoNotes 5*, while its sentence recognizer is formulated on *ClearNLP* by Emery University. [10]
 
+![image](https://user-images.githubusercontent.com/9071916/141834312-0520a74a-cb49-41d5-a8e0-77785f461699.png)
+<div align="center"><em>Issues with short descriptions are not conducive to fixing bugs. The program will close the issue and post an automated response asking for more details.</em><br></div>
+
 ![image](https://user-images.githubusercontent.com/9071916/141832998-da407eba-c375-461f-a5ad-5f33c23bbe65.png)
-<div align="center"><em>The main UI.</em></div>
+<div align="center"><em>The main UI.</em><br></div>
 
 ![image](https://user-images.githubusercontent.com/9071916/141832707-8d14449a-890d-48a4-924e-379d1b8c1f7d.png)
-<div align="center"><em>The colours of the issue label system and the colours of their responsible sub-teams match.</em></div>
+<div align="center"><em>The colours of the issue label system and the colours of their responsible sub-teams match.</em><br></div>
 
 ![image](https://user-images.githubusercontent.com/9071916/141832785-20ee8c70-bbd2-4583-a06d-463cb1340430.png)
 
@@ -64,8 +67,11 @@ Actually, it won't. Method: Markdown -----markdown Python library-----> HTML ---
 
 In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
 	
-Users (task reporters) love fast feedback. Therefore, there will be an automatic response on GitHub once the issue is triaged.
-	
+Users (task reporters) love fast feedback. Therefore, there will be an automatic response on GitHub after any issue is triaged.
+![image](https://user-images.githubusercontent.com/9071916/141835539-2ad38354-51fe-454b-bb93-86c128357b3c.png)
+![image](https://user-images.githubusercontent.com/9071916/141835865-77350199-bfea-418a-b36d-7c44b9aaf629.png)
+<div align="center"><em>Examples of automatic responses on GitHub.</em><br></div>
+
 <!-- Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue-->
 	
 ##### Case study
