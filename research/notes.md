@@ -36,7 +36,7 @@ On top of this, most issue reports are for social interactions only, which const
 	<br><em>How to <strong>clear out the clutter</strong> in Modern Code Review?</em>
 </p>
 
-Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification [5][6], graph theory methods [7], and clustering [8] have been proposed.
+Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification (supervised or semi-supervised) [5][6], graph theory methods [7], and clustering [8] have been proposed.
 
 Microsoft uses its own issue triage syetem extensively in its open-source projects, notably Visual Studio Code [9]. It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
 
