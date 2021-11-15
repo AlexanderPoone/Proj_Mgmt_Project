@@ -1,4 +1,4 @@
-# PowerPoint Notes
+# Notes
 
 ## Introduction
 
