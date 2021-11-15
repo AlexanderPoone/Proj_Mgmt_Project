@@ -1356,30 +1356,30 @@ def UT_BulkAddIssues(owner, reponame):
 @app.route('/test/bulkdelissues/<string:owner>/<string:reponame>', methods = ['GET'])
 def UT_BulkDeleteIssues(owner, reponame):
 	if reponame.startswith('SWEngg'):
-		for issue_number in range(1, 46):
-			# url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}'
+		for issue_number in range(46, 90):
+			url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}'
 
-			# body = {'state': 'closed'}
-			# data = dumps(body).encode('utf-8')
+			body = {'state': 'closed'}
+			data = dumps(body).encode('utf-8')
 
-			# req = Request(url, data=data, method='PATCH')
+			req = Request(url, data=data, method='PATCH')
 
-			# tok = request.cookies.get('access_token')
+			tok = request.cookies.get('access_token')
 
-			# headers = {
-			# 	'Accept': '*/*',
-			# 	'Content-Type': 'application/json',
-			# 	'Authorization': f"token {tok}"
-			# }
-			# for h in headers:
-			# 	req.add_header(h, headers[h])
+			headers = {
+				'Accept': '*/*',
+				'Content-Type': 'application/json',
+				'Authorization': f"token {tok}"
+			}
+			for h in headers:
+				req.add_header(h, headers[h])
 
-			# res = urlopen(req)
-
-
+			res = urlopen(req)
 
 
-			for m in ['aurum1337', 'BerndRoseau', 'SergeiGainsboro', 'VeritasOmniaVincit']:		#'DerWahrheitssucher', 
+
+
+			for m in ['aurum1337', 'BerndRoseau', 'SergeiGainsboro', 'VeritasOmniaVincit', 'DerWahrheitssucher', 'SoftFeta', 'EixampleBarcelona']: 
 				url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/assignees'
 				body = {'assignees': m}
 				data = dumps(body).encode('utf-8')
