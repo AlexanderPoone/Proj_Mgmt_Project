@@ -31,7 +31,7 @@ On top of this, most issue reports are for social interactions only, which const
 #### Automated bug triage
 <p align="center">
   <img src="https://user-images.githubusercontent.com/9071916/141791696-7c0b38ce-0a33-485b-8036-b494194948ab.png" alt="How to clear out the clutter in Modern Code Review?"/>
-	<br><em>How to clear out the clutter in Modern Code Review?</em>
+	<br><em>How to <strong>clear out the clutter</strong> in Modern Code Review?</em>
 </p>
 
 Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification [2][3], graph theory methods [4], and clustering [5] have been proposed.
