@@ -50,13 +50,23 @@ Microsoft uses its own issue triage syetem extensively in its open-source projec
 * Method used:
 	* 'Small' English CNN (convolutional neural network) model from the **spacy** Python library. This 'small' network is chosen because of its speed. Its English corpus is based upon *WordNet 3.0* by Princeton University, its named entity recogniser is taken from *OntoNotes 5*, while its sentence recognizer is formulated on *ClearNLP* by Emery University. [10]
 
+![image](https://user-images.githubusercontent.com/9071916/141832998-da407eba-c375-461f-a5ad-5f33c23bbe65.png)
+<div align="center"><em>The main UI.</em></div>
+
+![image](https://user-images.githubusercontent.com/9071916/141832707-8d14449a-890d-48a4-924e-379d1b8c1f7d.png)
+<div align="center"><em>The colours of the issue label system and the colours of their responsible sub-teams match.</em></div>
+
+![image](https://user-images.githubusercontent.com/9071916/141832785-20ee8c70-bbd2-4583-a06d-463cb1340430.png)
+
 But you may say, code and images from the issue report will go into NLP, which will affect the result!
 
 Actually, it won't. Method: Markdown -----markdown Python library-----> HTML ------> extract text only.
 
 In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
 	
-Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
+Users (task reporters) love fast feedback. Therefore, there will be an automatic response on GitHub once the issue is triaged.
+	
+<!-- Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue-->
 	
 ##### Case study
 There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Superset, and Kubeflow. [11]
@@ -70,9 +80,11 @@ According to the development team of TensorFlow:
 #### Automated issue assignment
 Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
 
-
-#### Task list
-Users (issue reporters) love fast feedback. Therefore, the task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
+#### Fast Task Control
+![image](https://user-images.githubusercontent.com/9071916/141833534-c8f3ddc3-a1f7-4d30-85cb-44ac4602fb39.png)
+<div align="center"><em>Task list.</em></div>
+	
+The task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
 
 # Citations
 - [1] Software Maintenance Overview. TutorialsPoint. (n.d.). Retrieved November 15, 2021, from https://www.tutorialspoint.com/software_engineering/software_maintenance_overview.htm.
