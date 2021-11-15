@@ -88,7 +88,7 @@ Automatically assign the person-in-charge (assume there are more than one develo
 
 #### Fast Task Control
 ![image](https://user-images.githubusercontent.com/9071916/141833534-c8f3ddc3-a1f7-4d30-85cb-44ac4602fb39.png)
-<div align="center"><em>Task list.</em></div>
+<div align="center"><em>The improved task list.</em></div>
 	
 The task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
 
