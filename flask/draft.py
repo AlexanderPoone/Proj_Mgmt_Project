@@ -138,6 +138,7 @@ def login():
 
 # Get auth'd user's name and avatar
 def getUserInfo(username=None):
+	print(username)
 	url = 'https://api.github.com/user' if username is None else f'https://api.github.com/users/{username}'
 
 	req = Request(url)
@@ -579,6 +580,17 @@ def issuesView(owner, reponame):
 						
 						assignee = min(countTasksByPerson, key=countTasksByPerson.get)
 
+						# Temporary add count of that person to database - Begin
+						tmpCount = {
+							 'owner': owner,
+							 'reponame': reponame,
+							 'assignee': assignee,
+							 'status': 'temp'
+						}
+						collectionTasks.insert(tmpCount)
+						# Temporary add count of that person to database - End
+
+
 					url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue['number']}/assignees"
 
 					body = {'assignees': [assignee]}
@@ -654,6 +666,10 @@ def issuesView(owner, reponame):
 			#issue['startdate'] = '2021-10-01'
 						
 	#################################################
+	# Clean up temp values
+	collectionTasks = db['tasks']
+	collectionTasks.remove({'status': 'temp'})
+	#################################################
 	# Get all PRs
 	url = f'https://api.github.com/repos/{owner}/{reponame}/pulls?per_page=100'
 
@@ -682,7 +698,7 @@ def issuesView(owner, reponame):
 	#################################################
 	# Render
 	return render_template('repo.html', 
-		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in x['labels'] and 'pull_request' not in x],
+		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in [y['name'] for y in x['labels']] and 'pull_request' not in x],
 		pullRequests=pullRequests,
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
@@ -1335,6 +1351,57 @@ def UT_BulkAddIssues(owner, reponame):
 		sleep(5)
 
 	return jsonify(True)
+
+
+@app.route('/test/bulkdelissues/<string:owner>/<string:reponame>', methods = ['GET'])
+def UT_BulkDeleteIssues(owner, reponame):
+	if reponame.startswith('SWEngg'):
+		for issue_number in range(1, 46):
+			# url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}'
+
+			# body = {'state': 'closed'}
+			# data = dumps(body).encode('utf-8')
+
+			# req = Request(url, data=data, method='PATCH')
+
+			# tok = request.cookies.get('access_token')
+
+			# headers = {
+			# 	'Accept': '*/*',
+			# 	'Content-Type': 'application/json',
+			# 	'Authorization': f"token {tok}"
+			# }
+			# for h in headers:
+			# 	req.add_header(h, headers[h])
+
+			# res = urlopen(req)
+
+
+
+
+			for m in ['aurum1337', 'BerndRoseau', 'SergeiGainsboro', 'VeritasOmniaVincit']:		#'DerWahrheitssucher', 
+				url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/assignees'
+				body = {'assignees': m}
+				data = dumps(body).encode('utf-8')
+
+				req = Request(url, data=data, method='DELETE')
+
+				tok = request.cookies.get('access_token')
+
+				headers = {
+					'Accept': '*/*',
+					'Content-Type': 'application/json',
+					'Authorization': f"token {tok}"
+				}
+				for h in headers:
+					req.add_header(h, headers[h])
+
+				res = urlopen(req)
+	return jsonify(True)
+
+
+
+
 
 ###########################################################################
 #
