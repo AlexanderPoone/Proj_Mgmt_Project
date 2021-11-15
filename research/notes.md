@@ -1,8 +1,10 @@
 # Research
 
-## Introduction
+## Issue Management Automation
 
-Most time of the software cycle is spent on maintenance instead of planning, designing, implementation etc. The informality of Modern Code Review has its upsides and downsides. One of the challenges is to keep MCR manageable for a large project.
+Instead of planning, designing and implementation, most time of the software cycle is spent on maintenance. Estimates show that this laborious process takes up 67% [1] to 90% [2][3] of the total software development cost. The informality of Modern Code Review has its upsides and downsides. One of the challenges is to keep MCR manageable for a large project.
+
+![image](https://user-images.githubusercontent.com/9071916/141829909-6cdc8301-1081-4602-8670-54f495a69f0c.png) [1]
 
 ‘Issues' is a vague term that actually encompasses many things. Not all reports are bona fide. There are many ways to classify issues. Here we present one way:
 
@@ -22,7 +24,7 @@ With such classifications, it is also easier to find duplicate issues. Pull requ
 #### Automated issue filtering
 GitHub issues, by default, are free-form and unstructured. Therefore, it is probable that there are unconstructive issues like questions (should read the user manual instead of posting on GitHub), spam, or even gibberish. On some occasions, the team is too occupied to care about feature requests.
 
-Sometimes, even if it is a bug report, it provides little useful information. For example, the version with the bug or log messages are not provided. How some GitHub projects tackle the issue is to limit the format of bug reports (GitHub has no restriction, but there is a GitHub feature to give users a bug template [1]. This feature is used by big repositories like TensorFlow and Fastlane alongside bug triage.)
+Sometimes, even if it is a bug report, it provides little useful information. For example, the version with the bug or log messages are not provided. How some GitHub projects tackle the issue is to limit the format of bug reports (GitHub has no restriction, but there is a GitHub feature to give users a bug template [4]. This feature is used by big repositories like TensorFlow and Fastlane alongside bug triage.)
 
 Yet, the reporters may not follow the rules (they may delete / alter part of the template) or be familiar with the tag system as there are too many. Also, the workload of team members is not considered. GitHub does not keep track of the percentage of work allocated to individuals.
 
@@ -34,9 +36,9 @@ On top of this, most issue reports are for social interactions only, which const
 	<br><em>How to <strong>clear out the clutter</strong> in Modern Code Review?</em>
 </p>
 
-Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification [2][3], graph theory methods [4], and clustering [5] have been proposed.
+Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification [5][6], graph theory methods [7], and clustering [8] have been proposed.
 
-Microsoft uses its own issue triage syetem extensively in its open-source projects, notably Visual Studio Code [6]. It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
+Microsoft uses its own issue triage syetem extensively in its open-source projects, notably Visual Studio Code [9]. It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
 
 * We did a simplified, generic version:
 	* Assumption: 1 GitHub account per task.
@@ -46,7 +48,7 @@ Microsoft uses its own issue triage syetem extensively in its open-source projec
 		3. respond to reporter
 		4. suggest assignee with the lowest workload (balance workload)
 * Method used:
-	* 'Small' English CNN (convolutional neural network) model from the **spacy** Python library. This 'small' network is chosen because of its speed. Its English corpus is based upon *WordNet 3.0* by Princeton University, its named entity recogniser is taken from *OntoNotes 5*, while its sentence recognizer is formulated on *ClearNLP* by Emery University. [7]
+	* 'Small' English CNN (convolutional neural network) model from the **spacy** Python library. This 'small' network is chosen because of its speed. Its English corpus is based upon *WordNet 3.0* by Princeton University, its named entity recogniser is taken from *OntoNotes 5*, while its sentence recognizer is formulated on *ClearNLP* by Emery University. [10]
 
 But you may say, code and images from the issue report will go into NLP, which will affect the result!
 
@@ -57,13 +59,13 @@ In a large repository, there may be many issue reports with different severity. 
 Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
 	
 ##### Case study
-There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Superset, and Kubeflow. [8]
+There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Superset, and Kubeflow. [11]
 
 TensorFlow is a large project on GitHub. At the time of writing, it has more than 2,700 open issues and 30,600 closed issues.
 There is a bot called `tensorflowbutler` responsible for issue triage. (https://github.com/tensorflowbutler: "I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
 
 According to the development team of TensorFlow:
-> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author's GitHub account and a comment explaining the change. We have a special `tensorflow-gardener` account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it's been migrated to GitHub here. [9]
+> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author's GitHub account and a comment explaining the change. We have a special `tensorflow-gardener` account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it's been migrated to GitHub here. [12]
 
 #### Automated issue assignment
 Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
@@ -73,12 +75,15 @@ Automatically assign the person-in-charge (assume there are more than one develo
 Users (issue reporters) love fast feedback. Therefore, the task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
 
 # Citations
-- [1] Configuring issue templates for your repository. GitHub Docs. (n.d.). Retrieved November 15, 2021, from https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository.
-- [2] Čubranić, D., & Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. University of British Columbia. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&rep=rep1&type=pdf. 
-- [3] Xuan, J., Jiang, H., Ren, Z., Yan, J., & Luo, Z. (2017, April 16). Automatic Bug Triage Using Semi-supervised Text Classification. arXiv.org. Retrieved November 15, 2021, from https://arxiv.org/abs/1704.04769.
-- [4] I. Alazzam, A. Aleroud, Z. Al Latifah and G. Karabatis, "Automatic Bug Triage in Software Systems Using Graph Neighborhood Relations for Feature Augmentation," in IEEE Transactions on Computational Social Systems, vol. 7, no. 5, pp. 1288-1303, Oct. 2020, doi: 10.1109/TCSS.2020.3017501.
-- [5] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. North Dakota State University. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf.
-- [6] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
-- [7] English · spaCy Models Documentation - en_core_web_sm. (2021). Retrieved November 15, 2021, from https://spacy.io/models/en#en_core_web_sm. 
-- [8] Issue-Label BOT - GitHub Marketplace. GitHub. (n.d.). Retrieved November 15, 2021, from https://github.com/marketplace/issue-label-bot. 
-- [9] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/.
+- [1] Software Maintenance Overview. TutorialsPoint. (n.d.). Retrieved November 15, 2021, from https://www.tutorialspoint.com/software_engineering/software_maintenance_overview.htm.
+- [2] Dehaghani, S. M. H., & Hajrahimi, N. (2013, March). Which factors affect software projects maintenance cost more? Acta informatica medica : AIM : journal of the Society for Medical Informatics of Bosnia & Herzegovina : casopis Drustva za medicinsku informatiku BiH. Retrieved November 15, 2021, from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/.
+- [3] Koskinen, J. (n.d.). Software Maintenance Costs - unican.es. University of Eastern Finland. Retrieved November 15, 2021, from https://ocw.unican.es/pluginfile.php/1408/course/section/1805/SMCOSTS.pdf. 
+- [4] Configuring issue templates for your repository. GitHub Docs. (n.d.). Retrieved November 15, 2021, from https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository.
+- [5] Čubranić, D., & Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. University of British Columbia. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&rep=rep1&type=pdf. 
+- [6] Xuan, J., Jiang, H., Ren, Z., Yan, J., & Luo, Z. (2017, April 16). Automatic Bug Triage Using Semi-supervised Text Classification. arXiv.org. Retrieved November 15, 2021, from https://arxiv.org/abs/1704.04769.
+- [7] I. Alazzam, A. Aleroud, Z. Al Latifah and G. Karabatis, "Automatic Bug Triage in Software Systems Using Graph Neighborhood Relations for Feature Augmentation," in IEEE Transactions on Computational Social Systems, vol. 7, no. 5, pp. 1288-1303, Oct. 2020, doi: 10.1109/TCSS.2020.3017501.
+- [8] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. North Dakota State University. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf.
+- [9] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
+- [10] English · spaCy Models Documentation - en_core_web_sm. (2021). Retrieved November 15, 2021, from https://spacy.io/models/en#en_core_web_sm. 
+- [11] Issue-Label BOT - GitHub Marketplace. GitHub. (n.d.). Retrieved November 15, 2021, from https://github.com/marketplace/issue-label-bot. 
+- [12] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/.
