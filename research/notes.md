@@ -45,8 +45,10 @@ Automatically assign the person-in-charge (assume there are more than one develo
 Most time of the software life span is spent on maintenance, not design and implementation.
 
 Triaging is the name given for confirming, prioritizing, and organizing issue reports.
-* An emerging topic (Petri net flow by Microsoft: https://github.com/microsoft/vscode/wiki/Issues-Triaging)
+* An emerging topic
 
+Microsoft uses its own issue triage syetem extensively in its open-source projects, notably Visual Studio Code [1]. It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
+	
 > Automatic Bug Triage using Semi-Supervised Text Classificationhttps://arxiv.org › cs
 由 J Xuan 著作 · 2017 · 被引用 144 次 — Computer Science > Software Engineering. arXiv:1704.04769 (cs). [Submitted on 16 Apr 2017]. Title:Automatic Bug Triage using Semi-Supervised Text ...
 
