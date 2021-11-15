@@ -38,7 +38,7 @@ Microsoft uses its own issue triage syetem extensively in its open-source projec
 		3. respond to reporter
 		4. suggest assignee with the lowest workload (balance workload)
 * Method used:
-	* Small English CNN model from spacy
+	* Small English CNN (convolutional neural network) model from the **spacy** Python library. Its English corpus is based upon *WordNet 3.0* by Princeton University, its named entity recogniser is taken from *OntoNotes 5*, while its sentence recognizer is formulated on *ClearNLP* by Emery University. [7]
 
 But you may say, code and images from the issue report will go into NLP, which will affect the result!
 
@@ -49,13 +49,13 @@ In a large repository, there may be many issue reports with different severity. 
 Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
 	
 ##### Case study
-There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Supeset, and Kubeflow. [7]
+There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Supeset, and Kubeflow. [8]
 
 TensorFlow is a large project on GitHub. At the time of writing, it has more than 2,700 open issues and 30,600 closed issues.
 There is a bot called `tensorflowbutler` responsible for issue triage. (https://github.com/tensorflowbutler: "I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
 
 According to the development team of TensorFlow:
-> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author’s GitHub account and a comment explaining the change. We have a special “tensorflow-gardener” account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it’s been migrated to GitHub here. [8]
+> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author's GitHub account and a comment explaining the change. We have a special `tensorflow-gardener` account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it's been migrated to GitHub here. [9]
 
 #### Automated issue assignment
 Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
@@ -71,5 +71,6 @@ Users (issue reporters) love fast feedback. Therefore, the task list is implment
 - [4] I. Alazzam, A. Aleroud, Z. Al Latifah and G. Karabatis, "Automatic Bug Triage in Software Systems Using Graph Neighborhood Relations for Feature Augmentation," in IEEE Transactions on Computational Social Systems, vol. 7, no. 5, pp. 1288-1303, Oct. 2020, doi: 10.1109/TCSS.2020.3017501.
 - [5] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. North Dakota State University. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf.
 - [6] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
-- [7] Issue-Label BOT - GitHub Marketplace. GitHub. (n.d.). Retrieved November 15, 2021, from https://github.com/marketplace/issue-label-bot. 
-- [8] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/. 
+- [7] English · spaCy Models Documentation - en_core_web_sm. (2021). Retrieved November 15, 2021, from https://spacy.io/models/en#en_core_web_sm. 
+- [8] Issue-Label BOT - GitHub Marketplace. GitHub. (n.d.). Retrieved November 15, 2021, from https://github.com/marketplace/issue-label-bot. 
+- [9] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/. 
