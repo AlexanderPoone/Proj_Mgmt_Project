@@ -41,7 +41,7 @@ Microsoft uses its own issue triage syetem extensively in its open-source projec
 		3. respond to reporter
 		4. suggest assignee with the lowest workload (balance workload)
 * Method used:
-	* Small English CNN (convolutional neural network) model from the **spacy** Python library. Its English corpus is based upon *WordNet 3.0* by Princeton University, its named entity recogniser is taken from *OntoNotes 5*, while its sentence recognizer is formulated on *ClearNLP* by Emery University. [7]
+	* 'Small' English CNN (convolutional neural network) model from the **spacy** Python library. This 'small' network is chosen because of its speed. Its English corpus is based upon *WordNet 3.0* by Princeton University, its named entity recogniser is taken from *OntoNotes 5*, while its sentence recognizer is formulated on *ClearNLP* by Emery University. [7]
 
 But you may say, code and images from the issue report will go into NLP, which will affect the result!
 
@@ -52,7 +52,7 @@ In a large repository, there may be many issue reports with different severity. 
 Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
 	
 ##### Case study
-There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Supeset, and Kubeflow. [8]
+There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Superset, and Kubeflow. [8]
 
 TensorFlow is a large project on GitHub. At the time of writing, it has more than 2,700 open issues and 30,600 closed issues.
 There is a bot called `tensorflowbutler` responsible for issue triage. (https://github.com/tensorflowbutler: "I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
@@ -65,15 +65,15 @@ Automatically assign the person-in-charge (assume there are more than one develo
 
 
 #### Task list
-Users (issue reporters) love fast feedback. Therefore, the task list is implmented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
+Users (issue reporters) love fast feedback. Therefore, the task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
 
 # Citations
 - [1] Configuring issue templates for your repository. GitHub Docs. (n.d.). Retrieved November 15, 2021, from https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository.
-- [2] Čubranić, D., &amp; Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. University of British Columbia. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&amp;rep=rep1&amp;type=pdf. 
-- [3] Xuan, J., Jiang, H., Ren, Z., Yan, J., &amp; Luo, Z. (2017, April 16). Automatic Bug Triage Using Semi-supervised Text Classification. arXiv.org. Retrieved November 15, 2021, from https://arxiv.org/abs/1704.04769.
+- [2] Čubranić, D., & Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. University of British Columbia. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&rep=rep1&type=pdf. 
+- [3] Xuan, J., Jiang, H., Ren, Z., Yan, J., & Luo, Z. (2017, April 16). Automatic Bug Triage Using Semi-supervised Text Classification. arXiv.org. Retrieved November 15, 2021, from https://arxiv.org/abs/1704.04769.
 - [4] I. Alazzam, A. Aleroud, Z. Al Latifah and G. Karabatis, "Automatic Bug Triage in Software Systems Using Graph Neighborhood Relations for Feature Augmentation," in IEEE Transactions on Computational Social Systems, vol. 7, no. 5, pp. 1288-1303, Oct. 2020, doi: 10.1109/TCSS.2020.3017501.
 - [5] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. North Dakota State University. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf.
 - [6] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
 - [7] English · spaCy Models Documentation - en_core_web_sm. (2021). Retrieved November 15, 2021, from https://spacy.io/models/en#en_core_web_sm. 
 - [8] Issue-Label BOT - GitHub Marketplace. GitHub. (n.d.). Retrieved November 15, 2021, from https://github.com/marketplace/issue-label-bot. 
-- [9] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/. 
+- [9] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/.
