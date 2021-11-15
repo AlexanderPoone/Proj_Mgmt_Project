@@ -35,30 +35,9 @@ According to the development team of Tensorflow:
 https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/
 
 #### Automated bug triage
-Automated bug triage by adding a custom severity tag to the issue. In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
-	
-Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
-
-#### Automated issue assignment
-Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
-
-Most time of the software life span is spent on maintenance, not design and implementation.
-
-Triaging is the name given for confirming, prioritizing, and organizing issue reports.
-* An emerging topic
+Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification [2][3], graphical methods [4], and clustering [5] have been proposed.
 
 Microsoft uses its own issue triage syetem extensively in its open-source projects, notably Visual Studio Code [1]. It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
-	
-> Automatic Bug Triage using Semi-Supervised Text Classificationhttps://arxiv.org › cs
-由 J Xuan 著作 · 2017 · 被引用 144 次 — Computer Science > Software Engineering. arXiv:1704.04769 (cs). [Submitted on 16 Apr 2017]. Title:Automatic Bug Triage using Semi-Supervised Text ...
-
-> Automatic bug triage using text categorization - CiteSeerXhttps://citeseerx.ist.psu.edu › viewdoc › download
-	PDF
-	由 GC Murphy 著作 · 被引用 505 次 — Automatic bug triage using text categorization. Davor ˇCubranic. Department of Computer Science. University of British Columbia. 201–2366 Main
-
-> Automatic Bug Triage in Software Systems Using Graph ...https://ieeexplore.ieee.org › document· 翻譯這個網頁
-	由 I Alazzam 著作 · 2020 · 被引用 6 次 — Abstract: Bug triaging is the process of prioritizing bugs based on their severity, frequency, and risk in order to be assigned to ...
-	DOI： 10.1109/TCSS.2020.3017501
 
 * We did a simplified, generic version:
 	* Assumption: 1 GitHub account per task.
@@ -74,8 +53,22 @@ But you may say, code and images from the issue report will go into NLP, which w
 
 Actually, it won't. Method: Markdown -----markdown Python library-----> HTML ------> extract text only.
 
+In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
+	
+Reference: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue
+
+#### Automated issue assignment
+Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
+
+
+
+
 #### Task list
 * Users (issue reporters) love fast feedback: AJAX - Click 'create task/invalid issue/resolve task/delay task' without refreshing
 
 # Citations
-[1] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
+- [1] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
+- [2] Čubranić, D., &amp; Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&amp;rep=rep1&amp;type=pdf. 
+- [3] Xuan, J., Jiang, H., Ren, Z., Yan, J., &amp; Luo, Z. (2017, April 16). Automatic Bug Triage Using Semi-supervised Text Classification. arXiv.org. Retrieved November 15, 2021, from https://arxiv.org/abs/1704.04769.
+- [4] I. Alazzam, A. Aleroud, Z. Al Latifah and G. Karabatis, "Automatic Bug Triage in Software Systems Using Graph Neighborhood Relations for Feature Augmentation," in IEEE Transactions on Computational Social Systems, vol. 7, no. 5, pp. 1288-1303, Oct. 2020, doi: 10.1109/TCSS.2020.3017501.
+- [5] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf.
