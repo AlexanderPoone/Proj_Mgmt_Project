@@ -27,14 +27,14 @@ const Login = () => {
   const dispatch = useDispatch();
   const { app } = useSelector(appProducts);
 
-  if (Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != undefined && Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != null) {
-    navigate('/repos', { replace: true });
-  }
+  // if (Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != undefined && Cookies.get(ConfigData.GITHUB_COOOKIE_NAME) != null) {
+  //   navigate('/repos', { replace: true });
+  // }
 
   return (
     <>
       <Helmet>
-        <title>Login | Material Kit</title>
+        <title>CS5351 Project Login</title>
       </Helmet>
       <Box
         sx={{
@@ -57,7 +57,7 @@ const Login = () => {
                   variant="h2"
                   sx={{ mb: 1 }}
                 >
-                  CS5481 Project Sign In
+                  CS5351 Project Sign In
                 </Typography>
                 <Typography
                   color="textSecondary"

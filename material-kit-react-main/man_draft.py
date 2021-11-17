@@ -149,7 +149,7 @@ def getMyInfo(username=None):
 
 	req = Request(url)
 
-	tok = req.headers.get('token')
+	tok = req.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -171,7 +171,7 @@ def getUserInfo(username=None):
 
 	req = Request(url)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -192,8 +192,6 @@ def getContributors(owner, reponame, tok):
 	print(url)
 	print(tok)
 	req = Request(url)
-
-	# tok = token
 
 	headers = {
 		'Accept': '*/*',
@@ -229,7 +227,7 @@ def getContributors(owner, reponame, tok):
 @app.route('/contributors/<string:owner>/<string:reponame>', methods = ['GET'])
 def getContributorsJson(owner, reponame):
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 	contributors, contributorRoles = getContributors(owner, reponame, tok)
 
 	return jsonify(contributors= contributors, contributorRoles = contributorRoles)
@@ -366,6 +364,8 @@ class JSONEncoder(json.JSONEncoder):
 def repo(owner, reponame):
 	global nlp
 
+	tok = request.headers.get('access_token')
+
 	###########################
 	# Get logged in user's info
 
@@ -373,7 +373,7 @@ def repo(owner, reponame):
 	###########################
 	# Get collaborators usernames, names and avatars
 
-	# contributors, contributorRoles = getContributors(owner, reponame)
+	contributors, contributorRoles = getContributors(owner, reponame, tok)
 	###########################
 	# initialiseLabelSystem(owner, reponame)
 
@@ -383,8 +383,6 @@ def repo(owner, reponame):
 	url = f"https://api.github.com/repos/{owner}/{reponame}/issues?pulls=false&state=open&per_page=100"
 
 	req = Request(url)
-
-	tok = request.headers.get('token')
 
 	headers = {
 		'Accept': '*/*',
@@ -461,7 +459,7 @@ def repo(owner, reponame):
 
 				req = Request(url, data=data, method='PATCH')
 
-				tok = request.headers.get('token')
+				tok = request.headers.get('access_token')
 
 				headers = {
 					'Accept': '*/*',
@@ -619,7 +617,7 @@ def repo(owner, reponame):
 
 	req = Request(url)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -648,8 +646,8 @@ def repo(owner, reponame):
 		segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
-		# contributors = contributors, 
-		# contributorRoles = contributorRoles, 
+		contributors = contributors, 
+		contributorRoles = contributorRoles, 
 		currentTasks=currentTasks, 
 		resolvedTasks=json.loads(json.dumps(resolvedTasks, cls=JSONEncoder))
 		)
@@ -727,7 +725,7 @@ def reject(owner, reponame, issue_number):
 
 	req = Request(url, data=data)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -748,7 +746,7 @@ def reject(owner, reponame, issue_number):
 
 	req = Request(url, data=data, method='PATCH')
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -764,7 +762,7 @@ def reject(owner, reponame, issue_number):
 		'owner': owner,
 		'reponame': reponame,
 		'issue_number': issue_number,
-		'state': 'closed'
+		'status': 'closed'
 	})
 
 	return f'<strong>Issue closed and marked as invalid sucessfully!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>'
@@ -783,7 +781,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 	req = Request(url, data=data)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -815,7 +813,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 
 	req = Request(url, data=data, method='PATCH')
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -832,7 +830,7 @@ def resolve(owner, reponame, issue_number, pull_request_number):
 		'reponame': reponame,
 		'issue_number': issue_number,
 		'pull_request_number': pull_request_number,
-		'state': 'closed'
+		'status': 'resolved'
 	})
 
 
@@ -866,29 +864,113 @@ def delay(owner, reponame, issue_number, delaydays):
 		"enddate": newdate.strftime('%Y-%m-%d')
 	})
 
+# Misclassified?
+@app.route('/reassign/<string:owner>/<string:reponame>/<int:issue_number>/<string:correctCat>/<string:currentProposed>', methods = ['GET'])
+def reassign(owner, reponame, issue_number, correctCat, currentProposed):
+	print(owner, reponame, issue_number, correctCat, currentProposed)
 
-@app.route('/tasks/<string:owner>/<string:reponame>/<int:issue_number>', methods = ['GET'])
-def getTask(owner, reponame, issue_number):
-	print('delay', owner, reponame, issue_number, delaydays)
+	#############################################################
+	# Remove assignee
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/assignees'
+	body = {'assignees': currentProposed}
+	data = dumps(body).encode('utf-8')
 
-	# TODO TODO TODO TODO TODO
+	req = Request(url, data=data, method='DELETE')
 
-	collection = db['tasks']
+	tok = request.headers.get('access_token')
 
-	query = { "githubIssueID": issue_number }
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
 
-	findres = list(collection.find(query))[0]
+	res = urlopen(req)
 
-	enddate = findres['enddate']
-	newdate = enddate + timedelta(delaydays)
+	#############################################################
+	# Remove all labels
 
-	newvalues = { "$set": { "status": "delayed", "enddate": newdate } }
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/labels'
+	body = {}
+	data = dumps(body).encode('utf-8')
 
-	collection.update_one(query, newvalues)
+	req = Request(url, data=data, method='DELETE')
 
-	# TODO TODO TODO TODO TODO
+	tok = request.headers.get('access_token')
 
-	return jsonify([f'<strong>Task marked as delayed!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>', f'{newdate.strftime("%Y-%m-%d")} <span style="color: red;">(DELAYED)</span>'])
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+
+	#############################################################
+	# Add new label
+
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/labels'
+	body = {'labels': [f'class:{correctCat}']}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data)
+
+	tok = request.headers.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+
+	#############################################################
+	# Propose assignee
+	collection = db['roles']
+	collectionTasks = db['tasks']
+
+	teamMembers = list(collection.find({'role': correctCat.replace('software','developer').replace('performance','tester').replace('class:', '')}))
+
+	if len(teamMembers) == 0:
+		# If the team has 0 members (which should not happen actually)
+		print('This should not be shown!')
+
+		assignee = list(collection.find())[0]['collaborator']
+	else:
+		# Get the person w/ the least workload
+		countTasksByPerson = {}
+
+		for x in teamMembers:
+			countTasksByPerson[x['collaborator']] = collectionTasks.count_documents({'assignee': x['collaborator']})
+		
+		assignee = min(countTasksByPerson, key=countTasksByPerson.get)
+
+	# Apply changes
+	url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/assignees"
+
+	body = {'assignees': [assignee]}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data)
+
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	try:
+		res = urlopen(req)
+	except Exception as e:
+		print(e.read())
+
+	userInfo = getUserInfo(username=assignee)
+
+	return jsonify(userInfo)
 
 # Generate UML Class Diagram (JUST FOR FUN)
 @app.route('/generateClassUml/<string:owner>/<string:reponame>', methods = ['GET'])
@@ -907,7 +989,7 @@ def generateClassUml(owner, reponame):
 
 	req = Request(url)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -933,7 +1015,7 @@ def generateClassUml(owner, reponame):
 	tokens = lexer.get_tokens(code)
 
 	###########################
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 	headers = {
 		'Accept': '*/*',
 		'Content-Type': 'application/json',
@@ -944,7 +1026,7 @@ def generateClassUml(owner, reponame):
 	
 	req = Request(url2)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -1034,7 +1116,7 @@ def generateClassUml(owner, reponame):
 
 			req = Request(url)
 
-			tok = request.headers.get('token')
+			tok = request.headers.get('access_token')
 
 			headers = {
 				'Accept': '*/*',
@@ -1129,7 +1211,7 @@ def generateClassUml(owner, reponame):
 
 # Remove Default Label System by GitHub
 def deleteLabelSystem(owner, reponame):
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 	headers = {
 		'Accept': '*/*',
 		'Content-Type': 'application/json',
@@ -1161,7 +1243,7 @@ def deleteLabelSystem(owner, reponame):
 def initialiseLabelSystem(owner, reponame):
 	deleteLabelSystem(owner, reponame)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 	headers = {
 		'Accept': '*/*',
 		'Content-Type': 'application/json',
@@ -1216,7 +1298,7 @@ def topicModelling(doNlp=False):
 
 	req = Request(url)
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -1283,7 +1365,7 @@ def topicModelling(doNlp=False):
 @app.route('/logout', methods = ['GET'])
 def logout():
 	#	Delete an app authorization
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 	print(tok)
 	url = 'https://api.github.com/applications/34ed33a5c053d0c8e014/grant'
 
@@ -1335,7 +1417,7 @@ def UT_BulkAddIssues(owner, reponame):
 
 	url = f'https://api.github.com/repos/{owner}/{reponame}/issues'
 
-	tok = request.headers.get('token')
+	tok = request.headers.get('access_token')
 	headers = {
 		'Accept': '*/*',
 		'Content-Type': 'application/json',

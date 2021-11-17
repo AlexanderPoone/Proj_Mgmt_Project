@@ -39,6 +39,7 @@ const resolveIssue = (props) => API.get(`/resolve/${props.owner}/${props.reponam
 const delayIssue = (props) => API.get(`/delay/${props.owner}/${props.reponame}/${props.issueNum}/${props.delaydays}`);
 const initialLabel = (props) => API.get(`/initial/label/${props.owner}/${props.reponame}`);
 const fetchBurnDownChart = (props) => API.get(`/test/generateBurnDownChart`);
+const reassignIssue = (props) => API.get(`/reassign/${props.owner}/${props.reponame}/${props.issueNum}/${props.correctCat}/${props.currentProposed}`);
 
 
 export default {
@@ -60,5 +61,6 @@ export default {
     resolveIssue,
     delayIssue,
     initialLabel,
-    fetchBurnDownChart
+    fetchBurnDownChart,
+    reassignIssue
 };

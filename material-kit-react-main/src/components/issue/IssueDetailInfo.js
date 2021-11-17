@@ -9,8 +9,12 @@ import {
   Chip,
   Container,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
   Link,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -29,10 +33,31 @@ import { useLocation } from 'react-router';
 
 const IssueDetailInfo = (props) => {
 
+  const labelSchemes = [
+    { key: 'software', value: 'Software', color: 'DC3545' },
+    { key: 'performance', value: 'Performance', color: 'FFC107' },
+    { key: 'documentation', value: 'Documentation', color: '198754' },
+    { key: 'support', value: 'Support', color: '0D6EFD' },
+    { key: 'feature-request', value: 'Feature Request', color: '0DCAF0' },
+    { key: 'invalid', value: 'Invalid', color: 'F8F9FA' }
+  ]
+
   const task = props.task;
   const [startDate, setStartDate] = useState();
   const [days, setDays] = useState();
   const [delayDays, setDelayDays] = useState();
+
+  console.log('task.correctCat:', task?.correctCat);
+
+  let correctCat = labelSchemes[labelSchemes.findIndex(e => e.key == task?.correctCat)];
+  console.log('correctCat:', JSON.stringify(correctCat));
+
+  const handleChange = (event) => {
+    setLabel(event.target.value);
+    // console.log(event.target.value);
+  };
+
+  const [label, setLabel] = useState();
 
   return (
     <Card {...props}>
@@ -50,7 +75,7 @@ const IssueDetailInfo = (props) => {
             container
             spacing={3}
           >
-           {task?.labels?.length > 0 && <Grid
+            {task?.labels?.length > 0 && <Grid
               item
               lg={12}
               md={12}
@@ -76,7 +101,8 @@ const IssueDetailInfo = (props) => {
                     // height: 400,
                     alignItems: 'flex-start',
                   }}>
-                  {task?.labels?.map(label => (<Typography variant='body2' color='rgb(255, 255, 255)' sx={{ bgcolor: `#${label.color}`, borderRadius: 3, mr: 1, px: 1 }}>{label.name}</Typography>))}
+                  {(correctCat != null && correctCat != undefined) && (<Typography variant='body2' color={correctCat?.key == 'invalid' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)'} sx={{ bgcolor: `#${correctCat.color}`, borderRadius: 3, mr: 1, px: 1 }}>{`class:${correctCat.key}`}</Typography>)}
+                  {(task.correctCat == null || task.correctCat == undefined) && task?.labels?.map(label => (<Typography variant='body2' color={label.name == 'class:invalid' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)'} sx={{ bgcolor: `#${label.color}`, borderRadius: 3, mr: 1, px: 1 }}>{label.name}</Typography>))}
                 </Box>
               </Box>
 
@@ -123,7 +149,7 @@ const IssueDetailInfo = (props) => {
                 }}
               >
                 <Typography variant='body1' sx={{ mb: 1 }}>Assignee</Typography>
-                <Typography variant='body2' sx={{ mb: 1 }}>{task?.assignee?.login ?? "--"}</Typography>
+                <Typography variant='body2' sx={{ mb: 1 }}>{task?.reassignUser?.login ?? (task?.assignee?.login ?? "--")}</Typography>
               </Box>
 
             </Grid>
@@ -286,6 +312,40 @@ const IssueDetailInfo = (props) => {
 
             </Grid>}
 
+            {(task?.status == 'pending') && <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+
+              <Box
+                width='100%'
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  // height: 400,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Typography variant='body1' sx={{ mb: 1 }}>Reassign</Typography>
+                <FormControl sx={{ mb: 3, minWidth: 300 }}>
+                  <InputLabel id="demo-simple-select-label">Label</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    // value={label}
+                    label="Label"
+                    onChange={handleChange}
+                  >
+                    {labelSchemes.map(e => (<MenuItem value={e.key}>{e.value}</MenuItem>))}
+                  </Select>
+                </FormControl>
+              </Box>
+
+            </Grid>}
+
             <Grid
               item
               lg={12}
@@ -331,6 +391,16 @@ const IssueDetailInfo = (props) => {
           }}
         >
           Confirm
+        </Button>}
+        {(task?.status == 'pending') && <Button
+          variant="contained"
+          color="warning"
+          sx={{ mr: 1 }}
+          onClick={() => {
+            props.onReassign(label)
+          }}
+        >
+          Reassgin
         </Button>}
         {task?.status == 'normal' && <Button
           variant="contained"

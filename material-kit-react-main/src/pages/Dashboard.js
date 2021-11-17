@@ -55,7 +55,7 @@ const Dashboard = () => {
   const pendingTasks = [];
   repoInfo?.tasks?.forEach((task) => {
     if (repoInfo?.currentTasks?.findIndex(e => e.id == task.number) < 0) {
-      pendingTasks.push({ ...task, state: 'pending' });
+      pendingTasks.push({ ...task, status: 'pending' });
     }
   });
   console.log('CurrentTasks:', JSON.stringify(pendingTasks));

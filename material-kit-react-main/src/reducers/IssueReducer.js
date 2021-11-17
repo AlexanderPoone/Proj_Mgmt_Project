@@ -141,6 +141,27 @@ export const resolveTaskAsync = createAsyncThunk(
     }
 )
 
+export const reassignTaskAsync = createAsyncThunk(
+    'issue/reassignTask',
+    async (props, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.reassignIssue(props);
+            // store.dispatch(fetchRepoAsync(props));
+            console.log('reassignTask:', response.data);
+            return response.data
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            console.log('reassignTask.error:', error.response.data);
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 const initialState = {
     issues: [],
     issue: null,
@@ -149,6 +170,7 @@ const initialState = {
     delayTask: null,
     rejectTask: null,
     resolvedTask: null,
+    reassignUser: null,
     error: null
 }
 
@@ -173,6 +195,15 @@ const issueSlice = createSlice({
         },
         setResolvedTask: (state, action) => {
             state.resolvedTask = action.payload;
+        },
+        setReassignUser: (state, action) => {
+            state.reassignUser = action.payload;
+        },
+        setIssueLoading: (state, action) => {
+            state.loading = action.payload;
+        },
+        setIssueError: (state, action) => {
+            state.error = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -284,6 +315,18 @@ const issueSlice = createSlice({
             state.delayTask = null;
             state.resolvedTask = null;
             state.error = action.error;
+        }).addCase(reassignTaskAsync.pending, (state, action) => {
+            state.loading = true;
+            state.reassignUser = null;
+            state.error = null;
+        }).addCase(reassignTaskAsync.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.reassignUser = payload;
+            state.error = null;
+        }).addCase(reassignTaskAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.reassignUser = null;
+            state.error = action.error;
         })
 
 
@@ -297,7 +340,10 @@ export const {
     setConfirmTask,
     setDelayTask,
     setResolvedTask,
-    setRejectTask
+    setRejectTask,
+    setReassignUser,
+    setIssueLoading,
+    setIssueError
 } = issueSlice.actions;
 
 export const issueProducts = createSelector(
@@ -308,6 +354,7 @@ export const issueProducts = createSelector(
         delayTask: state.issue.delayTask,
         rejectTask: state.issue.rejectTask,
         resolvedTask: state.issue.resolvedTask,
+        reassignUser: state.issue.reassignUser,
         issueLoading: state.issue.loading,
         issueError: state.issue.error,
     }), (state) => state

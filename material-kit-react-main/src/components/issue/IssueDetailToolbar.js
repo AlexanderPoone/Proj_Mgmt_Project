@@ -57,7 +57,7 @@ const IssueDetailToolbar = (props) => (
             <IconButton aria-label="arrow-back" onClick={props.onBackClick} sx={{mr: 1}}>
               <ArrowBack />
             </IconButton>
-            <Typography variant='h1'>{props.title ?? 'Task Title'}</Typography>
+            <Typography variant='h1'>{`Task #${props.number} : ${props.title ?? '--'}`}</Typography>
           </Box>
         </CardContent>
       </Card>

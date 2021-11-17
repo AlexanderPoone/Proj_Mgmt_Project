@@ -20,7 +20,7 @@ const App = () => {
   const { accessToken } = useSelector(appProducts);
   const navigate = useNavigate();
 
-  Cookies.set(ConfigData.GITHUB_COOOKIE_NAME, "YOUR ACCESS TOKEN");
+  Cookies.set(ConfigData.GITHUB_COOOKIE_NAME, "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");
 
   // useEffect(() => {
   //   dispatch(fetchGithubUserAsync());
@@ -72,7 +72,7 @@ const App = () => {
     console.log('API Request Config:', JSON.stringify(config));
     return {
       ...config, headers: {
-        token: Cookies.get(ConfigData.GITHUB_COOOKIE_NAME),
+        access_token: Cookies.get(ConfigData.GITHUB_COOOKIE_NAME),
         // Authorization: 'Bearer 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',
       },
     };

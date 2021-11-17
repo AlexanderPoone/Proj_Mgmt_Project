@@ -11,7 +11,7 @@ import IssueDetailInfo from 'src/components/issue/IssueDetailInfo';
 import { useLocation, useNavigate } from 'react-router-dom';
 import IssueDetailToolbar from 'src/components/issue/IssueDetailToolbar';
 import { useDispatch } from 'react-redux';
-import { confirmTaskAsync, delayTaskAsync, issueProducts, rejectTaskAsync, resolveTaskAsync, setConfirmTask, setDelayTask, setRejectTask, setResolvedTask } from 'src/reducers/IssueReducer';
+import { confirmTaskAsync, delayTaskAsync, issueProducts, reassignTaskAsync, rejectTaskAsync, resolveTaskAsync, setConfirmTask, setDelayTask, setIssueError, setRejectTask, setResolvedTask } from 'src/reducers/IssueReducer';
 import { reposProducts } from 'src/reducers/RepoReducer';
 import { store } from 'src/store';
 import moment from 'moment';
@@ -29,16 +29,18 @@ const IssueDetail = () => {
   const rejectTask = issueProducts(store.getState()).rejectTask;
   const resolvedTask = issueProducts(store.getState()).resolvedTask;
   const issueError = issueProducts(store.getState()).issueError;
+  const reassignUser = issueProducts(store.getState()).reassignUser;
   const [open, setOpen] = useState(false);
+  const [correctCat, setCorrectCat] = useState();
 
   console.log("Select Task:", location.state?.task);
-  console.log("issueError:", JSON.stringify(issueError));
+  console.log("reassignUser:", JSON.stringify(reassignUser));
 
   const handleOnBackClick = () => {
     navigate(-1);
   }
 
-  var _status = task?.status;
+  task = {...task, reassignUser: reassignUser, correctCat: correctCat};
 
   useEffect(() => {
     if (confirmTask != null || delayTask != null || rejectTask != null || resolvedTask != null) {
@@ -66,7 +68,7 @@ const IssueDetail = () => {
 
   useEffect(() => {
     if (issueError != null) {
-      setOpen(true);
+      setOpen(issueError != null && issueError != undefined);
     }
   }, [issueError]);
 
@@ -76,6 +78,7 @@ const IssueDetail = () => {
       dispatch(setDelayTask(null));
       dispatch(setRejectTask(null));
       dispatch(setResolvedTask(null));
+      dispatch(setIssueError(null));
     }
   }, []);
 
@@ -87,7 +90,7 @@ const IssueDetail = () => {
       owner: repo?.owner?.login,
       reponame: repo?.name,
       issueNum: task?.number,
-      assignee: task?.assignee.login,
+      assignee: task?.assignee?.login,
       startDate: moment(startDate).format('YYYY-MM-DD'),
       numdays: days
     }));
@@ -123,6 +126,19 @@ const IssueDetail = () => {
     }));
   }
 
+  const handleOnReassign = (correctCat) => {
+    console.log('correctCat:', correctCat);
+    setCorrectCat(correctCat);
+
+    dispatch(reassignTaskAsync({
+      owner: repo?.owner?.login,
+      reponame: repo?.name,
+      issueNum: task?.number,
+      correctCat: correctCat,
+      currentProposed: task?.assignee?.login
+    }));
+  }
+
   return (<>
     <Helmet>
       <title>Issue</title>
@@ -151,7 +167,7 @@ const IssueDetail = () => {
             <Box
               width='100%'
             >
-              <IssueDetailToolbar title={task?.title} onBackClick={handleOnBackClick} />
+              <IssueDetailToolbar number={task?.number} title={task?.title} onBackClick={handleOnBackClick} />
             </Box>
 
           </Grid>
@@ -167,7 +183,12 @@ const IssueDetail = () => {
             <Box
               width='100%'
             >
-              <IssueDetailInfo task={task} onConfirm={handleOnConfirm} onDelay={handleOnDelay} onReject={handleOnReject} onResolve={handleOnResolve} />
+              <IssueDetailInfo task={task}
+                onConfirm={handleOnConfirm}
+                onDelay={handleOnDelay}
+                onReject={handleOnReject}
+                onResolve={handleOnResolve}
+                onReassign={handleOnReassign} />
             </Box>
 
           </Grid>
