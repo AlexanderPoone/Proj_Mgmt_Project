@@ -1,0 +1,148 @@
+2021-11-17 10:38:52:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:38:52:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:38:52:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.merriam-webster.com/thesaurus/Laggy
+2021-11-17 10:38:52:wordhoard.synonyms:INFO: Merriam-webster.com had no synonym reference for the word Laggy
+2021-11-17 10:38:53:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:38:53:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:38:53:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Laggy
+2021-11-17 10:38:53:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Laggy
+2021-11-17 10:38:54:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:38:54:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:38:54:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.thesaurus.com/browse/Laggy
+2021-11-17 10:38:54:wordhoard.synonyms:INFO: Thesaurus.com had no synonym reference for the word Laggy
+2021-11-17 10:38:55:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word Laggy
+2021-11-17 10:38:58:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:38:58:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:38:58:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/animations
+2021-11-17 10:38:58:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word animations
+2021-11-17 10:38:59:wordhoard.synonyms:ERROR: The word . was not in a valid format.
+2021-11-17 10:38:59:wordhoard.synonyms:ERROR: Please verify that the word . is spelled correctly.
+2021-11-17 10:39:03:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:03:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:03:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Huge
+2021-11-17 10:39:03:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Huge
+2021-11-17 10:39:05:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word Huge
+2021-11-17 10:39:13:wordhoard.synonyms:INFO: Collins Dictionary had no synonym reference for the word graphics
+2021-11-17 10:39:15:wordhoard.synonyms:ERROR: The word . was not in a valid format.
+2021-11-17 10:39:15:wordhoard.synonyms:ERROR: Please verify that the word . is spelled correctly.
+2021-11-17 10:39:17:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:17:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:17:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/How
+2021-11-17 10:39:17:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word How
+2021-11-17 10:39:19:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word How
+2021-11-17 10:39:31:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:31:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:31:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Windows
+2021-11-17 10:39:31:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Windows
+2021-11-17 10:39:32:wordhoard.synonyms:ERROR: The word 11 was not in a valid format.
+2021-11-17 10:39:32:wordhoard.synonyms:ERROR: Please verify that the word 11 is spelled correctly.
+2021-11-17 10:39:32:wordhoard.synonyms:ERROR: The word ? was not in a valid format.
+2021-11-17 10:39:32:wordhoard.synonyms:ERROR: Please verify that the word ? is spelled correctly.
+2021-11-17 10:39:37:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:37:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:37:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Does
+2021-11-17 10:39:37:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Does
+2021-11-17 10:39:39:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 521
+2021-11-17 10:39:39:wordhoard.utilities.basic_soup:ERROR: This status code is not specified in any RFCs, but is used by CloudFlare'sreverse proxies to indicate that the origin webserver refused the connection
+2021-11-17 10:39:39:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.collinsdictionary.com/dictionary/english-thesaurus/Ubuntu
+2021-11-17 10:39:40:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:40:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:40:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.merriam-webster.com/thesaurus/Ubuntu
+2021-11-17 10:39:40:wordhoard.synonyms:INFO: Merriam-webster.com had no synonym reference for the word Ubuntu
+2021-11-17 10:39:40:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:40:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:40:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Ubuntu
+2021-11-17 10:39:40:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Ubuntu
+2021-11-17 10:39:41:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:41:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:41:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.thesaurus.com/browse/Ubuntu
+2021-11-17 10:39:41:wordhoard.synonyms:INFO: Thesaurus.com had no synonym reference for the word Ubuntu
+2021-11-17 10:39:42:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word Ubuntu
+2021-11-17 10:39:42:wordhoard.synonyms:ERROR: The word ? was not in a valid format.
+2021-11-17 10:39:42:wordhoard.synonyms:ERROR: Please verify that the word ? is spelled correctly.
+2021-11-17 10:39:46:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:39:46:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:39:46:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Speed
+2021-11-17 10:39:46:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Speed
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.merriam-webster.com/thesaurus/Laggy
+2021-11-17 10:40:38:wordhoard.synonyms:INFO: Merriam-webster.com had no synonym reference for the word Laggy
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Laggy
+2021-11-17 10:40:38:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Laggy
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:40:38:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.thesaurus.com/browse/Laggy
+2021-11-17 10:40:38:wordhoard.synonyms:INFO: Thesaurus.com had no synonym reference for the word Laggy
+2021-11-17 10:40:39:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word Laggy
+2021-11-17 10:40:42:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:40:42:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:40:42:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/animations
+2021-11-17 10:40:42:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word animations
+2021-11-17 10:40:44:wordhoard.synonyms:ERROR: The word . was not in a valid format.
+2021-11-17 10:40:44:wordhoard.synonyms:ERROR: Please verify that the word . is spelled correctly.
+2021-11-17 10:40:47:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:40:47:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:40:47:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Huge
+2021-11-17 10:40:47:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Huge
+2021-11-17 10:40:48:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word Huge
+2021-11-17 10:40:55:wordhoard.synonyms:INFO: Collins Dictionary had no synonym reference for the word graphics
+2021-11-17 10:40:57:wordhoard.synonyms:ERROR: The word . was not in a valid format.
+2021-11-17 10:40:57:wordhoard.synonyms:ERROR: Please verify that the word . is spelled correctly.
+2021-11-17 10:41:00:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:41:00:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:41:00:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/How
+2021-11-17 10:41:00:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word How
+2021-11-17 10:41:01:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word How
+2021-11-17 10:41:10:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:41:10:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:41:10:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Windows
+2021-11-17 10:41:10:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Windows
+2021-11-17 10:41:12:wordhoard.synonyms:ERROR: The word 11 was not in a valid format.
+2021-11-17 10:41:12:wordhoard.synonyms:ERROR: Please verify that the word 11 is spelled correctly.
+2021-11-17 10:41:12:wordhoard.synonyms:ERROR: The word ? was not in a valid format.
+2021-11-17 10:41:12:wordhoard.synonyms:ERROR: Please verify that the word ? is spelled correctly.
+2021-11-17 10:41:14:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:41:14:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:41:14:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Does
+2021-11-17 10:41:14:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Does
+2021-11-17 10:41:18:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:41:18:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:41:18:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.merriam-webster.com/thesaurus/Ubuntu
+2021-11-17 10:41:18:wordhoard.synonyms:INFO: Merriam-webster.com had no synonym reference for the word Ubuntu
+2021-11-17 10:41:19:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:41:19:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:41:19:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Ubuntu
+2021-11-17 10:41:19:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Ubuntu
+2021-11-17 10:41:19:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:41:19:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:41:19:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.thesaurus.com/browse/Ubuntu
+2021-11-17 10:41:19:wordhoard.synonyms:INFO: Thesaurus.com had no synonym reference for the word Ubuntu
+2021-11-17 10:41:20:wordhoard.synonyms:INFO: Wordnet had no synonym reference for the word Ubuntu
+2021-11-17 10:41:20:wordhoard.synonyms:ERROR: The word ? was not in a valid format.
+2021-11-17 10:41:20:wordhoard.synonyms:ERROR: Please verify that the word ? is spelled correctly.
+2021-11-17 10:41:24:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:41:24:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:41:24:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Speed
+2021-11-17 10:41:24:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Speed
+2021-11-17 10:41:34:wordhoard.synonyms:INFO: Collins Dictionary had no synonym reference for the word latency
+2021-11-17 10:42:17:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:42:17:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:42:17:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/songs
+2021-11-17 10:42:17:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word songs
+2021-11-17 10:42:19:wordhoard.synonyms:ERROR: The word . was not in a valid format.
+2021-11-17 10:42:19:wordhoard.synonyms:ERROR: Please verify that the word . is spelled correctly.
+2021-11-17 10:42:22:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:42:22:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:42:22:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/Can
+2021-11-17 10:42:22:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word Can
+2021-11-17 10:42:27:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:42:27:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:42:27:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.merriam-webster.com/thesaurus/I
+2021-11-17 10:42:27:wordhoard.synonyms:INFO: Merriam-webster.com had no synonym reference for the word I
+2021-11-17 10:42:28:wordhoard.utilities.basic_soup:ERROR: Response Status Code: 404
+2021-11-17 10:42:28:wordhoard.utilities.basic_soup:ERROR: The HTTP 404 Not Found status code means that the file or page that the was requested was not found on the server
+2021-11-17 10:42:28:wordhoard.utilities.basic_soup:ERROR: Associated URL: https://www.synonym.com/synonyms/I
+2021-11-17 10:42:28:wordhoard.synonyms:INFO: Synonym.com had no synonym reference for the word I

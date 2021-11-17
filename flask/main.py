@@ -6,7 +6,7 @@
 #
 #   Author:		 Alex Poon
 #   Create Date:	Sep 30, 2021
-#   Last update:	Oct 29, 2021
+#   Last update:	Nov 17, 2021
 #
 ##############################################
 
@@ -32,6 +32,7 @@ from urllib.request import urlopen, Request
 # NLP libraries
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
+import pyinflect
 # from gensim import corpora, models, similarities, downloader
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
@@ -1309,16 +1310,173 @@ def logout():
 
 
 '''
-https://dord.mynetgear.com:5351/test/bulkaddissues/SoftFeta/SWEnggUnitTest
+https://dord.mynetgear.com:5351/test/mutationtest/SoftFeta/SWEnggUnitTest2
 Creating real GitHub Issues using sample data.
-The app is rigorously tested by metamorphic testing using NLTK.
+
+Here is a list of mutations used:
+1. Randomly replace words with its synonyms (The thesaurus is hard-coded. Done by Regular Expressions where \b is the word boundary.)
+2. Randomly change some verbs to its past tense using (Use `spacy`'s part-of-speech tagger to identify verbs from the issue report, then use `pyinflect` to convert the verbs to its past tense).
+3. Randomly switch between British spelling and American spelling. (e.g. 'disc' and 'disk'. Done by Regular Expressions.)
+4. Randomly swap the cases of some words. (Done by Regular Expressions.)
+5. Randomly change some numbers. (Done by Regular Expressions.)
+
+Programmatically create the mutated issue on GitHub and see if it is still correctly classified.
 '''
+@app.route('/test/mutationtest/<string:owner>/<string:reponame>', methods = ['GET'])
+def UT_BulkAddIssuesMutation(owner, reponame):
+	# Simple mutation testing for the NLP Issue Triage module
+
+	from bre_ame import BRE_AME
+	import pandas as pd
+	from random import choice, random, randint
+	from re import escape, sub, IGNORECASE
+	from time import sleep
+
+	def convert(text):
+		# Mutation 1. Randomly replace words with its synonyms (The thesaurus is hard-coded. Done by Regular Expressions where \b is the word boundary.)
+		# Just a thesaurus example
+		thesaurus = [
+			['Debian', 'Ubuntu', 'Fedora', 'RHEL', 'Windows XP', 'Windows 7', 'Windows 10', 'Windows 11', 'Android', 'Mac OS X', 'Linux', 'Windows', 'CentOS'],
+			['JSON', 'XML', 'ProtoBuf'],
+			['TypeScript', 'JavaScript', 'CoffeeScript'],
+			['CPU', 'processor'],
+			['latency', 'lag', 'delay'],
+			['cannot', 'can not', 'can\'t', 'could not', 'couldn\'t'],
+			['can you', 'could you'],
+			['create', 'add'],
+			['rename', 'move'],
+			['delete', 'remove'],
+			['specs', 'specifications'],
+			['a lot of', 'much', 'many'],
+			['a bit', 'somewhat', 'quite'],
+			['manual', 'handbook', 'guidebook', 'manpage', 'docs', 'documentation', 'guide'],
+		]
+
+		for t in thesaurus:
+			text = sub(fr'\b({"|".join(t)})\b', choice(t), text, flags=IGNORECASE)
+
+		# Mutation 2. Randomly change some verbs to its past tense using (Use `spacy`'s part-of-speech tagger to identify verbs from the issue report, then use `pyinflect` to convert the verbs to its past tense).
+		for i in nlp(text):
+			if i.tag_ in ['VB', 'VBP', 'VBZ']:		# Verbs
+		 		print(i.text, i.lemma_, i.pos_, i.tag_, i._.inflect("VBD"))
+		 		text = text.replace(f'\b{i.text}\b', i._.inflect("VBD"))
+
+		# Mutation 3. Randomly switch between British spelling and American spelling. (e.g. 'disc' and 'disk'. Done by Regular Expressions.)
+		for t in BRE_AME:			# e.g. disc => disk
+			text = sub(fr'\b({"|".join(t)})\b', choice(t), text, flags=IGNORECASE)
+			rd = random()
+			if rd < 0.5:
+				text = sub(r'ise\b', 'ize', text)
+				text = sub(r'ised\b', 'ized', text)
+				text = sub(r'ising\b', 'izing', text)
+				text = sub(r'sation\b', 'zation', text)
+
+		# Mutation 4. Randomly swap the cases of some words. (Done by Regular Expressions.)
+		for w in text.split(' '):
+			w = escape(w)
+
+			rd = random()
+			if rd < 0.1:
+				text = sub(fr'\b{w}\b', w.upper(), text)
+			elif rd < 0.2:
+				text = sub(fr'\b{w}\b', w.title(), text)
+			elif rd < 0.3:
+				text = sub(fr'\b{w}\b', w.lower(), text)
+
+		# Mutation 5. Randomly change some numbers. (Done by Regular Expressions.)
+		rd = random()
+		if rd < 0.5:
+			text = sub(fr'\b[0-9]+\b', str(randint(0, 10)), text)
+
+
+		return text
+
+
+	df = pd.read_csv('test_set.csv')
+
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues'
+
+	tok = request.cookies.get('access_token')
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+
+
+	for index, row in df.iterrows():
+		original_title = row['title']
+		original_body = row['body']
+
+		_title = convert(original_title)
+		_body = convert(original_body)
+
+		print(original_title, '|', _title)
+		print(original_body, '|', _body)
+
+		body = {'title': _title,
+		 'body': _body
+		}
+
+		data = dumps(body).encode('utf-8')
+
+		req = Request(url, data=data)
+		for h in headers:
+			req.add_header(h, headers[h])
+
+		try:
+			res = urlopen(req)
+		except Exception as e:
+			print(e.read())
+		print(res.read())
+
+		sleep(5)
+
+
+		print('************************************************')
+
+	return jsonify(True)
+
+
+	###################################################
+	'''
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues'
+
+	tok = request.cookies.get('access_token')
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+
+
+	for index, row in df.iterrows():
+		body = {'title': row['title'],
+		 'body': row['body']
+		}
+
+		data = dumps(body).encode('utf-8')
+
+		req = Request(url, data=data)
+		for h in headers:
+			req.add_header(h, headers[h])
+
+		try:
+			res = urlopen(req)
+		except Exception as e:
+			print(e.read())
+		print(res.read())
+
+		sleep(5)
+
+	return jsonify(True)
+	'''
+
+
 @app.route('/test/bulkaddissues/<string:owner>/<string:reponame>', methods = ['GET'])
 def UT_BulkAddIssues(owner, reponame):
-	#  Actually, use pandas to load instead.
 	import pandas as pd
 	from time import sleep
-	#import nltk
 
 	url = f'https://api.github.com/repos/{owner}/{reponame}/issues'
 
@@ -1352,7 +1510,7 @@ def UT_BulkAddIssues(owner, reponame):
 
 	return jsonify(True)
 
-
+# https://dord.mynetgear.com:5351/test/bulkdelissues/SoftFeta/SWEnggUnitTest
 @app.route('/test/bulkdelissues/<string:owner>/<string:reponame>', methods = ['GET'])
 def UT_BulkDeleteIssues(owner, reponame):
 	if reponame.startswith('SWEngg'):

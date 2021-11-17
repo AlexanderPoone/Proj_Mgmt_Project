@@ -4,5 +4,6 @@ numpy
 spacy
 gensim
 pygments
+pyinflect
 pymongo
 wordcloud
