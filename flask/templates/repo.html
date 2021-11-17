@@ -315,24 +315,37 @@
                     document.querySelector(`#enddate_${issueNumber}`).innerHTML = res[1];
                  });
 				}
+                function reassign(issueNumber) {
+                    let correctCat = document.querySelector(`#reassign_${issueNumber}`).value;
+                    if (correctCat === 'Reassign...') {
+                        alert('Please select from the dropdown!');
+                        return;
+                    }
+                    let currentProposed = document.querySelector(`#assignee_${issueNumber}`).innerText.replace(' (UPDATED)','');
+                    fetch(`/reassign/{{repoowner}}/{{reponame}}/${issueNumber}/${correctCat}/${currentProposed}`).then(res=>res.json()).then(res=>{
+                        console.log(res);
+                        document.querySelector(`#avatar_${issueNumber}`).src = res['avatar_url'];
+                        document.querySelector(`#assignee_${issueNumber}`).innerText = `${res['login']} (UPDATED)`;
+                    });
+                }
 				</script>
 				{% for x in tasks %}
 				<tr>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{{x.title}}</td>
-                <td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{% if x.status is defined %}{{x.status|capitalize}}{% else %}Ready to add{% endif %}</td>
+                <td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{% if x.status == 'delayed' %}<span style="color: red;">{% endif %}{% if x.status is defined %}{{x.status|capitalize}}{% else %}Ready to add{% endif %}{% if x.status == 'delayed' %}</span>{% endif %}</td>
 				<td>{{x.body|safe}}</td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell">{% if x.startdate is defined %}{{x.startdate.strftime('%Y-%m-%d')}}{% endif %}</td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell" id="enddate_{{x.number}}">{% if x.enddate is defined %}{{x.enddate.strftime('%Y-%m-%d')}} {% if x.status == 'delayed' %}<span style="color: red;">(DELAYED)</span>{% endif %}{% endif %}</td>
-				<td>{% if x.assignee is not none %}<img src="{{ x.assignee.avatar_url }}"
-								class="avatar img-fluid rounded mr-1" {% if x.startdate is not defined %}style="color: lightgray;"{% endif %}><strong>{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
+				<td>{% if x.assignee is not none %}<img id="avatar_{{x.number}}" src="{{ x.assignee.avatar_url }}"
+								class="avatar img-fluid rounded mr-1" {% if x.startdate is not defined %}style="color: lightgray;"{% endif %}><strong id="assignee_{{x.number}}">{{ x.assignee.login }}</strong>{% else %}None{% endif %}</td>
 				<td>
 				{% if x.startdate is not defined %}
                 <span id="block_{{x.number}}" style="display: flex;">
                 <span style="width: 50%;">
                 <label for="startdate_{{x.number}}" class="col-form-label">Start date:</label><input id="startdate_{{x.number}}" class="inputDate form-control" type="date">
                 <label for="numdays_{{x.number}}" class="col-form-label">Num of days allocated:</label><input id="numdays_{{x.number}}" class="form-control" type="number" value="7"><br>
-				<button type="button" onclick="confirm({{x.number}}, '{{ x.assignee.login }}');" class="btn btn-primary"><i class="fad fa-check-circle"></i> Create task</button></span><span style="width: 50%;display: flex;align-items: center;"><button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 100%;"><i class="fad fa-trash-alt"></i> Invalid issue</button><br><button type="button" onclick="" class="btn btn-warning mx-2" style="width: 100%;"><i class="fas fa-times-octagon"></i> Misclassified?</button></span>
+				<button type="button" onclick="confirm({{x.number}}, '{{ x.assignee.login }}');" class="btn btn-primary"><i class="fad fa-check-circle"></i> Create task</button></span><span style="width: 50%;align-items: center;"><button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 100%;"><i class="fad fa-trash-alt"></i> Invalid issue</button><br><br><hr><select id="reassign_{{x.number}}" class="form-select"><option value="Reassign..." selected>Reassign...</option>{% for x in ['software', 'documentation', 'performance', 'support'] %}<option value="{{x}}">{{x}}</option>{% endfor %}</select><br><button type="button" onclick="reassign({{x.number}})" class="btn btn-warning mx-2" style="width: 100%;"><i class="fas fa-times-octagon"></i> Misclassified?</button></span>
 				</span>
                 {% else %}
                 <span id="block_{{x.number}}" style="display: flex;">

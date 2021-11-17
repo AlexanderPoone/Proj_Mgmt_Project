@@ -878,6 +878,113 @@ def delay(owner, reponame, issue_number, delaydays):
 
 	return jsonify([f'<strong>Task marked as delayed!</strong>&nbsp;&nbsp;<a href="https://github.com/{owner}/{reponame}/issues/{issue_number}" target="_blank">View issue on GitHub</a>', f'{newdate.strftime("%Y-%m-%d")} <span style="color: red;">(DELAYED)</span>'])
 
+# Misclassified?
+@app.route('/reassign/<string:owner>/<string:reponame>/<int:issue_number>/<string:correctCat>/<string:currentProposed>', methods = ['GET'])
+def reassign(owner, reponame, issue_number, correctCat, currentProposed):
+	print(owner, reponame, issue_number, correctCat, currentProposed)
+
+	#############################################################
+	# Remove assignee
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/assignees'
+	body = {'assignees': currentProposed}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data, method='DELETE')
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+
+	#############################################################
+	# Remove all labels
+
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/labels'
+	body = {}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data, method='DELETE')
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+
+	#############################################################
+	# Add new label
+
+	url = f'https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/labels'
+	body = {'labels': [f'class:{correctCat}']}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data)
+
+	tok = request.cookies.get('access_token')
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+
+	#############################################################
+	# Propose assignee
+	collection = db['roles']
+	collectionTasks = db['tasks']
+
+	teamMembers = list(collection.find({'role': correctCat.replace('software','developer').replace('performance','tester').replace('class:', '')}))
+
+	if len(teamMembers) == 0:
+		# If the team has 0 members (which should not happen actually)
+		print('This should not be shown!')
+
+		assignee = list(collection.find())[0]['collaborator']
+	else:
+		# Get the person w/ the least workload
+		countTasksByPerson = {}
+
+		for x in teamMembers:
+			countTasksByPerson[x['collaborator']] = collectionTasks.count_documents({'assignee': x['collaborator']})
+		
+		assignee = min(countTasksByPerson, key=countTasksByPerson.get)
+
+	# Apply changes
+	url = f"https://api.github.com/repos/{owner}/{reponame}/issues/{issue_number}/assignees"
+
+	body = {'assignees': [assignee]}
+	data = dumps(body).encode('utf-8')
+
+	req = Request(url, data=data)
+
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	try:
+		res = urlopen(req)
+	except Exception as e:
+		print(e.read())
+
+	userInfo = getUserInfo(username=assignee)
+
+	return jsonify(userInfo)
 
 # Generate UML Class Diagram (JUST FOR FUN)
 @app.route('/generateClassUml/<string:owner>/<string:reponame>', methods = ['GET'])
