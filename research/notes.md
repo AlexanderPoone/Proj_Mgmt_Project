@@ -23,7 +23,7 @@ We do supervised learning to classify these issues. The output confidence percen
 
 With such classifications, it is also easier to find duplicate issues. Pull requests can also be classified in such way (except #4).
 
-The `tensorflow` GitHub repo seems to agree with these six categories, the developers named them `['type:bug', 'type:docs-bug', 'type:performance', 'type:support', 'type:feature', 'invalid']`. We also need to make a URL list of public GitHub repositories with these issue labels, and use them for training.
+The `tensorflow` GitHub repo seems to agree with these six categories, the developers named them `['type:bug', 'type:docs-bug', 'type:performance', 'type:support', 'type:feature', 'invalid']`. We also need to make a URL list of public GitHub repositories with these issue labels (the categories' actual names differ) and use them for training.
 
 #### Automated issue filtering
 GitHub issues, by default, are free-form and unstructured. Therefore, it is probable that there are unconstructive issues like questions (should read the user manual instead of posting on GitHub), spam, or even gibberish. On some occasions, the team is too occupied to care about feature requests.
@@ -42,7 +42,7 @@ On top of this, most issue reports are for social interactions only, which const
 
 Triaging is the name given for confirming, prioritizing, and organizing issue reports. It is an emerging topic. Methods using text classification (supervised or semi-supervised) [6][7], graph theory methods [8], and clustering [9] have been proposed.
 
-Microsoft uses its own issue triage syetem extensively in its open-source projects, notably Visual Studio Code. [10] It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
+Microsoft uses its own issue triage system extensively in its open-source projects, notably Visual Studio Code. [10] It involves a GitHub bot named *vscode-triage-bot* which isolates the issue type, software version, operating system version, and hardware info from the issue report. In the documentation, the company visualizes its intricate triage policy by state graphs.
 
 * We did a simplified, generic version:
 	* Assumption: 1 GitHub account per task.
