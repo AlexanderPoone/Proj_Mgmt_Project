@@ -19,7 +19,7 @@ There are many ways to classify issues. Here we present one way:
 5. feature requests (save for later, when there is time capacity and resources)
 6. invalid/spam (Action: the issue should be closed immediately)
 
-We do supervised learning to classify these issues. The output confidence percentage that the issue belonging to categories, not the category itself. This is known as *fuzzy classification*.[4] We label the issue and trigger subsequent actions only if confidence percentage is high.
+We do supervised learning to classify these issues. The output confidence percentage that the issue belonging to categories, not the category itself. This is known as *fuzzy classification*. [4] We label the issue and trigger subsequent actions only if confidence percentage is high.
 
 With such classifications, it is also easier to find duplicate issues. Pull requests can also be classified in such way (except #4).
 
