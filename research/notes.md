@@ -103,7 +103,7 @@ The task list is implemented using AJAX. Efficiently, the team can click 'create
 * pygraphviz -->
 
 # Future work
-In the future, in a scale from 1 to 10, we can add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid. Yet, the implementation is proved to be quite difficult. It is because that bug severity ratings are language-specific, environment-specific, and is dependent on the project team's own experience with bugs.
+In the future, in a scale from 1 to 10, we can add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid. Yet, the implementation is proved to be quite difficult. It is because that bug severity rating is language-specific, environment-specific, and is dependent on the project team's own experience with bugs.
 	
 ![image](https://user-images.githubusercontent.com/9071916/142561377-1ed470e1-7852-4435-89b6-f9ddc7be52e2.png)
 
