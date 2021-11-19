@@ -119,6 +119,7 @@ Here is a list of the mutations used:
 
 # Future work
 In the future, we plan to add tags "`severity:<level>`" (in a scale from 1 to 10) to rate the seriousness of the bug once the issue has been classified as a `software` bug.
+
 Yet, the automation is proved to be quite difficult. At the moment, developers resort to typing the effort manually like this GitHub repository: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue (`⏱ effort:💪💪`). It is because that bug severity rating is language-specific, environment-specific, and is dependent on the project team's own experience with bugs.
 	
 ![image](https://user-images.githubusercontent.com/9071916/142561377-1ed470e1-7852-4435-89b6-f9ddc7be52e2.png)
