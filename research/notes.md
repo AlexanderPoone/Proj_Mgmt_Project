@@ -129,15 +129,15 @@ The automation seems easier to implement by extending the Crash Triage function 
 # Bibliography
 - [1] Software Maintenance Overview. TutorialsPoint. (n.d.). Retrieved November 15, 2021, from https://www.tutorialspoint.com/software_engineering/software_maintenance_overview.htm.
 - [2] Dehaghani, S. M. H., & Hajrahimi, N. (2013, March). Which factors affect software projects maintenance cost more? Acta informatica medica : AIM : journal of the Society for Medical Informatics of Bosnia & Herzegovina : casopis Drustva za medicinsku informatiku BiH. Retrieved November 15, 2021, from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/.
-- [3] Koskinen, J. (n.d.). Software Maintenance Costs - unican.es. University of Eastern Finland. Retrieved November 15, 2021, from https://ocw.unican.es/pluginfile.php/1408/course/section/1805/SMCOSTS.pdf.
+- [3] Koskinen, J. (2015). Software Maintenance Costs - unican.es. University of Eastern Finland. Retrieved November 15, 2021, from https://ocw.unican.es/pluginfile.php/1408/course/section/1805/SMCOSTS.pdf.
 - [4] Ludmila I. Kuncheva (2008) Fuzzy classifiers. Scholarpedia, 3(1):2925., revision #133818. Retrieved November 15, 2021, from http://www.scholarpedia.org/article/Fuzzy_classifiers. 
 - [5] Configuring issue templates for your repository. GitHub Docs. (n.d.). Retrieved November 15, 2021, from https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository.
-- [6] Čubranić, D., & Murphy, G. C. (n.d.). Automatic Bug Triage Using Text Categorization. University of British Columbia. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&rep=rep1&type=pdf. 
+- [6] Čubranić, D., & Murphy, G. C. (2004). Automatic Bug Triage Using Text Categorization. University of British Columbia. Retrieved November 15, 2021, from https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.6144&rep=rep1&type=pdf. 
 - [7] Xuan, J., Jiang, H., Ren, Z., Yan, J., & Luo, Z. (2017, April 16). Automatic Bug Triage Using Semi-supervised Text Classification. arXiv.org. Retrieved November 15, 2021, from https://arxiv.org/abs/1704.04769.
 - [8] I. Alazzam, A. Aleroud, Z. Al Latifah and G. Karabatis, "Automatic Bug Triage in Software Systems Using Graph Neighborhood Relations for Feature Augmentation," in IEEE Transactions on Computational Social Systems, vol. 7, no. 5, pp. 1288-1303, Oct. 2020, doi: 10.1109/TCSS.2020.3017501.
-- [9] Alenezi, M. (n.d.). Efficient Bug Triaging Using Text Mining. North Dakota State University. Retrieved November 15, 2021, from https://malenezi.github.io/malenezi/pdfs/BugTriaging.pdf.
+- [9] Alenezi, M. (2013). Efficient Bug Triaging Using Text Mining. North Dakota State University. Retrieved November 15, 2021, from http://www.jsoftware.us/vol8/jsw0809-12.pdf.
 - [10] Imms, D. (2021). Issues Triaging · Microsoft/vscode wiki. GitHub. Retrieved November 15, 2021, from https://github.com/microsoft/vscode/wiki/Issues-Triaging.
 - [11] English · spaCy Models Documentation - en_core_web_sm. (2021). Retrieved November 15, 2021, from https://spacy.io/models/en#en_core_web_sm. 
 - [12] Issue-Label BOT - GitHub Marketplace. GitHub. (n.d.). Retrieved November 15, 2021, from https://github.com/marketplace/issue-label-bot. 
 - [13] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/.
-- [14] Google. (n.d.). Google/AFL: American fuzzy lop - a security-oriented fuzzer, Section 10 - Crash triage. GitHub. Retrieved November 19, 2021, from https://github.com/google/AFL#10-crash-triage. 
+- [14] Google. (2021). Google/AFL: American fuzzy lop - a security-oriented fuzzer, Section 10 - Crash triage. GitHub. Retrieved November 19, 2021, from https://github.com/google/AFL#10-crash-triage. 
