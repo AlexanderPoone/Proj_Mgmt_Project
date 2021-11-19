@@ -87,9 +87,13 @@ According to the development team of TensorFlow:
 Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
 
 #### Fast Task Control
-![image](https://user-images.githubusercontent.com/9071916/141833534-c8f3ddc3-a1f7-4d30-85cb-44ac4602fb39.png)
+<!-- ![image](https://user-images.githubusercontent.com/9071916/141833534-c8f3ddc3-a1f7-4d30-85cb-44ac4602fb39.png) -->
+![image](https://user-images.githubusercontent.com/9071916/142565419-3deeb1b7-c7c6-4911-b4c5-1f7efeaf4b96.png)
 <div align="center"><em>The improved task list.</em></div>
-	
+
+![image](https://user-images.githubusercontent.com/9071916/142565501-004bd115-000e-4571-9524-89a84bc564ec.png)
+<div align="center"><em>Our issue management includes a 'reassign' function in case the triage category is incorrect. It finishes immediately, so no page refreshes are needed. The GitHub assignee, issue label, and table display are updated accordingly.</em></div>
+
 The task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
 
 # Libraries used
