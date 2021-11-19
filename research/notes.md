@@ -122,7 +122,7 @@ In the future, we plan to add tags "`severity:<level>`" (in a scale from 1 to 10
 
 At the moment, developers resort to typing the effort manually like this GitHub repository: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue (`⏱ effort:💪💪`). It would be very difficult if we rely only on static code analysis for bug severity rating. It is because bug severity rating is language-specific, environment-specific, and is dependent on the project team's own history with bugs for training.
 
-However, the automation seems possible by extend the Crash Triage function of the American Fuzzy Lop. https://github.com/google/AFL#10-crash-triage All we have to do is just add a trigger to post a bug report to GitHub after AFL's Crash Triage.
+However, the automation seems possible by extend the Crash Triage function of the American Fuzzy Lop grey-box fuzzer. [14] For details please see *Section 10 - Crash triage* of the cited page. All we have to do is to write a trigger to posting a GitHub issue report whenever AFL's Crash Triage finishes.
 	
 ![image](https://user-images.githubusercontent.com/9071916/142561377-1ed470e1-7852-4435-89b6-f9ddc7be52e2.png)
 
@@ -140,3 +140,4 @@ However, the automation seems possible by extend the Crash Triage function of th
 - [11] English · spaCy Models Documentation - en_core_web_sm. (2021). Retrieved November 15, 2021, from https://spacy.io/models/en#en_core_web_sm. 
 - [12] Issue-Label BOT - GitHub Marketplace. GitHub. (n.d.). Retrieved November 15, 2021, from https://github.com/marketplace/issue-label-bot. 
 - [13] Warden, P. (2017, May 4). How the TensorFlow Team Handles Open Source Support. O'Reilly Media. Retrieved November 15, 2021, from https://www.oreilly.com/content/how-the-tensorflow-team-handles-open-source-support/.
+- [14] Google. (n.d.). Google/AFL: American fuzzy lop - a security-oriented fuzzer, Section 10 - Crash triage. GitHub. Retrieved November 19, 2021, from https://github.com/google/AFL#10-crash-triage. 
