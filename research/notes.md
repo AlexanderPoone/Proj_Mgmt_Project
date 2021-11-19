@@ -97,8 +97,8 @@ The task list is implemented using AJAX. Efficiently, the team can click 'create
 * [pymongo](https://github.com/mongodb/mongo-python-driver): Python API for our local MongoDB NoSQL database
 * [wordcloud](https://github.com/amueller/word_cloud): word cloud visualisation
 * [Python-markdown](https://github.com/Python-Markdown/markdown): Markdown parsing
-* pygments
-* pygraphviz
+<!-- * pygments
+* pygraphviz -->
 
 # Future work
 In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
