@@ -81,7 +81,7 @@ TensorFlow is a large project on GitHub. At the time of writing, it has more tha
 There is a bot called `tensorflowbutler` responsible for issue triage. (https://github.com/tensorflowbutler: "I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
 
 According to the development team of TensorFlow:
-> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author's GitHub account and a comment explaining the change. We have a special `tensorflow-gardener` account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it's been migrated to GitHub here. [12]
+> For internal changes, we also do our best to make sure each check-in appears as a single git commit and includes the author's GitHub account and a comment explaining the change. We have a special `tensorflow-gardener` account on GitHub that is scripted to manage this process, and you can see what an internal commit looks like once it's been migrated to GitHub here. [13]
 
 #### Automated issue assignment
 Automatically assign the person-in-charge (assume there are more than one developer is responsible for one bug category, keep track of workload. Workload can be seen as the number of issues already assigned to a particular person (optionally, other repos are counted too), which can be obtained from GitHub API)
