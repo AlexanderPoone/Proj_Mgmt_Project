@@ -96,6 +96,17 @@ Automatically assign the person-in-charge (assume there are more than one develo
 
 The task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
 
+# Testing
+## Mutation tests for Issue Report Test Cases
+We implemented mutation testing for the issue report triage module. We programmatically bulk-create randomly mutated issues on GitHub and see if they are still correctly classified.
+
+Here is a list of the mutations used:
+1. Randomly replace words with its synonyms (The thesaurus is hard-coded. It is done using regular expressions where \b matches the word boundary.)
+2. Randomly change some verbs to its past tense using (Use `spacy`'s part-of-speech tagger to identify verbs from the issue report, then use `pyinflect` to convert the verbs to its past tense).
+3. Randomly switch between British spelling and American spelling. (e.g. 'disc' and 'disk'. It is done using regular expressions.)
+4. Randomly swap the cases of some words. (It is done using regular expressions.)
+5. Randomly change some numbers. (It is done using regular expressions.)
+
 # Libraries used
 * [spaCy](https://github.com/explosion/spaCy): natural language processing
 * [pyinflect](https://github.com/bjascob/pyInflect): for changing the tenses of verbs in mutation testing
