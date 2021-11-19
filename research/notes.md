@@ -6,7 +6,9 @@ Instead of planning, designing and implementation, most time of the software cyc
 
 ![image](https://user-images.githubusercontent.com/9071916/141829909-6cdc8301-1081-4602-8670-54f495a69f0c.png) [1]
 
-‘Issues' is a vague term that actually encompasses many things. Not all reports are bona fide. There are many ways to classify issues. Here we present one way:
+‘Issues' is a vague term that actually encompasses many disparate things. Not all reports are bona fide. Being a long-time GitHub paid user (since 2014), this is my pet peeve about Modern Code Review.
+
+There are many ways to classify issues. Here we present one way:
 
 1. software bug report (Action: Assign issue to developer team.)
 2. documentation errors (e.g., broken links, not clear, typos. Action: Assign issue to documentation team.)
