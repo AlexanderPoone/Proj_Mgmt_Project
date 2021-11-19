@@ -63,11 +63,7 @@ Microsoft uses its own issue triage syetem extensively in its open-source projec
 
 ![image](https://user-images.githubusercontent.com/9071916/141832785-20ee8c70-bbd2-4583-a06d-463cb1340430.png)
 
-But you may say, code and images from the issue report will go into NLP, which will affect the result!
-
-Actually, it won't. Method: Markdown -----markdown Python library-----> HTML ------> extract text only.
-
-In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
+We are well aware that *Markdown*, the markup language used in GitHub issue report, renders rich text as well as images and hyperlinks. Markdown partially supports rendering HTML. The ability to include multimedia elements in issue reports does not affect our NLP progress. This is because we firstly renders Markdown as HTML, then extract the HTML DOM's innerText. Thus the processed issue report is plain text only.
 	
 Users (task reporters) love fast feedback. Therefore, there will be an automatic response on GitHub after any issue is triaged.
 ![image](https://user-images.githubusercontent.com/9071916/141835539-2ad38354-51fe-454b-bb93-86c128357b3c.png)
@@ -95,14 +91,20 @@ Automatically assign the person-in-charge (assume there are more than one develo
 The task list is implemented using AJAX. Efficiently, the team can click 'create task/invalid issue/resolve task/delay task' without refreshing.
 
 # Libraries used
-* spaCy
-* pyinflect
-* flask
+* [spaCy](https://github.com/explosion/spaCy): natural language processing
+* [pyinflect](https://github.com/bjascob/pyInflect): for changing the tenses of verbs in mutation testing
+* [flask](https://github.com/pallets/flask): the main web framework
+* [pymongo](https://github.com/mongodb/mongo-python-driver): Python API for our local MongoDB NoSQL database
+* [wordcloud](https://github.com/amueller/word_cloud): word cloud visualisation
+* [Python-markdown](https://github.com/Python-Markdown/markdown): Markdown parsing
 * pygments
 * pygraphviz
-* pymongo
-* wordcloud
+
+# Future work
+In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
 	
+![image](https://user-images.githubusercontent.com/9071916/142561377-1ed470e1-7852-4435-89b6-f9ddc7be52e2.png)
+
 # Bibliography
 - [1] Software Maintenance Overview. TutorialsPoint. (n.d.). Retrieved November 15, 2021, from https://www.tutorialspoint.com/software_engineering/software_maintenance_overview.htm.
 - [2] Dehaghani, S. M. H., & Hajrahimi, N. (2013, March). Which factors affect software projects maintenance cost more? Acta informatica medica : AIM : journal of the Society for Medical Informatics of Bosnia & Herzegovina : casopis Drustva za medicinsku informatiku BiH. Retrieved November 15, 2021, from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3610582/.
