@@ -59,7 +59,7 @@ Microsoft uses its own issue triage syetem extensively in its open-source projec
 <div align="center"><em>The main UI.</em><br></div>
 
 ![image](https://user-images.githubusercontent.com/9071916/141832707-8d14449a-890d-48a4-924e-379d1b8c1f7d.png)
-<div align="center"><em>The colours of the issue label system and the colours of their responsible sub-teams match.</em><br></div>
+<div align="center"><em>Visual cue: The colours of the issue label system and the colours of their responsible sub-teams match.</em><br></div>
 
 ![image](https://user-images.githubusercontent.com/9071916/141832785-20ee8c70-bbd2-4583-a06d-463cb1340430.png)
 
