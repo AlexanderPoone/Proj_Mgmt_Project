@@ -118,7 +118,9 @@ Here is a list of the mutations used:
 * pygraphviz -->
 
 # Future work
-In the future, we plan to add "`severity:<level>`" (in a scale from 1 to 10) labels to rate the seriousness of a `software` bug, once the issue has been classified as one.
+In the future, we plan to allow users to customise the triage categories, for instance, adding a class called `class:build` (used to belong to `class:software`) for issues regarding building executables from source.
+
+Additionally, we plan to add "`severity:<level>`" (in a scale from 1 to 10) labels to rate the seriousness of a `software` bug, once the issue has been classified as one.
 
 At the moment, developers resort to assess and input the bug severity manually, like this GitHub repository does: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue (`⏱ effort:💪💪`). It will be difficult to rely only on static code analysis for bug seriousness rating. This is because bug severity rating is language-specific, environment-specific, and is dependent on the project team's own history with bugs for training.
 
