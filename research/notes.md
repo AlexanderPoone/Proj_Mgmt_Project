@@ -101,8 +101,8 @@ The task list is implemented using AJAX. Efficiently, the team can click 'create
 We implemented mutation testing for the issue report triage module. Programmatically, we bulk-create randomly mutated issues on GitHub and tally the correctly classified issues, the unclassified and the incorrectly classified issues.
 
 Here is a list of the mutations used:
-1. Randomly replace words with its synonyms (The thesaurus is hard-coded. It is done using regular expressions where \b matches the word boundary.)
-2. Randomly change some verbs to its past tense using (Use `spacy`'s part-of-speech tagger to identify verbs from the issue report, then use `pyinflect` to convert the verbs to its past tense).
+1. Randomly replace words with its synonyms. (The thesaurus is hard-coded. It is done using regular expressions where \b matches the word boundary.)
+2. Randomly change some verbs to its inflected form. (Use `spacy`'s part-of-speech tagger to identify verbs from the issue report, then use `pyinflect` to convert the verbs to its past or present tense).
 3. Randomly switch between British spelling and American spelling. (e.g. 'disc' and 'disk'. It is done using regular expressions.)
 4. Randomly swap the cases of some words. (It is done using regular expressions.)
 5. Randomly change some numbers. (It is done using regular expressions.)
