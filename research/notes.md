@@ -98,7 +98,7 @@ The task list is implemented using AJAX. Efficiently, the team can click 'create
 
 # Testing
 ## Mutation tests for Issue Report Test Cases
-We implemented mutation testing for the issue report triage module. Programmatically, we bulk-create randomly mutated issues on GitHub and tally the correctly classified issues, the unclassified and the incorrectly classified issues.
+We implemented mutation testing for the Issue Report Triage module. Programmatically, we bulk-create randomly-mutated issues on GitHub. After that, we tally the correctly classified issues, the unclassified and the incorrectly classified issues.
 
 Here is a list of the mutations used:
 1. Randomly replace words with its synonyms. (The thesaurus is hard-coded. It is done using regular expressions where \b matches the word boundary.)
@@ -118,11 +118,11 @@ Here is a list of the mutations used:
 * pygraphviz -->
 
 # Future work
-In the future, we plan to add tags "`severity:<level>`" (in a scale from 1 to 10) to rate the seriousness of the bug once the issue has been classified as a `software` bug.
+In the future, we plan to add "`severity:<level>`" (in a scale from 1 to 10) labels to rate the seriousness of a `software` bug, once the issue has been classified as one.
 
-At the moment, developers resort to typing the effort manually like this GitHub repository: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue (`⏱ effort:💪💪`). It would be very difficult if we rely only on static code analysis for bug severity rating. It is because bug severity rating is language-specific, environment-specific, and is dependent on the project team's own history with bugs for training.
+At the moment, developers resort to assess and input the bug severity manually, like this GitHub repository does: https://github.com/oncletom/nodebook/issues?q=is%3Aopen+is%3Aissue (`⏱ effort:💪💪`). It will be difficult to rely only on static code analysis for bug seriousness rating. This is because bug severity rating is language-specific, environment-specific, and is dependent on the project team's own history with bugs for training.
 
-However, the automation seems possible by extend the Crash Triage function of the American Fuzzy Lop grey-box fuzzer. [14] For details please see *Section 10 - Crash triage* of the cited page. All we have to do is to write a trigger to posting a GitHub issue report whenever AFL's Crash Triage finishes.
+The automation seems easier to implement by extending the Crash Triage function of the American Fuzzy Lop grey-box fuzzer. [14] For details please see *Section 10 - Crash triage* of the cited page. All we have to do is to write a trigger to posting a GitHub issue report whenever AFL's Crash Triage finishes.
 	
 ![image](https://user-images.githubusercontent.com/9071916/142561377-1ed470e1-7852-4435-89b6-f9ddc7be52e2.png)
 
