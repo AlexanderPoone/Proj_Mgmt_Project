@@ -77,7 +77,7 @@ Users (task reporters) love fast feedback. Therefore, there will be an automatic
 ##### Case study
 There is an application called *Issue-Label Bot* on GitHub Marketplace. It automatically labels issues as a feature request, bug or question, using text classification. According to the page, is used by software like Weights & Bias, Apache Superset, and Kubeflow. [12]
 
-TensorFlow is a large project on GitHub. At the time of writing, it has more than 2,700 open issues and 30,600 closed issues.
+Besides Visual Studio Code, TensorFlow is one of the other large projects on GitHub that automates bug triage. At the time of writing, it has more than 2,700 open issues and 30,600 closed issues.
 There is a bot called `tensorflowbutler` responsible for issue triage. (https://github.com/tensorflowbutler: "I'm a bot that helps maintain the TensorFlow issues." Notice the word "triageservice" on the page)
 
 According to the development team of TensorFlow:
