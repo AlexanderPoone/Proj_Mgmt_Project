@@ -98,7 +98,7 @@ The task list is implemented using AJAX. Efficiently, the team can click 'create
 
 # Testing
 ## Mutation tests for Issue Report Test Cases
-We implemented mutation testing for the Issue Report Triage module. Programmatically, we bulk-create randomly-mutated issues on GitHub. After that, we tally the correctly classified issues, the unclassified and the incorrectly classified issues. The benefit of such mutation unit test is to make the triage module more robust.
+We implemented mutation testing for the Issue Report Triage module. Programmatically, we bulk-create randomly-mutated issues on GitHub. After that, we tally the correctly classified issues, the unclassified and the incorrectly classified issues. The benefit of such mutation unit test is to make the triage module robuster.
 
 Here is a list of the mutations used:
 1. Randomly replace words with its synonyms. (The thesaurus is hard-coded. It is done using regular expressions where \b matches the word boundary.)
