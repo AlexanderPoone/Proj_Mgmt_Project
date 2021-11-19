@@ -2,6 +2,8 @@
 
 ## Issue Management Automation
 
+<!-- In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that -->
+
 Instead of planning, designing and implementation, most time of the software cycle is spent on maintenance. Estimates show that this laborious process takes up 67% [1] to 90% [2][3] of the total software development cost. The informality of Modern Code Review has its upsides and downsides. One of the challenges is to keep MCR manageable for a large project.
 
 ![image](https://user-images.githubusercontent.com/9071916/141829909-6cdc8301-1081-4602-8670-54f495a69f0c.png) [1]
@@ -101,7 +103,7 @@ The task list is implemented using AJAX. Efficiently, the team can click 'create
 * pygraphviz -->
 
 # Future work
-In a large repository, there may be many issue reports with different severity. (Even typos in the documentation are considered issues!) We want to fix the most serious bugs first, and schedule non-critical bugs for later. "Triage" means that in a traffic accident scene, the first aid workers must determine among the injured, whose situation is more emergent. GitHub provides the feature of adding custom tags, in addition to the default tags like "invalid/This doesn't seem right"; "bug/Something isn't working"; "documentation/Improvements or additions to documentation"; "duplicate/This issue or pull request already exists"; "enhancement/New feature or request"; "question/Further information is requested"; "wontfix/This will not be worked on", etc. I suggest that, in a scale from 1 to 10, add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid.
+In the future, in a scale from 1 to 10, we can add tags "severity:<level>" and so on to rate the seriousness of the bug once the issue has been confirmed as valid. Yet, the implementation is proved to be quite difficult. It is because that bug severity ratings are language-specific, environment-specific, and is dependent on the project team's own experience with bugs.
 	
 ![image](https://user-images.githubusercontent.com/9071916/142561377-1ed470e1-7852-4435-89b6-f9ddc7be52e2.png)
 
