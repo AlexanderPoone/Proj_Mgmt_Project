@@ -58,12 +58,14 @@ Microsoft uses its own issue triage system extensively in its open-source projec
 <div align="center"><em>Issues with short descriptions are not conducive to fixing bugs. The program will close the issue and post an automated response asking for more details.</em><br></div>
 
 ![image](https://user-images.githubusercontent.com/9071916/141832998-da407eba-c375-461f-a5ad-5f33c23bbe65.png)
-<div align="center"><em>The main UI.</em><br></div>
+<div align="center"><em>The interface for assigning GitHub team members to ‘sub-teams’.</em><br></div>
 
 ![image](https://user-images.githubusercontent.com/9071916/141832707-8d14449a-890d-48a4-924e-379d1b8c1f7d.png)
-<div align="center"><em>Visual cue: The colours of the issue label system and the colours of their responsible sub-teams match.</em><br></div>
+<div align="center"><em>On GitHub, the issues are automatically labelled into a category or marked as invalid. Assuming a task can be handled by a single team member, the member in the related sub-team with the least workload (i.e. with the least number of tasks assigned across multiple GitHub repositories) is set to be the issue’s assignee (blue rectangle).</em><br></div>
 
+![image](https://user-images.githubusercontent.com/9071916/142716742-d4d4a57d-fc59-4020-bc0f-b5d25c378bab.png)
 ![image](https://user-images.githubusercontent.com/9071916/141832785-20ee8c70-bbd2-4583-a06d-463cb1340430.png)
+<div align="center"><em>Visual cues: The colours of the issue label system and the colours of their responsible sub-teams match. For example, as the Tester Team is responsible for benchmarking performance issues, the Tester Team and performance issues are denoted by yellow</em><br></div>
 
 We are well aware that *Markdown*, the markup language used in GitHub issue report, renders rich text as well as images and hyperlinks. Markdown partially supports rendering HTML. The ability to include multimedia elements in issue reports does not affect our NLP progress. This is because we firstly renders Markdown as HTML, then extract the HTML DOM's innerText. Thus the processed issue report is plain text only.
 	
@@ -107,7 +109,7 @@ Here is a list of the mutations used:
 4. Randomly swap the cases of some words. (It is done using regular expressions.)
 5. Randomly change some numbers. (It is done using regular expressions.)
 
-# Libraries used
+## Libraries used
 * [spaCy](https://github.com/explosion/spaCy): natural language processing
 * [pyinflect](https://github.com/bjascob/pyInflect): for changing the tenses of verbs in mutation testing
 * [flask](https://github.com/pallets/flask): the main web framework
