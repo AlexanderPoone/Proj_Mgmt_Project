@@ -768,6 +768,7 @@ document.querySelectorAll('.inputDate').forEach(function(e) {
         miniHeight = lanes.length * 12 + 50,
         mainHeight = height - miniHeight - 50;
 
+    // try {
     var x = d3.time.scale()
         .domain([d3.time.sunday(d3.min(items, function (d) {
                 return d.start;
@@ -777,6 +778,9 @@ document.querySelectorAll('.inputDate').forEach(function(e) {
             })
         ])
         .range([0, width]);
+    // } catch {
+        // document.querySelector('#swimLaneDiv').innerText = 'No existing tasks to create the swimlane chart. Create some first.';
+    // }
     var x1 = d3.time.scale().range([0, width]);
 
     var ext = d3.extent(lanes, function (d) {

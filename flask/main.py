@@ -186,7 +186,8 @@ def getContributors(owner, reponame):
 	contributorRoles = []
 	collection = db['roles']
 	for x in resJson:
-		collaborator = [x for x in collection.find({'collaborator': x['login']})]
+		# Initialise the collaborator if he/she is newly added
+		collaborator = [x for x in collection.find({'owner': owner, 'reponame': reponame, 'collaborator': x['login']})]
 		if len(collaborator) == 0:
 			collection.insert({'owner': owner, 'reponame': reponame, 'collaborator': x['login'], 'role': 'developer'})
 			contributorRoles.append(['developer', *roleScheme['developer']])
