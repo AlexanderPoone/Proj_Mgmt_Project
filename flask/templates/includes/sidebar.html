@@ -65,7 +65,7 @@
 					</li>
 					{% for repo in repolist %}
 						<li class="sidebar-item {% if 'icons' in segment %} active {% endif %}">
-							<a class="sidebar-link" href="repo/{{repo.full_name}}">
+							<a class="sidebar-link" href="/repo/{{repo.full_name}}">
 	              				<i class="devicon-{{repo.language|lower}}-plain fa-fw" style="font-size: larger; vertical-align: middle;"></i> <span class="align-middle">{{repo.name}}</span>
 	            			</a>
 						</li>
