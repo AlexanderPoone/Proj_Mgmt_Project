@@ -332,6 +332,30 @@
                         document.querySelector(`#assignee_${issueNumber}`).innerText = `${res['login']} (UPDATED)`;
                     });
                 }
+                function formatDate(date) {
+                    var d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+
+                    if (month.length < 2) 
+                        month = '0' + month;
+                    if (day.length < 2) 
+                        day = '0' + day;
+
+                    return [year, month, day].join('-');
+                }
+                function updateEndDate(issueNumber) {
+                    if (document.querySelector(`#delaydays_${issueNumber}`)) {
+                        let date = new Date(document.querySelector(`#enddate_${issueNumber}`).innerText.replace(' (DELAYED)',''));
+                        date.setDate(date.getDate() + Number(document.querySelector(`#delaydays_${issueNumber}`).value));
+                        document.querySelector(`#proposedend_${issueNumber}`).innerText = formatDate(date);
+                    } else {
+                        let date = new Date(document.querySelector(`#startdate_${issueNumber}`).value);
+                        date.setDate(date.getDate() + Number(document.querySelector(`#numdays_${issueNumber}`).value));
+                        document.querySelector(`#proposedend_${issueNumber}`).innerText = formatDate(date);
+                    }
+                }
 				</script>
 				{% for x in tasks %}
 				<tr>
@@ -347,14 +371,14 @@
 				{% if x.startdate is not defined %}
                 <span id="block_{{x.number}}" style="display: flex;">
                 <span style="width: 50%;">
-                <label for="startdate_{{x.number}}" class="col-form-label">Start date:</label><input id="startdate_{{x.number}}" class="inputDate form-control" type="date">
-                <label for="numdays_{{x.number}}" class="col-form-label">Num of days allocated:</label><input id="numdays_{{x.number}}" class="form-control" type="number" value="7"><br>
-				<button type="button" onclick="confirm({{x.number}}, '{{ x.assignee.login }}');" class="btn btn-primary"><i class="fad fa-check-circle"></i> Create task</button></span><span style="width: 50%;align-items: center;"><button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 100%;"><i class="fad fa-trash-alt"></i> Invalid issue</button><br><br><hr><select id="reassign_{{x.number}}" class="form-select"><option value="Reassign..." selected>Reassign...</option>{% for x in ['software', 'documentation', 'performance', 'support'] %}<option value="{{x}}">{{x}}</option>{% endfor %}</select><br><button type="button" onclick="reassign({{x.number}})" class="btn btn-warning mx-2" style="width: 100%;"><i class="fas fa-times-octagon"></i> Misclassified?</button></span>
+                <label for="startdate_{{x.number}}" class="col-form-label">Start date:</label><input id="startdate_{{x.number}}" class="inputDate form-control" type="date" onchange="updateEndDate({{x.number}})">
+                <label for="numdays_{{x.number}}" class="col-form-label">Num of days allocated:</label><input id="numdays_{{x.number}}" class="form-control" type="number" value="7" onchange="updateEndDate({{x.number}})"><br>, thus the end date is:<br><span id="proposedend_{{x.number}}" class="proposedend"></span><br>
+				<button type="button" onclick="confirm({{x.number}}, '{{ x.assignee.login }}');" class="btn btn-primary"><i class="fad fa-check-circle"></i> Create task</button></span><span style="width: 50%;align-items: center;"><button type="button" onclick="reject({{x.number}});" class="btn btn-secondary mx-2" style="width: 100%;"><i class="fad fa-trash-alt"></i> Invalid issue</button><br><br><br><br><hr><select id="reassign_{{x.number}}" class="form-select"><option value="Reassign..." selected>Reassign...</option>{% for x in ['software', 'documentation', 'performance', 'support'] %}<option value="{{x}}">{{x}}</option>{% endfor %}</select><br><button type="button" onclick="reassign({{x.number}})" class="btn btn-warning mx-2" style="width: 100%;"><i class="fas fa-times-octagon"></i> Misclassified?</button></span>
 				</span>
                 {% else %}
                 <span id="block_{{x.number}}" style="display: flex;">
-				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">Pick a pull request</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><br><br><br><br><button type="button" onclick="resolve({{x.number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
-				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><label for="delaydays_{{x.number}}" class="col-form-label">Num of additional days:</label><input id="delaydays_{{x.number}}" class="form-control" type="number" value="3"><br><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"><br><button type="button" onclick="delay({{x.number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span></span>
+				<span style="display: block; margin: 4px; width: 50%;"><select id="relatedPullRequest" class="form-select"><option selected value="none">Pick a pull request</option>{% for pr in pullRequests %}<option id="{{pr.number}}">#{{pr.number}} - {{pr.title}}</option>{% endfor %}</select><br><br><br><br><br><br><button type="button" onclick="resolve({{x.number}});" class="btn btn-success"><i class="fad fa-clipboard-check"></i> Resolve task</button></span>
+				<!--Drop-down calendar FROM~TO goes here--><span style="display: block; margin: 4px; width: 50%;"><label for="delaydays_{{x.number}}" class="col-form-label">Num of additional days:</label><input id="delaydays_{{x.number}}" class="form-control" type="number" value="3" onchange="updateEndDate({{x.number}})">, thus the delayed day is: <br><span id="proposedend_{{x.number}}" class="proposedend"></span><br><input type="text" class="form-control" id="inpDelayReason" aria-describedby="lblReason" placeholder="Reason for the delay"><br><button type="button" onclick="delay({{x.number}});" class="btn btn-danger"><i class="fad fa-clock"></i> Delay task</button></span></span>
 				{% endif %}
 				</td>
 				</tr>
@@ -723,6 +747,11 @@ document.querySelectorAll('.inputDate').forEach(function(e) {
 </script>
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.proposedend').forEach(e=>{
+        updateEndDate(Number(e.id.replace('proposedend_','')));
+    });
+
+
     var data = placeholderData(),
         lanes = data.lanes,
         items = data.items,
