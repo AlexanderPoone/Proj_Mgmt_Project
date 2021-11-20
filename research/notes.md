@@ -107,7 +107,7 @@ Here is a list of the mutations used:
 4. Randomly swap the cases of some words. (It is done using regular expressions.)
 5. Randomly change some numbers. (It is done using regular expressions.)
 
-# Libraries used
+## Libraries used
 * [spaCy](https://github.com/explosion/spaCy): natural language processing
 * [pyinflect](https://github.com/bjascob/pyInflect): for changing the tenses of verbs in mutation testing
 * [flask](https://github.com/pallets/flask): the main web framework
