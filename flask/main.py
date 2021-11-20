@@ -197,12 +197,7 @@ def getContributors(owner, reponame):
 
 	return resJson, contributorRoles
 
-# Main page
-@app.route('/dashboard', methods = ['GET'])
-def dashboard():
-	userInfo = getUserInfo()
-	###########################
-
+def getRepoList():
 	# Get all repos and stuff them into the template
 	url = 'https://api.github.com/user/repos?sort=pushed&per_page=100'
 
@@ -219,21 +214,29 @@ def dashboard():
 		req.add_header(h, headers[h])
 
 	res = urlopen(req)
-	resJson2 = loads(res.read())
+	repolistJson = loads(res.read())
 
-	for cnt in range(len(resJson2)):
-		if resJson2[cnt]['language'] is not None:
-			resJson2[cnt]['language'] = resJson2[cnt]['language'].replace('++','plusplus').replace('#','sharp').replace('HTML','html5').split(' ')[0]
+	for cnt in range(len(repolistJson)):
+		if repolistJson[cnt]['language'] is not None:
+			repolistJson[cnt]['language'] = repolistJson[cnt]['language'].replace('++','plusplus').replace('#','sharp').replace('HTML','html5').split(' ')[0]
 
-	pprint(resJson2)
-	open_issues = sum([x['open_issues'] for x in resJson2])
-	open_issue_repos = sum([1 for x in resJson2 if x != 0])
+	return repolistJson
+
+# Main page
+@app.route('/dashboard', methods = ['GET'])
+def dashboard():
+	userInfo = getUserInfo()
+	repolistJson = getRepoList()
+	###########################
+
+	open_issues = sum([x['open_issues'] for x in repolistJson])
+	open_issue_repos = sum([1 for x in repolistJson if x != 0])
 
 	wordcloud = topicModelling()
 
 	return render_template('index.html', segment='index', 
 		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
-		open_issues=open_issues, open_issue_repos=open_issue_repos, repolist=resJson2, wordcloud=wordcloud)
+		open_issues=open_issues, open_issue_repos=open_issue_repos, repolist=repolistJson, wordcloud=wordcloud)
 
 
 # Unused
@@ -412,6 +415,7 @@ def issuesView(owner, reponame):
 	# Get logged in user's info
 
 	userInfo = getUserInfo()
+	repolistJson = getRepoList()
 	###########################
 	# Get collaborators usernames, names and avatars
 
@@ -702,7 +706,7 @@ def issuesView(owner, reponame):
 		tasks=[x for x in issues if 'class:feature-request' not in [y['name'] for y in x['labels']] and 'class:invalid' not in [y['name'] for y in x['labels']] and 'pull_request' not in x],
 		pullRequests=pullRequests,
 		segment='index', 
-		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'],
+		avatar=userInfo['avatar_url'], usrname=userInfo['login'], name=userInfo['name'], repolist=repolistJson,
 		open_issues=None, open_issue_repos=None, repoowner=owner, reponame=reponame,
 		contributors = contributors, contributorRoles = contributorRoles, currentTasks=currentTasks, resolvedTasks=resolvedTasks)
 
