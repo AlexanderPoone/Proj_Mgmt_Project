@@ -317,6 +317,7 @@
 				 fetch(`/delay/{{repoowner}}/{{reponame}}/${issueNumber}/${delaydays}?reason=${reason}`).then(res=>res.json()).then(res=>{console.log(res);
                     document.querySelector(`#block_${issueNumber}`).innerHTML = res[0];
                     document.querySelector(`#enddate_${issueNumber}`).innerHTML = res[1];
+                    document.querySelector(`#status_${issueNumber}`).innerHTML = '<span style="color: red">Delayed</span>';
                  });
 				}
                 function reassign(issueNumber) {
@@ -361,7 +362,7 @@
 				<tr>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}><a href="https://github.com/{{repoowner}}/{{reponame}}/issues/{{x.number}}" target="_blank">{{x.number}}</a></td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{{x.title}}</td>
-                <td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %}>{% if x.status == 'delayed' %}<span style="color: red;">{% endif %}{% if x.status is defined %}{{x.status|capitalize}}{% else %}Ready to add{% endif %}{% if x.status == 'delayed' %}</span>{% endif %}</td>
+                <td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} id="status_{{x.number}}">{% if x.status == 'delayed' %}<span style="color: red;">{% endif %}{% if x.status is defined %}{{x.status|capitalize}}{% else %}Ready to add{% endif %}{% if x.status == 'delayed' %}</span>{% endif %}</td>
 				<td>{{x.body|safe}}</td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell">{% if x.startdate is defined %}{{x.startdate.strftime('%Y-%m-%d')}}{% endif %}</td>
 				<td {% if x.startdate is defined %}style="font-weight: bold;"{% endif %} class="d-none d-xl-table-cell" id="enddate_{{x.number}}">{% if x.enddate is defined %}{{x.enddate.strftime('%Y-%m-%d')}} {% if x.status == 'delayed' %}<span style="color: red;">(DELAYED)</span>{% endif %}{% endif %}</td>

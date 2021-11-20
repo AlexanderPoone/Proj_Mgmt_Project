@@ -1603,7 +1603,7 @@ def UT_BulkAddIssues(owner, reponame):
 	headers = {
 		'Accept': '*/*',
 		'Content-Type': 'application/json',
-		'Authorization': f"token {tok}"
+		'Authorization': "token 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"#f"token {tok}"
 	}
 
 	df = pd.read_csv('test_set.csv')
