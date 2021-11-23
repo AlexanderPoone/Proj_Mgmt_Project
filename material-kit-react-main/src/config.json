@@ -1,0 +1,8 @@
+{
+    "GITHUB_COOOKIE_NAME":"access_token",
+    "GITHUB_CLIENT_ID":"6654271f1373231714f4",
+    "REDIRECT_URI":"https://127.0.0.1:5000/login",
+    "GITHUB_API_ENDPOINT":"https://api.github.com",
+    "API_ENDPOINT": "https://127.0.0.1:5000"
+
+}
