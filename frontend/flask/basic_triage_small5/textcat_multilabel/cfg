@@ -1,0 +1,11 @@
+{
+  "labels":[
+    "class:software",
+    "class:performance",
+    "class:documentation",
+    "class:support",
+    "class:feature-request",
+    "class:invalid"
+  ],
+  "threshold":0.5
+}
