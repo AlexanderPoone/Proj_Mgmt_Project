@@ -1,26 +1,29 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import Api from '../remotes/Api'
 
-// export const githubLoginAsyc = createAsyncThunk(
-//     'login/githubLogin',
-//     async (_, { rejectWithValue }) => {
-//         try {
-//             // const { id, ...fields } = props
-//             const response = await Api.githubLogin()
-//             return response.data.code
-//         } catch (err) {
-//             let error = err // cast the error for access
-//             if (!error.response) {
-//                 throw err
-//             }
-//             // We got validation errors, let's return those so we can reference in our component and set form errors
-//             return rejectWithValue(error.response.data)
-//         }
-//     }
-// )
+export const updateDashBoardAsyc = createAsyncThunk(
+    'app/updateDashBoard',
+    async (_, { rejectWithValue }) => {
+        try {
+            // const { id, ...fields } = props
+            const response = await Api.fetchDashBoard()
+            return response.data.code
+        } catch (err) {
+            let error = err // cast the error for access
+            if (!error.response) {
+                throw err
+            }
+            // We got validation errors, let's return those so we can reference in our component and set form errors
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 
 const initialState = {
-    accessToken: null
+    accessToken: null,
+    updateDashBoard: false,
+    error: null,
+    loading: false
 }
 
 const appSlice = createSlice({
@@ -29,28 +32,33 @@ const appSlice = createSlice({
     reducers: {
         setAccessToken: (state, action) => {
             state.accessToken = action.payload;
+        },
+        setUpdateDashBoard: (state, action) => {
+            state.updateDashBoard = action.payload;
         }
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase(githubLoginAsyc.pending, (state, action) => {
-    //         state.loading = true
-    //         state.githubLoginRes = {}
-    //     }).addCase(githubLoginAsyc.fulfilled, (state, { payload }) => {
-    //         state.loading = false
-    //         state.githubLoginRes = payload
-    //     }).addCase(githubLoginAsyc.rejected, (state, action) => {
-    //         state.loading = false;
-    //         state.error = action.error.message;
-    //     })
-    // },
+    extraReducers: (builder) => {
+        builder.addCase(updateDashBoardAsyc.pending, (state, action) => {
+            state.loading = true;
+            state.updateDashBoard = false;
+        }).addCase(updateDashBoardAsyc.fulfilled, (state, { payload }) => {
+            state.loading = false;
+            state.updateDashBoard = true;
+        }).addCase(updateDashBoardAsyc.rejected, (state, action) => {
+            state.loading = false;
+            state.updateDashBoard = false;
+            state.error = action.error.message;
+        })
+    },
 })
 
 
-export const { setAccessToken } = appSlice.actions;
+export const { setAccessToken, setUpdateDashBoard } = appSlice.actions;
 
 export const appProducts = createSelector(
     (state) => ({
-        accessToken: state.app.accessToken
+        accessToken: state.app.accessToken,
+        updateDashBoard: state.app.updateDashBoard
     }), (state) => state
 );
 

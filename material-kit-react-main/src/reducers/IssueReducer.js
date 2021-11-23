@@ -171,7 +171,7 @@ const initialState = {
     rejectTask: null,
     resolvedTask: null,
     reassignUser: null,
-    error: null
+    
 }
 
 const issueSlice = createSlice({

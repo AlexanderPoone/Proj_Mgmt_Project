@@ -20,7 +20,7 @@ const App = () => {
   const { accessToken } = useSelector(appProducts);
   const navigate = useNavigate();
 
-  Cookies.set(ConfigData.GITHUB_COOOKIE_NAME, "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");
+  // Cookies.set(ConfigData.GITHUB_COOOKIE_NAME, "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");
 
   // useEffect(() => {
   //   dispatch(fetchGithubUserAsync());

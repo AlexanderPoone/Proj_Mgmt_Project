@@ -14,6 +14,7 @@ from glob import glob
 import json
 from os.path import dirname, basename
 from collections import Counter
+import re
 from bson.objectid import ObjectId
 
 from pygments import highlight
@@ -40,6 +41,7 @@ from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
 from gensim.parsing.preprocessing import preprocess_documents
 from gensim.test.utils import common_texts
+from werkzeug.wrappers import response
 from wordcloud import WordCloud
 
 # Standard library
@@ -93,7 +95,7 @@ def before_request():
 # Redirect to login
 @app.route('/', methods = ['GET'])
 def index():
-	return redirect('dashboard')
+	return redirect('/dashboard')
 
 # Log in
 @app.route('/login', methods = ['GET'])
@@ -104,27 +106,33 @@ def login():
 
 	if 'code' not in request.args:
 		query = {
-			'client_id': '',
-			'allow_signup': False
+			'client_id': '6654271f1373231714f4',
 		}
-		return redirect(f'https://github.com/login/oauth/authorize?{urlencode(query)}&scope=repo')
+		return redirect(f'https://github.com/login/oauth/authorize?{urlencode(query)}')
 	else:
-		url = 'https://github.com/login/oauth/access_token'
 
+		query = {
+			'client_id': '6654271f1373231714f4',
+		 	'client_secret': '1632208970a8d4b2f2eba1df8e2650febd657b06',
+		 	'code': request.args['code']
+		}
+
+		url = f'https://github.com/login/oauth/access_token?{urlencode(query)}'
+		print(url)
 		headers = {
-			'Accept': 'application/json',
+			'Accept': 'application/vnd.github.v3+json',
 			'Content-Type': 'application/json'
 		}
 
-		body = {'client_id': '',
-		 'client_secret': '',
-		 'code': request.args['code']
-		 }	
+		# body = {'client_id': '6654271f1373231714f4',
+		#  'client_secret': '1632208970a8d4b2f2eba1df8e2650febd657b06',
+		#  'code': request.args['code']
+		#  }	
 
-		data = dumps(body).encode('utf-8')
-		print(data)
+		# data = dumps(body).encode('utf-8')
+		# print(data)
 
-		req = Request(url, data=data)
+		req = Request(url)
 		for h in headers:
 			req.add_header(h, headers[h])
 
@@ -136,10 +144,11 @@ def login():
 
 		# Set cookies
 		cookieContent = loads(res.read())
-		response = make_response(redirect('/dashboard'))
+		print(cookieContent['access_token'])
+		response = make_response(redirect('http://127.0.0.1:3000'))
+		# response = make_response('Setting cookie!')
 		response.set_cookie('access_token', cookieContent['access_token'])
 		return response
-
 
 ## Front End Use
 # Get auth'd user's name and avatar 
@@ -149,7 +158,7 @@ def getMyInfo(username=None):
 
 	req = Request(url)
 
-	tok = req.headers.get('access_token')
+	tok = request.headers.get('access_token')
 
 	headers = {
 		'Accept': '*/*',
@@ -163,6 +172,45 @@ def getMyInfo(username=None):
 	resJson = loads(res.read())
 
 	return resJson
+
+def getRepoList(tok):
+	# Get all repos and stuff them into the template
+	url = 'https://api.github.com/user/repos?sort=pushed&per_page=100'
+
+	req = Request(url)
+
+	headers = {
+		'Accept': '*/*',
+		'Content-Type': 'application/json',
+		'Authorization': f"token {tok}"
+	}
+	for h in headers:
+		req.add_header(h, headers[h])
+
+	res = urlopen(req)
+	repolistJson = loads(res.read())
+
+	for cnt in range(len(repolistJson)):
+		if repolistJson[cnt]['language'] is not None:
+			repolistJson[cnt]['language'] = repolistJson[cnt]['language'].replace('++','plusplus').replace('#','sharp').replace('HTML','html5').split(' ')[0]
+
+	return repolistJson
+
+# Main page
+@app.route('/dashboard', methods = ['GET'])
+def dashboard():
+
+	tok = request.headers.get('access_token')
+	repolistJson = getRepoList(tok)
+	###########################
+
+	open_issues = sum([x['open_issues'] for x in repolistJson])
+	open_issue_repos = sum([1 for x in repolistJson if x != 0])
+
+	wordcloud = topicModelling()
+
+	return jsonify(success = True)
+
 
 ## Front End Use
 @app.route('/user/<string:username>', methods = ['GET'])
@@ -365,6 +413,7 @@ def repo(owner, reponame):
 	global nlp
 
 	tok = request.headers.get('access_token')
+	print(f'Token: {tok}')
 
 	###########################
 	# Get logged in user's info
@@ -1239,11 +1288,11 @@ def deleteLabelSystem(owner, reponame):
 
 ## Front End Use
 # Initialise Our Label System
-@app.route('/initial/label/<string:owner>/<string:reponame>', methods = ['GET'])
 def initialiseLabelSystem(owner, reponame):
 	deleteLabelSystem(owner, reponame)
 
 	tok = request.headers.get('access_token')
+	print(f'Token: {tok}')
 	headers = {
 		'Accept': '*/*',
 		'Content-Type': 'application/json',

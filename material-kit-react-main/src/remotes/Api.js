@@ -29,6 +29,7 @@ const fetchGithubUserRepoMilestone = (props) => githubAPI.get(`/repos/${props.re
 const fetchGithubUserMileStoneIssues = (props) => githubAPI.get(`/repos/${props.repoFullName}/issues`, {params: props.params});
 
 //API
+const fetchDashBoard = (props) => API.get(`/dashboard`);
 const fetchRepo = (props) => API.get(`/repo/${props.owner}/${props.reponame}`);
 const fetchContributors = (props) => API.get(`/contributors/${props.owner}/${props.reponame}`);
 const fetchMyInfo = (props) => API.get(`/me}`);
@@ -37,7 +38,7 @@ const confirmIssue = (props) => API.get(`/confirm/${props.owner}/${props.reponam
 const rejectIssue = (props) => API.get(`/reject/${props.owner}/${props.reponame}/${props.issueNum}`);
 const resolveIssue = (props) => API.get(`/resolve/${props.owner}/${props.reponame}/${props.issueNum}/${props.pullReqNum}`);
 const delayIssue = (props) => API.get(`/delay/${props.owner}/${props.reponame}/${props.issueNum}/${props.delaydays}`);
-const initialLabel = (props) => API.get(`/initial/label/${props.owner}/${props.reponame}`);
+const initialLabel = (props) => API.get(`/issuesToTopic/${props.owner}/${props.reponame}`);
 const fetchBurnDownChart = (props) => API.get(`/test/generateBurnDownChart`);
 const reassignIssue = (props) => API.get(`/reassign/${props.owner}/${props.reponame}/${props.issueNum}/${props.correctCat}/${props.currentProposed}`);
 
@@ -52,6 +53,7 @@ export default {
     fetchGithubUserRepoMilestone,
     fetchGithubUserMileStoneIssues,
     //API
+    fetchDashBoard,
     fetchRepo,
     fetchContributors,
     fetchMyInfo,

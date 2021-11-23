@@ -22,6 +22,7 @@ import { store } from 'src/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import RepoGridCell from 'src/components/dashboard/RepoGridCell';
+import { updateDashBoardAsyc } from 'src/reducers/AppReducer';
 
 const Repositories = () => {
   const navigate = useNavigate();
@@ -42,7 +43,9 @@ const Repositories = () => {
 
   useEffect(() => {
     dispatch(fetchGithubUserReposAsync());
+    dispatch(updateDashBoardAsyc());
   }, []);
+  
   return (
     <>
       <Helmet>
