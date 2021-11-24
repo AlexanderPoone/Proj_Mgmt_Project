@@ -1,12 +1,16 @@
 # CS5351 Project - Issue Management & Visualisation
 **Group 2**
 
-# Test (for TA and Unit Test) - IMPORTANT!!!
+The main file of our application is [`flask/main.py`](flask/main.py). Make sure to follow the guide below to set up and install the app.
+
+# Set-up - IMPORTANT!!!
+
 1. Create several Google accounts.
 2. Use the Google accounts to create several GitHub accounts.
 3. Create a repository using one of the GitHub account you have created. Public or private are both fine.
 
 **\*IMPORTANT\*** Create a README file in the repository.
+
 ![image](https://user-images.githubusercontent.com/9071916/141675101-169e1b30-6e0c-40c0-a831-c08eac5229de.png)
 
 4. Under the GitHub repository, open **Settings**. Click **Manage Access**.
@@ -16,7 +20,7 @@
 8. Repeat Step 5~8 using your other accounts.
 9. Now your repository becomes operational on [https://dord.mynetgear.com:5351](https://dord.mynetgear.com:5351).
 
-# Installation (For Team) - IMPORTANT!!!
+# Installation - IMPORTANT!!!
 
 1. Download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads). Just use the default settings.
 2. Clone this repository. Open Command Prompt / Terminal, and type `git clone https://github.com/SoftFeta/CS5351_Project`.
