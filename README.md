@@ -9,7 +9,7 @@ The main file of our application is [`flask/main.py`](flask/main.py). Make sure 
 2. Use the Google accounts to create several GitHub accounts.
 3. Create a repository using one of the GitHub account you have created. Public or private are both fine.
 
-**\*IMPORTANT\*** Create a README file in the repository.
+**\*IMPORTANT\*** Create a README file in your repository:
 
 ![image](https://user-images.githubusercontent.com/9071916/141675101-169e1b30-6e0c-40c0-a831-c08eac5229de.png)
 
@@ -24,7 +24,7 @@ The main file of our application is [`flask/main.py`](flask/main.py). Make sure 
 
 1. Download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads). Just use the default settings.
 2. Clone this repository. Open Command Prompt / Terminal, and type `git clone https://github.com/SoftFeta/CS5351_Project`.
-3. Enter the repo by `cd CS5351_Project`. Then switch the branch by typing `git checkout alex`.
+3. Enter the repo by `cd CS5351_Project`.
 4. Download Python from [https://www.python.org/downloads/](https://www.python.org/downloads/). Make sure to check **Add Python to PATH** in the installer. For other settings, just use the default ones. Open a Command Prompt, change directory by typing `cd flask`, and type `pip3 install -r requirements.txt` to install the additional Python libraries.
 5. Download MongoDB Community Server from [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community). Just use the default settings.
 6. Create an OAuth app on GitHub by going to **Settings > Developer Settings > OAuth app**, and replace all instances of `34ed33a5c053d0c8e014` and `446a323da8084af5dc13db5beed18bb85b778da2` in [flask/draft.py](https://github.com/SoftFeta/CS5351_Project/blob/alex/flask/draft.py) (https://github.com/SoftFeta/CS5351_Project/blob/alex/flask/draft.py) with **your Client ID** and **Client Secret** respectively.
