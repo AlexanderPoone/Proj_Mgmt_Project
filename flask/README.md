@@ -1,7 +1,6 @@
-# Software Engineering Project Sandbox
+# Software Engineering Project
 
 ![image](https://user-images.githubusercontent.com/9071916/137142960-7c73792d-1f53-49b4-8465-fed65afa0ca5.png)
-![image](https://user-images.githubusercontent.com/9071916/137143283-b379368f-b00f-475a-b925-6374d72cd734.png)
 
 Just a sandbox for exploration...
 
