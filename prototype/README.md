@@ -6,11 +6,11 @@ Please following the [guideline](https://github.com/SoftFeta/CS5351_Project/blob
 
 ## Flask installation
 
-Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/alpha/flask/README.md).
+Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/main/flask/README.md).
 
 ## Web installation
 
-Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/alpha/prototype/web/README.md).
+Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/main/prototype/web/README.md).
 
 ## Start the flask
 

@@ -9,8 +9,9 @@ KUNG Siu Man (54116500)
 LAI Kin San (57093340)  
 TSO Yiu Chuen (90011533)  
 WANG Ka Chun Kevin (55229123) 
-
-
+  
+  
+  
 The main file of our application is [`flask/main.py`](flask/main.py). Make sure to follow the guide below to set up and install the app.
 
 # Set-up - IMPORTANT!!!
