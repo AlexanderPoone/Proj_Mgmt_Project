@@ -1,18 +1,6 @@
-# Software Engineering Project Sandbox
+# Software Engineering Project
 
 ![image](https://user-images.githubusercontent.com/9071916/137142960-7c73792d-1f53-49b4-8465-fed65afa0ca5.png)
-![image](https://user-images.githubusercontent.com/9071916/137143283-b379368f-b00f-475a-b925-6374d72cd734.png)
-
-Just a sandbox for exploration...
-
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
 
 ## Label Meanings and Subsequent Action
 <img src="https://user-images.githubusercontent.com/9071916/139027017-9f656e03-b6a8-4fc8-9f76-91c03c08dde9.png" alt="drawing" style="height:400px;"/>
@@ -28,7 +16,8 @@ For UML Class diagrams, install GraphViz here [https://graphviz.org/download/#wi
 ```
 pip3 install pygraphviz‑1.7‑cp39‑cp39‑win_amd64.whl
 ```
-For NLP triage, you need to run this command:
+For running NLP triage notebook (TRAINING ONLY!), you need to run this command:
 ```
 python -m spacy download en_core_web_sm
 ```
+Inference does not need the above command/
