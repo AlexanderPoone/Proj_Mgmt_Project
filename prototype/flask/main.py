@@ -60,7 +60,6 @@ nlp = spacy.load('basic_triage_small5')
 
 myclient = MongoClient("mongodb://localhost:27017/") 
 db = myclient["project"]
-test_token = "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"
 
 # label name: (color HEX, description, bootstrap color scheme)
 lblScheme = {
@@ -106,14 +105,14 @@ def login():
 
 	if 'code' not in request.args:
 		query = {
-			'client_id': '6654271f1373231714f4',
+			'client_id': "34ed33a5c053d0c8e014",
 		}
 		return redirect(f'https://github.com/login/oauth/authorize?{urlencode(query)}')
 	else:
 
 		query = {
-			'client_id': '6654271f1373231714f4',
-		 	'client_secret': '1632208970a8d4b2f2eba1df8e2650febd657b06',
+			'client_id': "34ed33a5c053d0c8e014",
+		 	'client_secret': "446a323da8084af5dc13db5beed18bb85b778da2",
 		 	'code': request.args['code']
 		}
 
@@ -123,14 +122,6 @@ def login():
 			'Accept': 'application/vnd.github.v3+json',
 			'Content-Type': 'application/json'
 		}
-
-		# body = {'client_id': '6654271f1373231714f4',
-		#  'client_secret': '1632208970a8d4b2f2eba1df8e2650febd657b06',
-		#  'code': request.args['code']
-		#  }	
-
-		# data = dumps(body).encode('utf-8')
-		# print(data)
 
 		req = Request(url)
 		for h in headers:
@@ -1508,5 +1499,8 @@ def UT_BulkAddIssues(owner, reponame):
 
 
 if __name__ == "__main__":
-	# Replace below with app.run(host='0.0.0.0', port=5351) if you don't have a SSH Certificate !!!
-	app.run(ssl_context='adhoc')
+	# Replace below with app.run(host='127.0.0.1', port=5000) if you don't have a SSH Certificate !!!
+	app.run(host='127.0.0.1', port=5000, ssl_context=('_internal/cert.pem', '_internal/privkey.pem'))
+
+	# run pip install pyOpenSSL for testing
+	# app.run(ssl_context='adhoc')
