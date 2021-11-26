@@ -2,17 +2,6 @@
 
 ![image](https://user-images.githubusercontent.com/9071916/137142960-7c73792d-1f53-49b4-8465-fed65afa0ca5.png)
 
-Just a sandbox for exploration...
-
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-[https://dord.mynetgear.com:5351/](https://dord.mynetgear.com:5351/)
-
 ## Label Meanings and Subsequent Action
 <img src="https://user-images.githubusercontent.com/9071916/139027017-9f656e03-b6a8-4fc8-9f76-91c03c08dde9.png" alt="drawing" style="height:400px;"/>
 
