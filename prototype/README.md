@@ -23,7 +23,7 @@ python main.py
 
 ## Start the web
 ```
-cd /flask
+cd /web
 python main.py
 ```
 Please use http://127.0.0.1:3000 to be the host.
