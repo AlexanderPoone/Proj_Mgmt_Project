@@ -1,6 +1,4 @@
-# Management and Visualization of GitHub Project Issues Prototpye
-
-This is the prototype that bind fro.
+# Prototpye
 
 ## Basic Set up
 
@@ -8,11 +6,11 @@ Please following the [guideline](https://github.com/SoftFeta/CS5351_Project/blob
 
 ## Flask installation
 
-Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/main/README.md).
+Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/alpha/flask/README.md).
 
 ## Web installation
 
-Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/main/README.md).
+Please refer [here](https://github.com/SoftFeta/CS5351_Project/blob/alpha/prototype/web/README.md).
 
 ## Start the flask
 
@@ -24,6 +22,19 @@ python main.py
 ## Start the web
 ```
 cd /web
-python main.py
+npm start
 ```
 Please use http://127.0.0.1:3000 to be the host.
+
+## Github Oath2.0
+In /src/config.json, add your `CLIENT_ID`
+```
+{
+    "GITHUB_COOOKIE_NAME":"access_token",
+    "GITHUB_CLIENT_ID":"CLIENT_ID",
+    "REDIRECT_URI":"https://127.0.0.1:5000/login",
+    "GITHUB_API_ENDPOINT":"https://api.github.com",
+    "API_ENDPOINT": "https://127.0.0.1:5000"
+
+}
+```
