@@ -1,7 +1,7 @@
 # CS5351 Project - Issue Management & Visualisation
 **Group 2**
 
-## Group Member
+## Group members
 POON Bing-chun (56200477)  
 KWOK Yi Tak Ada (50472693)  
 CHU Ka Yan Janice (52166452)  
