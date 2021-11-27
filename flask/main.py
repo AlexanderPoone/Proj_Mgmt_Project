@@ -1470,12 +1470,12 @@ def UT_BulkAddIssuesMutation(owner, reponame):
 		# Mutation 2. Randomly change some verbs to its past tense using (Use `spacy`'s part-of-speech tagger to identify verbs from the issue report, then use `pyinflect` to convert the verbs to its past tense).
 		for i in nlp(text):
 			if i.tag_ in ['VB', 'VBP', 'VBZ']:		# Get past tense
-				past = i._.inflect("VBD")
+				past = i._.inflect('VBD')
 				print(i.text, i.lemma_, i.pos_, i.tag_, past)
 				if past is not None:
 					text = text.replace(f'\b{i.text}\b', past)
 			elif i.tag_ == 'VBD':					# Get present tense
-				present = i._.inflect("VBD")
+				present = i._.inflect(choice(['VBP', 'VBZ']))
 				print(i.text, i.lemma_, i.pos_, i.tag_, present)
 				if present is not None:
 					text = text.replace(f'\b{i.text}\b', present)
