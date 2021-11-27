@@ -1475,7 +1475,7 @@ def UT_BulkAddIssuesMutation(owner, reponame):
 				if past is not None:
 					text = text.replace(f'\b{i.text}\b', past)
 			elif i.tag_ == 'VBD':					# Get present tense
-				present = i._.inflect("VBD")
+				present = i._.inflect(choice(['VBP','VBZ']))
 				print(i.text, i.lemma_, i.pos_, i.tag_, present)
 				if present is not None:
 					text = text.replace(f'\b{i.text}\b', present)
