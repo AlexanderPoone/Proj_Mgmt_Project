@@ -1,3 +1,5 @@
+2024.12.24 - Unarchived this project. Can LLM be used for GitHub issues triage? Probably!
+
 # Objective
 In this project, we are writing a web application using the GitHub REST API. The app includes Scrum-style visualisation (burndown chart) and improved issues management.
 
