@@ -1,7 +1,7 @@
 # Objective
 In this project, we are writing a web application using the GitHub REST API. The app includes Scrum-style visualisation (burndown chart) and improved issues management.
 
-# Description (by Janice)
+# Description
 ## Purpose of Burndown Chart
 * Predict completion time -> Avoid missing the deadline 
 * Visulization of progress to the whole team
@@ -36,7 +36,7 @@ In this project, we are writing a web application using the GitHub REST API. The
 * Velocity: total effort estimates associated with user stories that were completed during an iteration 
 * Scope creep: Uncontrolled growth in a project’s scope
 
-## Issue Classification (by Alex)
+## Issue Classification
 Most time of the software cycle is spent on maintenance instead of planning, designing, implementation etc.
 
 The informality of Modern Code Review has it upsides and downsides. One of the challenges is to keep MCR manageable for a large project. 'Issues' is a vague term that actually encompasses many things. Not all reports are bona fide. Thus, having too many issue reports is a severe distraction for large projects.
