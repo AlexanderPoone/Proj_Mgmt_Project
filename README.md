@@ -1,4 +1,5 @@
 * 2024.12.24 - Unarchived this project. Can LLMs be used for GitHub issues triage? Probably!
+    * Challenge: Pretty hard to get the ground truths without manual labelling.
 * 2022.08.09 - Archived the project.
 
 # Objective
